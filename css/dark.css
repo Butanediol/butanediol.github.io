@@ -1,0 +1,235 @@
+.markdown-body details summary {
+	background: #F5F5F5;
+	border-radius: 3px;
+	padding: 15px;
+}
+
+summary {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  outline: 0;
+}
+
+.top-nav-collapse {
+	/*background-color: rgba(0,0,0,0.03)!important;*/
+	/*-webkit-backdrop-filter: blur(30px);*/
+	/*backdrop-filter: blur(30px); */
+	transition: all ease-in-out 0.5s;
+	-webkit-transition: all cubic-bezier(0.75, 0, 0.25, 1) 0.5s;
+}
+
+.navbar-custom a {
+	color: #000000;
+}
+
+@media screen and (prefers-color-scheme: dark) {
+	img.travellings {
+		filter: invert();
+		transition: all ease-in-out 0.5s;
+		-webkit-transition: all cubic-bezier(0.75, 0, 0.25, 1) 0.5s;
+	}
+
+	iframe.code-runner {
+		filter: invert();
+		transition: all ease-in-out 0.5s;
+		-webkit-transition: all cubic-bezier(0.75, 0, 0.25, 1) 0.5s;
+	}
+
+	.markdown-body details summary {
+		background: #2e2f30;
+		border-radius: 5px;
+		padding: 15px;
+	}
+
+	.top-nav-collapse {
+		/*background-color: rgba(0,0,0,0.66);*/
+		/*-webkit-backdrop-filter: blur(30px);*/
+		/*backdrop-filter: blur(30px); */
+		transition: all ease-in-out 0.5s;
+		-webkit-transition: all cubic-bezier(0.75, 0, 0.25, 1) 0.5s;
+	}
+
+	.navbar-custom a {
+		color: #ffffff;
+	}
+
+	body {
+		background-color: #111111;
+		color: #eee;
+		transition: all ease-in-out 0.5s;
+		-webkit-transition: all cubic-bezier(0.75, 0, 0.25, 1) 0.5s;
+	}
+
+	body a {
+		color: white;
+		transition: all ease-in-out 0.5s;
+		-webkit-transition: all cubic-bezier(0.75, 0, 0.25, 1) 0.5s;
+	}
+
+	#board {
+		background-color: black;
+		transition: all ease-in-out 0.5s;
+		-webkit-transition: all cubic-bezier(0.75, 0, 0.25, 1) 0.5s;
+	}
+
+	.index-img img {
+		background-color: #323232;
+		transition: all ease-in-out 0.5s;
+		-webkit-transition: all cubic-bezier(0.75, 0, 0.25, 1) 0.5s;
+	}
+
+	.index-excerpt {
+		color: #eee;
+		transition: all ease-in-out 0.5s;
+		-webkit-transition: all cubic-bezier(0.75, 0, 0.25, 1) 0.5s;
+	}
+
+	.index-btm {
+		color: #ddd;
+		transition: all ease-in-out 0.5s;
+		-webkit-transition: all cubic-bezier(0.75, 0, 0.25, 1) 0.5s;
+	}
+
+	.index-btm a {
+		color: #ddd;
+		transition: all ease-in-out 0.5s;
+		-webkit-transition: all cubic-bezier(0.75, 0, 0.25, 1) 0.5s;
+	}
+
+	.iconfont {
+		color: white;
+		transition: all ease-in-out 0.5s;
+		-webkit-transition: all cubic-bezier(0.75, 0, 0.25, 1) 0.5s;
+	}
+
+	#scroll-top-button {
+		background-color: black;
+		transition: all ease-in-out 0.5s;
+		-webkit-transition: all cubic-bezier(0.75, 0, 0.25, 1) 0.5s;
+	}
+
+	#scroll-top-button i {
+		color: white;
+		transition: all ease-in-out 0.5s;
+		-webkit-transition: all cubic-bezier(0.75, 0, 0.25, 1) 0.5s;
+	}
+
+	.pagination a:hover, .pagination .current {
+		color: black;
+		transition: all ease-in-out 0.5s;
+		-webkit-transition: all cubic-bezier(0.75, 0, 0.25, 1) 0.5s;
+	}
+
+	.markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4, .markdown-body h5, .markdown-body h6, .tocbot-link {
+		color: white;
+		transition: all ease-in-out 0.5s;
+		-webkit-transition: all cubic-bezier(0.75, 0, 0.25, 1) 0.5s;
+	}
+
+	.markdown-body h1, .markdown-body h2 {
+		border-bottom: #222222;
+		transition: all ease-in-out 0.5s;
+		-webkit-transition: all cubic-bezier(0.75, 0, 0.25, 1) 0.5s;
+	}
+
+	.markdown-body {
+		color: white;
+		transition: all ease-in-out 0.5s;
+		-webkit-transition: all cubic-bezier(0.75, 0, 0.25, 1) 0.5s;
+	}
+
+	.note *:last-child, .note {
+		color: black;
+		transition: all ease-in-out 0.5s;
+		-webkit-transition: all cubic-bezier(0.75, 0, 0.25, 1) 0.5s;
+	}
+
+	.list-group-item, .list-group-item-action {
+		background-color: #222222;
+		color: white;
+		transition: all ease-in-out 0.5s;
+		-webkit-transition: all cubic-bezier(0.75, 0, 0.25, 1) 0.5s;
+	}
+
+	.card {
+		background-color: #222222;
+		transition: all ease-in-out 0.5s;
+		-webkit-transition: all cubic-bezier(0.75, 0, 0.25, 1) 0.5s;
+	}
+
+	.link-intro {
+		color: #eee;
+		transition: all ease-in-out 0.5s;
+		-webkit-transition: all cubic-bezier(0.75, 0, 0.25, 1) 0.5s;
+	}
+
+	.modal-dialog .modal-content {
+		background-color: black;
+		transition: all ease-in-out 0.5s;
+		-webkit-transition: all cubic-bezier(0.75, 0, 0.25, 1) 0.5s;
+	}
+
+	.modal-header {
+		border-bottom: none;
+		transition: all ease-in-out 0.5s;
+		-webkit-transition: all cubic-bezier(0.75, 0, 0.25, 1) 0.5s;
+	}
+
+	.md-form input[type] {
+		background-color: #111!important;
+		transition: all ease-in-out 0.5s;
+		-webkit-transition: all cubic-bezier(0.75, 0, 0.25, 1) 0.5s;
+	}
+
+	.markdown-body table tr {
+		background-color: #111;
+		border: none;
+		transition: all ease-in-out 0.5s;
+		-webkit-transition: all cubic-bezier(0.75, 0, 0.25, 1) 0.5s;
+	}
+
+	.markdown-body table tr:nth-child(2n) {
+		background-color: #222;
+		transition: all ease-in-out 0.5s;
+		-webkit-transition: all cubic-bezier(0.75, 0, 0.25, 1) 0.5s;
+	}
+
+	.markdown-body table td, .markdown-body table th{
+		border: none;
+		transition: all ease-in-out 0.5s;
+		-webkit-transition: all cubic-bezier(0.75, 0, 0.25, 1) 0.5s;
+	}
+
+	.hover-with-bg:hover {
+		background-color: #111;
+		transition: all ease-in-out 0.5s;
+		-webkit-transition: all cubic-bezier(0.75, 0, 0.25, 1) 0.5s;
+	}
+
+	.list-group-item-action:focus, .list-group-item-action:hover {
+		color: #eee;
+		background-color: #111;
+		transition: all ease-in-out 0.5s;
+		-webkit-transition: all cubic-bezier(0.75, 0, 0.25, 1) 0.5s;
+	}
+
+	.card {
+		background-color: none;
+		transition: all ease-in-out 0.5s;
+		-webkit-transition: all cubic-bezier(0.75, 0, 0.25, 1) 0.5s;
+	}
+
+	.LinkCard {
+		filter:invert();
+		transition: all ease-in-out 0.5s;
+		-webkit-transition: all cubic-bezier(0.75, 0, 0.25, 1) 0.5s;
+	}
+
+	.LinkCard-image {
+		filter: invert();
+		transition: all ease-in-out 0.5s;
+		-webkit-transition: all cubic-bezier(0.75, 0, 0.25, 1) 0.5s;
+	}
+}

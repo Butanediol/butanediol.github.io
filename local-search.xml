@@ -1,0 +1,658 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  
+  
+  
+  <entry>
+    <title>Buta Sticky Notes</title>
+    <link href="/2020/10/13/Buta-Sticky-Notes/"/>
+    <url>/2020/10/13/Buta-Sticky-Notes/</url>
+    
+    <content type="html"><![CDATA[<p>日常解决问题基本靠 Google，拿来水博客跟 ** Copy&amp;Paste 也没啥区别，但是又想把这些方法记录下来，万一以后需要用还方便查看，于是打算全部写在这一篇文章里了。</p><a id="more"></a><p>当然，为了防止未来的我忘记当时写的是什么东西，咱尽量将一些因人而异、因机而异的东西标注出来（比如每段的 Replacement），但难免有疏漏，<strong>如果有读者能够看到，并感到疑惑，请不要吝啬你的留言</strong>。</p><h2 id="为-Docker-设置代理"><a href="#为-Docker-设置代理" class="headerlink" title="为 Docker 设置代理"></a>为 Docker 设置代理</h2><blockquote><p>2020-10-13T06:59:27UTC</p></blockquote><ol><li><p>在这个文件夹 <code>/etc/systemd/system/docker.service.d</code> （没有就新建一个）里创建一个 <code>http-proxy.conf</code> 文件。</p></li><li><p>内容这样写：</p><pre><code class="hljs ini"><span class="hljs-section">[Service]</span><span class="hljs-attr">Environment</span>=<span class="hljs-string">&quot;HTTP_PROXY=http://proxy.example.com:80/&quot;</span></code></pre></li><li><p>然后刷新 <code>systemd</code> 配置：</p><pre><code class="hljs sh">sudo systemctl daemon-reload</code></pre></li><li><p>检查一下：</p><pre><code class="hljs sh">systemctl show --property=Environment docker</code></pre></li><li><p>重启 docker</p><pre><code class="hljs sh">sudo systemctl restart docker</code></pre></li></ol><h2 id="Systemd-配置-clash-service"><a href="#Systemd-配置-clash-service" class="headerlink" title="Systemd 配置 clash service"></a>Systemd 配置 clash service</h2><blockquote><p>2020-10-13T06:59:27UTC</p></blockquote><ol><li><p>编辑 <code>/usr/lib/systemd/system/clash.service</code>：</p><pre><code class="hljs ini"><span class="hljs-comment"># edit and save this file to /usr/lib/systemd/system/clash.service</span><span class="hljs-section">[Unit]</span><span class="hljs-attr">Description</span>=clash<span class="hljs-attr">After</span>=network.target<span class="hljs-section">[Service]</span><span class="hljs-attr">WorkingDirectory</span>=[your home directory]/.config/clash<span class="hljs-attr">ExecStart</span>=[your home directory]/.config/clash/start-clash.sh<span class="hljs-attr">ExecStop</span>=[your home directory]/.config/clash/stop-clash.sh<span class="hljs-attr">Environment</span>=<span class="hljs-string">&quot;HOME=[your home directory]&quot;</span><span class="hljs-attr">Environment</span>=<span class="hljs-string">&quot;CLASH_URL=[your subscription url]&quot;</span><span class="hljs-section">[Install]</span><span class="hljs-attr">WantedBy</span>=multi-user.target</code></pre><blockquote><p>Replacement: <code>[your home directory]</code>,<code>[your subscription url]</code></p></blockquote></li><li><p>Clash 启动脚本:</p><p>编辑 <code>[your home directory]/.config/clash/start-clash.sh</code></p><pre><code class="hljs sh"><span class="hljs-meta">#!/bin/bash</span><span class="hljs-comment"># save this file to $&#123;HOME&#125;/.config/clash/start-clash.sh</span><span class="hljs-comment"># save pid file</span><span class="hljs-built_in">echo</span> $$ &gt; <span class="hljs-variable">$&#123;HOME&#125;</span>/.config/clash/clash.piddiff <span class="hljs-variable">$&#123;HOME&#125;</span>/.config/clash/config.yaml &lt;(curl -s <span class="hljs-variable">$&#123;CLASH_URL&#125;</span>)<span class="hljs-keyword">if</span> [ <span class="hljs-string">&quot;$?&quot;</span> == 0 ]<span class="hljs-keyword">then</span>    /usr/bin/clash<span class="hljs-keyword">else</span>    TIME=`date <span class="hljs-string">&#x27;+%Y-%m-%d %H:%M:%S&#x27;</span>`    cp <span class="hljs-variable">$&#123;HOME&#125;</span>/.config/clash/config.yaml <span class="hljs-string">&quot;<span class="hljs-variable">$&#123;HOME&#125;</span>/.config/clash/config.yaml.bak<span class="hljs-variable">$&#123;TIME&#125;</span>&quot;</span>    curl -L -o <span class="hljs-variable">$&#123;HOME&#125;</span>/.config/clash/config.yaml <span class="hljs-variable">$&#123;CLASH_URL&#125;</span>    /usr/bin/clash<span class="hljs-keyword">fi</span></code></pre></li><li><p>Clash 停止脚本</p><p>编辑 <code>[your home directory]/.config/clash/stop-clash.sh</code></p><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><span class="hljs-comment"># save this file to $&#123;HOME&#125;/.config/clash/stop-clash.sh</span><span class="hljs-comment"># read pid file</span>PID=`cat <span class="hljs-variable">$&#123;HOME&#125;</span>/.config/clash/clash.pid`<span class="hljs-built_in">kill</span> -9 <span class="hljs-variable">$&#123;PID&#125;</span>rm <span class="hljs-variable">$&#123;HOME&#125;</span>/.config/clash/clash.pid</code></pre></li><li><p>上面几个文件给个权限（<code>chmod</code>）</p></li><li> <pre><code class="hljs bash">systemctl <span class="hljs-built_in">enable</span> clashsystemctl start clash</code></pre></li></ol><h3 id="编辑订阅文件"><a href="#编辑订阅文件" class="headerlink" title="编辑订阅文件"></a>编辑订阅文件</h3><blockquote><p>2020-10-14T04:41:20UTC</p></blockquote><pre><code class="hljs 1c">sed -e &#x27;6cexternal-controller: :<span class="hljs-number">9090</span>&#x27; config.yaml -i</code></pre><p>例如订阅里写的外部控制为 localhost:9090，而我想改为 :9090，可以用 <code>sed</code> 来替换。然后写到 <code>start-clash.sh</code> 里。</p><p><code>6c</code> 代表第六行。</p><h2 id="自用-Shell-小脚本：配置代理"><a href="#自用-Shell-小脚本：配置代理" class="headerlink" title="自用 Shell 小脚本：配置代理"></a>自用 Shell 小脚本：配置代理</h2><blockquote><p>2020-10-13T06:59:27UTC</p></blockquote><pre><code class="hljs bash"><span class="hljs-keyword">function</span> <span class="hljs-function"><span class="hljs-title">proxy</span></span>() &#123;<span class="hljs-keyword">if</span> [[ -n <span class="hljs-variable">$1</span> ]]; <span class="hljs-keyword">then</span><span class="hljs-keyword">if</span> [[ <span class="hljs-variable">$1</span> == <span class="hljs-string">&#x27;localhost&#x27;</span> ]]; <span class="hljs-keyword">then</span>addr=<span class="hljs-string">&#x27;localhost&#x27;</span><span class="hljs-keyword">elif</span> [[ <span class="hljs-variable">$1</span> == <span class="hljs-string">&#x27;pi&#x27;</span> ]]; <span class="hljs-keyword">then</span>addr=<span class="hljs-string">&#x27;10.0.0.2&#x27;</span><span class="hljs-keyword">elif</span> [[ <span class="hljs-variable">$1</span> == <span class="hljs-string">&#x27;router&#x27;</span> ]]; <span class="hljs-keyword">then</span>addr=<span class="hljs-string">&#x27;10.0.0.1&#x27;</span><span class="hljs-keyword">else</span>addr=<span class="hljs-variable">$1</span><span class="hljs-keyword">fi</span><span class="hljs-keyword">else</span>addr=<span class="hljs-string">&#x27;localhost&#x27;</span><span class="hljs-keyword">fi</span><span class="hljs-keyword">if</span> [[ -n <span class="hljs-variable">$2</span> ]]; <span class="hljs-keyword">then</span><span class="hljs-built_in">export</span> https_proxy=http://<span class="hljs-variable">$addr</span>:<span class="hljs-variable">$2</span> http_proxy=http://<span class="hljs-variable">$addr</span>:<span class="hljs-variable">$2</span> all_proxy=socks5://<span class="hljs-variable">$addr</span>:<span class="hljs-variable">$2</span><span class="hljs-keyword">else</span><span class="hljs-built_in">export</span> https_proxy=http://<span class="hljs-variable">$addr</span>:7890 http_proxy=http://<span class="hljs-variable">$addr</span>:7890 all_proxy=socks5://<span class="hljs-variable">$addr</span>:7890<span class="hljs-keyword">fi</span>&#125;</code></pre><p>用法：</p><p><code>proxy</code> 设置置本地代理，端口为 HTTP 7890<br><code>proxy &lt;address&gt;</code> 设置代理，可以选择预设的地址或者输入其他地址<br><code>proxy &lt;address&gt; &lt;port&gt;</code> 设置代理，地址和端口</p><h2 id="Linux-开机挂载-SMB"><a href="#Linux-开机挂载-SMB" class="headerlink" title="Linux 开机挂载 SMB"></a>Linux 开机挂载 SMB</h2><blockquote><p>2020-10-13T06:59:27UTC</p><p>Replacement: <code>[]</code></p></blockquote><ol><li><p>用 <code>id [USERNAME]</code>(<code>[USERNAME]</code> 为本机用户名) 为用户名查看 <code>uid</code> 和 <code>gid</code>。</p></li><li><p>编辑 <code>cred</code> 文件，例如 <code>~/.smbcredential</code> （名字、位置随意）：</p><pre><code class="hljs ini"><span class="hljs-attr">username</span>=[SMB_USERNAME]<span class="hljs-attr">password</span>=[SMB_PASSWORD]</code></pre></li></ol><ol start="3"><li><p>编辑 <code>/etc/fstab</code>：</p><pre><code class="hljs txt">//[Addredd]/[Path]/[MountPoint]cifsuid=[UID],gid=[GID],cred=[PathToCredential]</code></pre><p>例如</p><pre><code class="hljs txt">//10.0.0.1/Files        /media/router   cifs    uid=1000,gid=1000,cred=/home/ubuntu/.smbcredential</code></pre></li></ol><h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><h4 id="mount-error-2-No-such-file-or-directory"><a href="#mount-error-2-No-such-file-or-directory" class="headerlink" title="mount error(2): No such file or directory"></a>mount error(2): No such file or directory</h4><pre><code class="hljs txt">mount error(2): No such file or directoryRefer to the mount.cifs(8) manual page (e.g. man mount.cifs) and kernel log messages (dmesg)</code></pre><p>尝试给挂载命令加个版本（默认 SMB 为 3.0），尝试更改到 2.0。<code>vers=2.0</code></p><pre><code class="hljs txt">//10.0.0.1/Files        /media/router   cifs    uid=1000,gid=1000,vers=2.0,cred=/home/ubuntu/.smbcredential</code></pre><h2 id="zsh-history-不记录错误命令"><a href="#zsh-history-不记录错误命令" class="headerlink" title="zsh_history 不记录错误命令"></a>zsh_history 不记录错误命令</h2><blockquote><p>2020-10-31T03:32:11UTC</p></blockquote><p><code>.zshrc</code> 中：</p><pre><code class="hljs bash"><span class="hljs-function"><span class="hljs-title">zshaddhistory</span></span>() &#123; <span class="hljs-built_in">whence</span> <span class="hljs-variable">$&#123;<span class="hljs-variable">$&#123;(z)1&#125;</span>[1]&#125;</span> &gt;| /dev/null || <span class="hljs-built_in">return</span> 1 &#125;</code></pre>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>Linux</tag>
+      
+      <tag>Raspberry Pi</tag>
+      
+      <tag>Docker</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Windows 10 专业电竞战斗版虚拟机半日游（认真脸）</title>
+    <link href="/2020/09/28/Windows-10-%E4%B8%93%E4%B8%9A%E7%94%B5%E7%AB%9E%E6%88%98%E6%96%97%E7%89%88%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%8D%8A%E6%97%A5%E6%B8%B8%EF%BC%88%E8%AE%A4%E7%9C%9F%E8%84%B8%EF%BC%89/"/>
+    <url>/2020/09/28/Windows-10-%E4%B8%93%E4%B8%9A%E7%94%B5%E7%AB%9E%E6%88%98%E6%96%97%E7%89%88%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%8D%8A%E6%97%A5%E6%B8%B8%EF%BC%88%E8%AE%A4%E7%9C%9F%E8%84%B8%EF%BC%89/</url>
+    
+    <content type="html"><![CDATA[<p>专业的装机师傅才会装的 Windows 10 专业电竞战斗版泄漏！</p><a id="more"></a><p>今天有一份 Windows 10 专业微电竞战斗版泄漏，年纪轻轻的我哪里见过这种场面，赶紧装了一个试试。</p><p><img src="/media/article_img/win10esports/1.jpg" alt="装机师傅箴言"></p><script type="text/javascript" src="/css/js/linkcard.js"></script><p><a href="http://m.somode.com/win10/64/38373.html" name="/media/article_img/win10esports/link1.png" class="LinkCard">下载 Windows 10 专业电竞战斗版</a></p><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>由于我用的 Ryzentosh，用不了 VMWare 或者 Parallel Desktop <del>which is #rubbish</del>，我只能用 Virtualbox <span class="heimu">开源拖拉机</span> 安装 Windows。</p><p>下载了 ISO 文件之后，挂载发现这只是个打包文件，并不是系统镜像，系统镜像是个 Ghost 文件，这就是专业电竞战斗版的专业之处了。</p><p><img src="/media/article_img/win10esports/2.png" alt="ISO 文件"></p><p>于是先在 Windows 上用微 PE 制作一个 PE ISO 镜像，安装到虚拟机中。</p><p><img src="/media/article_img/win10esports/3.png" alt="微 PE 虚拟机"></p><p>装好之后，直接把 Windows 10 专业电竞战斗版 ISO 挂载到虚拟机中。</p><p><img src="/media/article_img/win10esports/4.png" alt="挂载 ISO"><br><img src="/media/article_img/win10esports/5.png" alt="挂载成功"></p><p>然后打开微 PE 自带的 DiskGenius 把硬盘格式化一下。</p><p><img src="/media/article_img/win10esports/6.png" alt="格式化硬盘"></p><p>用桌面上的 Ghost 一键备份还原将挂载的 ISO 中的 gho 文件恢复到该分区中。</p><p><img src="/media/article_img/win10esports/6.png" alt="选择分区和文件"><br><img src="/media/article_img/win10esports/7.png" alt="恢复中..."></p><p>恢复完成后重启，记得把两个 CD-ROM 都弹出。</p><p>这启动画面也太惊艳了吧，比普通 Windows 10 高到不知道哪里去了。</p><p><img src="/media/article_img/win10esports/9.png" alt="启动画面"></p><p>启动过程中会安装</p><ul><li>Visual C++ 2005</li><li>Visual C++ 2008</li><li>Visual C++ 2010</li><li>Visual C++ 2012</li><li>Visual C++ 2013</li><li>Visual C++ 2015-2019</li><li>DirectX 9.0c</li></ul><p>真不愧是专业战斗电竞版，再也不用担心游戏打不开了。</p><p><img src="/media/article_img/win10esports/10.png" alt="自动安装"></p><p>专业的电竞选手怎么能被 Windows 未激活的水印打扰，专业电竞战斗版自动激活 Windows，带来无与伦比的沉浸游戏体验。</p><p><img src="/media/article_img/win10esports/11.png" alt="KMS"></p><p>安装完成后，系统会自动再次重启，然后就是激动人心的画面。</p><p><img src="/media/article_img/win10esports/12.png" alt="海内存知己，天涯若比邻"></p><p>经过一段时间的坐和放宽之后，顺利进入了系统。</p><h2 id="系统"><a href="#系统" class="headerlink" title="系统"></a>系统</h2><p><img src="/media/article_img/win10esports/13.png" alt="进入系统"></p><p>自带两个马家软件，没 QQ 开黑可不成啊，专业电竞选手需要与队友密切合作，因此微软与腾讯达成合作，在 Windows 10 专业电竞战斗版中内置了 QQ 和 QQ 浏览器。<span class="heimu"><del>什么？QQ 浏览器有啥用？</del></span></p><p>系统放置几分钟不动，就会进入自动优化程序，自动优化会自动关闭任务管理器。</p><video src='/media/article_video/win10esports/1.mp4' type='video/mp4' controls='controls' width='100%' height='100%'></video><p>众所周知，任务管理器是非常消耗系统资源的程序，打开的瞬间，CPU 占用可以瞬间达到 100%。真是太贴心了。</p><p>同时我们也可以看到，Windows 10 专业电竞战斗版内置了 Windows LTSC 版本。<br>所谓 LTSC，就是 LOL Tactic Supreme Souvenir，即 超级战略 LOL Supreme 联名纪念款。看来我们下载到的这个版本还不是一般的专业电竞战斗版。<br>至于企业版，电竞选手通常都有自己的俱乐部，因此需要购买企业版授权。</p><p><img src="/media/article_img/win10esports/14.png" alt="自动优化"></p><p>优化的时候，自动安装了极速浏览器，真正的电竞选手都是追求极速的。</p><p><img src="/media/article_img/win10esports/15.png" alt="自动优化\*2"></p><p>随后，自动优化又安装了 WPS，酷狗音乐和 360 安全浏览器。</p><p>WPS 就是<em>我怕死</em>的缩写，提醒电竞选手要有危机意识。</p><p>酷狗音乐自然不用说，网抑云那种打着打着哭出来<strong>像话吗？</strong>？当然是酷狗 True Music 才够劲。</p><p>专业电竞选手注重安全，因此需要 360 安全浏览器。</p><p>为什么要这么多浏览器？所谓专业，就是分工明确，不同浏览器做不同的事，这是 Windows 10 专业电竞战斗版的哲学。</p><p><img src="/media/article_img/win10esports/16.png" alt="自动优化\*3"></p><p>自动优化程序还充分考虑了电竞选手的身心健康，准备了爱奇艺播放器，劳逸结合，效果更佳。</p><p>并且，在优化结束后，我还发现已经安装了 2345 王牌输入法，为什么叫王牌自然不用多说，而这 2345 自然是眼里没有第一的意思，会当凌绝顶一览众山小啊。</p><p><img src="/media/article_img/win10esports/17.png" alt="自动优化\*4"></p><h2 id="其他软件"><a href="#其他软件" class="headerlink" title="其他软件"></a>其他软件</h2><p>各种高级功能，看都看不过来，还有这内核版本号，都接近 100 了，一定很强大。</p><p><img src="/media/article_img/win10esports/18.png" alt="极速浏览器"></p><p>我还下载了专业系统检测软件鲁大师跑了一个测试。</p><p>要知道，这还是在虚拟机中，就能跑出我家十年前老游戏电脑的水平。</p><p><img src="/media/article_img/win10esports/19.png" alt="跑分"></p><p>Windows 10 专业电竞战斗版配置了专业电竞战斗组策略，限制自动更新，保障电竞体验。<span class="heimu">我想给真·好评</span></p><p><img src="/media/article_img/win10esports/20.png" alt="更新设置"></p><p>自带的压缩软件 WinRAR 也不是一般的版本。而是专为电竞优化的<strong>烈火修改版</strong>。微软大厂居然能为 2C 产品考虑的这么细致。</p><p><img src="/media/article_img/win10esports/21.png" alt="WinRAR"></p><hr><p>安装Windows10专业电竞战斗版是怎么回事呢？安装Windows10专业电竞战斗版相信大家都很熟悉，但是安装Windows10专业电竞战斗版是怎么回事呢？大家好，今天小编来带大家了解一下安装Windows10专业电竞战斗版。可能有人不理解，为什么安装会Windows10专业电竞战斗版呢？下面就让小编带大家一起了解吧。安装Windows10专业电竞战斗版，安装Windows10专业电竞战斗版其实就是安装Windows10专业电竞战斗版了。那么安装为什么会Windows10专业电竞战斗版，相信大家都很好奇是怎么回事。大家可能会感到很惊讶，安装怎么会Windows10专业电竞战斗版呢？但事实就是这样，小编也感到非常惊讶。那么这就是关于安装Windows10专业电竞战斗版的事情了，大家有没有觉得很神奇呢？感谢大家点进小编的文章。大家有什么关于安装Windows10专业电竞战斗版的想法和评论，欢迎在文章结尾下方留言。</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>Windows</tag>
+      
+      <tag>Virtualbox</tag>
+      
+      <tag>Ghost</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>删除 MongoDB 和 Linux Journal 日志</title>
+    <link href="/2020/07/08/%E5%88%A0%E9%99%A4-MongoDB-%E5%92%8C-Linux-Journal-%E6%97%A5%E5%BF%97/"/>
+    <url>/2020/07/08/%E5%88%A0%E9%99%A4-MongoDB-%E5%92%8C-Linux-Journal-%E6%97%A5%E5%BF%97/</url>
+    
+    <content type="html"><![CDATA[<p>咱的 PyOne 服务器空间越来越小，是谁膨胀了？</p><a id="more"></a><h2 id="MongoDB"><a href="#MongoDB" class="headerlink" title="MongoDB"></a>MongoDB</h2><p>PyOne 使用了 MongoDB 数据库，这东西的日志文件在 <code>/var/log/mongodb</code> 下。</p><p>一个月下来，MongoDB 的日志文件竟然有 <code>4.6 GiB</code>！</p><p><img src="/media/article_img/clean_log/1.jpg" alt="MongoDB 日志文件"></p><p>要安全删除这个文件，首先要切割日志（<code>logrotate</code>）。</p><h3 id="切割日志"><a href="#切割日志" class="headerlink" title="切割日志"></a>切割日志</h3><p>先进入 mongo 命令行：</p><pre><code class="hljs sh">mongo</code></pre><p>然后用下面的命令切割日志：</p><pre><code class="hljs mongo">&gt; use admin&gt; db.adminCommand( &#123; logRotate: 1 &#125; )</code></pre><p>如果输出是这样的：</p><pre><code class="hljs mongo">&#123; &quot;ok&quot; : 1 &#125;</code></pre><p>就切割成功了。</p><h3 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h3><p>去到 <code>/var/log/mongodb</code> 下，删除 <code>mongod.log.xxxx-xx-xxxxx-xx-xx</code> 文件即可。</p><h2 id="Journal-日志"><a href="#Journal-日志" class="headerlink" title="Journal 日志"></a>Journal 日志</h2><p>Journal 日志服务生成的日志文件在 <code>/var/log/journal</code> 文件夹下。</p><p>但可以通过 <code>journalctl --disk-usage</code> 命令直接查看日志大小。</p><p>比如：</p><pre><code class="hljs sh">journalctl --disk-usage<span class="hljs-comment"># Archived and active journals take up 16.0M in the file system.</span></code></pre><h3 id="删除-1"><a href="#删除-1" class="headerlink" title="删除"></a>删除</h3><p>可以先直接删除日志文件：</p><pre><code class="hljs sh">ls /var/<span class="hljs-built_in">log</span>/journal/<span class="hljs-comment"># e49796b61b294856bb739446b8ba124d</span>sudo rm -rf /var/<span class="hljs-built_in">log</span>/journal/e49796b61b294856bb739446b8ba124d/</code></pre><h3 id="自动维护文件大小"><a href="#自动维护文件大小" class="headerlink" title="自动维护文件大小"></a>自动维护文件大小</h3><h4 id="按时间"><a href="#按时间" class="headerlink" title="按时间"></a>按时间</h4><p>保留最近两周的日志：</p><pre><code class="hljs sh">journalctl --vacuum-time=2w</code></pre><h4 id="按大小"><a href="#按大小" class="headerlink" title="按大小"></a>按大小</h4><p>保留 <code>128 MB</code> 大小的日志：</p><pre><code class="hljs sh">journalctl --vacuum-size=128M</code></pre>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>Linux</tag>
+      
+      <tag>MongoDB</tag>
+      
+      <tag>Log</tag>
+      
+      <tag>VPS</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Python TelegramBot 实时输出与 Flush</title>
+    <link href="/2020/06/06/Python-TelegramBot-%E5%AE%9E%E6%97%B6%E8%BE%93%E5%87%BA/"/>
+    <url>/2020/06/06/Python-TelegramBot-%E5%AE%9E%E6%97%B6%E8%BE%93%E5%87%BA/</url>
+    
+    <content type="html"><![CDATA[<p>在 macOS 下运行 Python Telegram Bot 的时候，没有实时的命令行输出。发现是 flush 的锅。</p><a id="more"></a><h2 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h2><p>我用的 Python Telegram Bot 库是 <a href="https://github.com/python-telegram-bot/python-telegram-bot">python-telegram-bot</a>，个人感觉文档写的还是蛮好的。</p><p>用这条命令就可以安装：</p><pre><code class="hljs bash">pip install python-telegram-bot --upgrade</code></pre><p>由于我一直都是用 Sublime Text 写代码，然后在命令行里运行，所以只会简单的输出调试。<del><code>print(everything)</code></del></p><p>但是出现了一个问题，在 macOS 上，运行 telegram bot 时没有输出，只有 <code>Ctrl+C</code> 停止运行之后，输出才会一次性全部显示出来。</p><p>但在部署 bot 的 Ubuntu 服务器上，就可以实时输出。</p><p>可以尝试运行下面这段代码</p><pre><code class="hljs python"><span class="hljs-keyword">import</span> sys<span class="hljs-keyword">import</span> time<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">5</span>):print(i+<span class="hljs-number">1</span>)time.sleep(<span class="hljs-number">1</span>)</code></pre><details>    <summary>        <span class="summary-title">            点击运行代码。        </span>    </summary>    <div class="summary-content">        <br>        <iframe class="code-runner" src="https://trinket.io/embed/python/c48ddb7e5b" width="100%" height="356" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen></iframe>    </div></details><p>在这个网页嵌入的解释器中，数字是每秒钟输出一个的。这正是我们想要的样式。但在我的设备上，它是这样的。</p><video src='/media/article_video/python_flush/1.mp4' type='video/mp4' controls='controls' width='100%' height='100%'></video><h2 id="为什么？"><a href="#为什么？" class="headerlink" title="为什么？"></a>为什么？</h2><p>Python 的 stdout 带有缓冲区，输出的内容要先呆在缓冲区，然后再输出到终端中。</p><p>而这个缓冲区的策略，在不同平台，甚至同一平台不同解释器中都不一样。（这样说似乎不太正确，但我是用 homebrew 安装的 Python3.7，据说用官网的安装器就没问题）</p><p>通常来讲，当 <code>print</code> 的结尾为 <code>\n</code> 换行符的时候，会自动刷新缓冲区（<code>print</code> 的 <code>end</code> 参数默认就是 <code>\n</code>），但鉴于我并没有手动指定别的结尾，它还是没有自动刷新缓冲区，我们可以手动让它刷新一下。</p><h2 id="解决：手动刷新缓冲"><a href="#解决：手动刷新缓冲" class="headerlink" title="解决：手动刷新缓冲"></a>解决：手动刷新缓冲</h2><p>有好几个方法可以做到</p><h3 id="使用-sys"><a href="#使用-sys" class="headerlink" title="使用 sys"></a>使用 sys</h3><p>首先 <code>import sys</code>。</p><p>然后在你想要刷新缓冲区的地方写上一句：</p><pre><code class="hljs python">sys.stdout.flush()</code></pre><h3 id="使用-print"><a href="#使用-print" class="headerlink" title="使用 print"></a>使用 print</h3><p>其实 <code>print</code> 自带了一个参数 <code>flush</code>，默认值为 <code>False</code>，将其指定为 <code>True</code> 即可。</p><pre><code class="hljs python">print(i, flush=<span class="hljs-literal">True</span>)</code></pre>]]></content>
+    
+    
+    <categories>
+      
+      <category>写代码</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Linux</tag>
+      
+      <tag>Python</tag>
+      
+      <tag>Telegram</tag>
+      
+      <tag>Bot</tag>
+      
+      <tag>踩坑</tag>
+      
+      <tag>笔记</tag>
+      
+      <tag>macOS</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Hexo 改良版知乎“外链卡片”</title>
+    <link href="/2020/06/03/Hexo%20%E6%94%B9%E8%89%AF%E7%89%88%E7%9F%A5%E4%B9%8E%E5%A4%96%E9%93%BE%E5%8D%A1%E7%89%87/"/>
+    <url>/2020/06/03/Hexo%20%E6%94%B9%E8%89%AF%E7%89%88%E7%9F%A5%E4%B9%8E%E5%A4%96%E9%93%BE%E5%8D%A1%E7%89%87/</url>
+    
+    <content type="html"><![CDATA[<p>给 Hexo 博客添加知乎样式的外链卡片。</p><a id="more"></a><div class="note note-info">            <p>本文转载自 <a href="https://www.52chang.wang/post/2802a56">长弓不是弓长</a>，并略作修改。</p>          </div><h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>由于主题可能需要更新，我建议<strong>下列操作均在博客的 <code>/source</code> 目录下进行。</strong></p><p>在 <code>/source</code> 目录中新建一个 <code>js</code> 文件，例如 <code>/source/js/linkcard.js</code>。内容如下：</p><pre><code class="hljs javascript"><span class="hljs-built_in">window</span>.onload=<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>&#123;<span class="hljs-keyword">var</span> LinkCards=<span class="hljs-built_in">document</span>.getElementsByClassName(<span class="hljs-string">&#x27;LinkCard&#x27;</span>);<span class="hljs-function"><span class="hljs-title">if</span>(<span class="hljs-params">LinkCards.length != <span class="hljs-number">0</span></span>)</span>&#123;<span class="hljs-keyword">var</span> LinkCard=LinkCards[<span class="hljs-number">0</span>];<span class="hljs-keyword">var</span> link=LinkCard.href;<span class="hljs-keyword">var</span> title=LinkCard.innerText;<span class="hljs-keyword">var</span> logourl=LinkCard.name;LinkCard.innerHTML=<span class="hljs-string">&quot;&lt;style type=text/css&gt;.LinkCard,.LinkCard:hover&#123;text-decoration:none;border:none!important;color:inherit!important&#125;.LinkCard&#123;position:relative;display:block;margin:1em auto;width:390px;box-sizing:border-box;border-radius:12px;max-width:100%;overflow:hidden;color:inherit;text-decoration:none&#125;.ztext&#123;word-break:break-word;line-height:1.6&#125;.LinkCard-backdrop&#123;position:absolute;top:0;left:0;right:0;bottom:0;background-repeat:no-repeat;-webkit-filter:blur(20px);filter:blur(20px);background-size:cover;background-position:center&#125;.LinkCard,.LinkCard:hover&#123;text-decoration:none;border:none!important;color:inherit!important&#125;.LinkCard-content&#123;position:relative;display:flex;align-items:center;justify-content:space-between;padding:12px;border-radius:inherit;background-color:rgba(246,246,246,0.88)&#125;.LinkCard-text&#123;overflow:hidden&#125;.LinkCard-title&#123;display:-webkit-box;-webkit-line-clamp:2;overflow:hidden;text-overflow:ellipsis;max-height:calc(16px * 1.25 * 2);font-size:16px;font-weight:500;line-height:1.25;color:#1a1a1a&#125;.LinkCard-meta&#123;display:flex;margin-top:4px;font-size:14px;line-height:20px;color:#999;white-space:nowrap&#125;.LinkCard-imageCell&#123;margin-left:8px;border-radius:6px&#125;.LinkCard-image&#123;display:block;width:60px;height:auto;border-radius:inherit;margin-bottom:0!important&#125;&lt;/style&gt;&lt;span class=LinkCard-backdrop style=background-image:url(/images/logo.svg)&gt;&lt;/span&gt;&lt;span class=LinkCard-content&gt;&lt;span class=LinkCard-text&gt;&lt;span class=LinkCard-title&gt;&quot;</span>+title+<span class="hljs-string">&quot;&lt;/span&gt;&lt;span class=LinkCard-meta&gt;&lt;span style=display:inline-flex;align-items:center&gt;&lt;svg class=&quot;</span>+<span class="hljs-string">&quot;&#x27;Zi Zi--InsertLink&#x27;&quot;</span>+<span class="hljs-string">&quot; fill=currentColor viewBox=&quot;</span>+<span class="hljs-string">&quot;&#x27;0 0 24 24&#x27;&quot;</span>+<span class="hljs-string">&quot; width=17 height=17&gt;&lt;path d=&quot;</span>+<span class="hljs-string">&quot;&#x27;M6.77 17.23c-.905-.904-.94-2.333-.08-3.193l3.059-3.06-1.192-1.19-3.059 3.058c-1.489 1.489-1.427 3.954.138 5.519s4.03 1.627 5.519.138l3.059-3.059-1.192-1.192-3.059 3.06c-.86.86-2.289.824-3.193-.08zm3.016-8.673l1.192 1.192 3.059-3.06c.86-.86 2.289-.824 3.193.08.905.905.94 2.334.08 3.194l-3.059 3.06 1.192 1.19 3.059-3.058c1.489-1.489 1.427-3.954-.138-5.519s-4.03-1.627-5.519-.138L9.786 8.557zm-1.023 6.68c.33.33.863.343 1.177.029l5.34-5.34c.314-.314.3-.846-.03-1.176-.33-.33-.862-.344-1.176-.03l-5.34 5.34c-.314.314-.3.846.03 1.177z&#x27;&quot;</span>+<span class="hljs-string">&quot; fill-rule=evenodd&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/span&gt;&quot;</span>+link+<span class="hljs-string">&quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=LinkCard-imageCell&gt;&lt;img class=LinkCard-image alt=logo src=&quot;</span>+logourl+<span class="hljs-string">&quot;&gt;&lt;/span&gt;&lt;/span&gt;&quot;</span>;<span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = LinkCards.length - <span class="hljs-number">1</span>; i &gt;= <span class="hljs-number">1</span>; i--) &#123;LinkCard=LinkCards[i];title=LinkCard.innerText;link=LinkCard.href;LinkCard.innerHTML=<span class="hljs-string">&quot;&lt;span class=LinkCard-backdrop style=background-image:url(/images/logo.svg)&gt;&lt;/span&gt;&lt;span class=LinkCard-content&gt;&lt;span class=LinkCard-text&gt;&lt;span class=LinkCard-title&gt;&quot;</span>+title+<span class="hljs-string">&quot;&lt;/span&gt;&lt;span class=LinkCard-meta&gt;&lt;span style=display:inline-flex;align-items:center&gt;&lt;svg class=&quot;</span>+<span class="hljs-string">&quot;&#x27;Zi Zi--InsertLink&#x27;&quot;</span>+<span class="hljs-string">&quot; fill=currentColor viewBox=&quot;</span>+<span class="hljs-string">&quot;&#x27;0 0 24 24&#x27;&quot;</span>+<span class="hljs-string">&quot; width=17 height=17&gt;&lt;path d=&quot;</span>+<span class="hljs-string">&quot;&#x27;M6.77 17.23c-.905-.904-.94-2.333-.08-3.193l3.059-3.06-1.192-1.19-3.059 3.058c-1.489 1.489-1.427 3.954.138 5.519s4.03 1.627 5.519.138l3.059-3.059-1.192-1.192-3.059 3.06c-.86.86-2.289.824-3.193-.08zm3.016-8.673l1.192 1.192 3.059-3.06c.86-.86 2.289-.824 3.193.08.905.905.94 2.334.08 3.194l-3.059 3.06 1.192 1.19 3.059-3.058c1.489-1.489 1.427-3.954-.138-5.519s-4.03-1.627-5.519-.138L9.786 8.557zm-1.023 6.68c.33.33.863.343 1.177.029l5.34-5.34c.314-.314.3-.846-.03-1.176-.33-.33-.862-.344-1.176-.03l-5.34 5.34c-.314.314-.3.846.03 1.177z&#x27;&quot;</span>+<span class="hljs-string">&quot; fill-rule=evenodd&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/span&gt;&quot;</span>+link+<span class="hljs-string">&quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=LinkCard-imageCell&gt;&lt;img class=LinkCard-image alt=logo src=&quot;</span>+logourl+<span class="hljs-string">&quot;&gt;&lt;/span&gt;&lt;/span&gt;&quot;</span>;&#125;&#125;&#125;</code></pre><p>然后在主题中引入自定义 JS，这里以咱的 <a href="https://github.com/fluid-dev/hexo-theme-fluid">Fluid</a> 主题为例。</p><pre><code class="hljs yaml"><span class="hljs-attr">custom_html:</span> <span class="hljs-string">&#x27;&lt;script type=&quot;text/javascript&quot; src=&quot;/js/linkcard.js&quot;&gt;&lt;/script&gt;&#x27;</span></code></pre><div class="note note-warning">            <p>你的主题的自定义 HTML/JS 功能设置方法可能不同，也可能没有自定义功能，需要手动修改主题文件，请自行探索。</p>          </div><h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;LinkCard&quot;</span>&gt;</span>标题<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span></code></pre><p>在 Markdown 中插入上面的 HTML 代码即可。<br>其中 <code>href</code> 是外链地址，<code>name</code> 是右侧预览图链接，标题处填写标题。</p><p>下面是一个样例</p><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;https://blog.butanediol.me&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;https://blog.butanediol.me/media/avatar.png&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;LinkCard&quot;</span>&gt;</span>一个测试链接<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span></code></pre><p><a href="https://blog.butanediol.me" name="https://blog.butanediol.me/media/avatar.png" class="LinkCard">一个测试链接</a></p><script type="text/javascript" src="/css/js/linkcard.js"></script><div class="note note-warning">            <p>由于我这里出现了自定义 <code>js</code> 与评论功能冲突的问题，这篇文章中的 <code>js</code> 引入是写在 <code>Markdown</code> 中的，如果你也出现了这个问题，不妨尝试一下。<br>毕竟一篇文章只需引入一次，而且也不一定所有文章都会用到外链分享，所以也不算太麻烦。</p>          </div>]]></content>
+    
+    
+    <categories>
+      
+      <category>瞎折腾</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Hexo</tag>
+      
+      <tag>美化</tag>
+      
+      <tag>折腾</tag>
+      
+      <tag>知乎</tag>
+      
+      <tag>转载</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>基于 Cloudflare Workers 的随机图</title>
+    <link href="/2020/06/02/%E5%9F%BA%E4%BA%8E-Cloudflare-Workers-%E7%9A%84%E9%9A%8F%E6%9C%BA%E5%9B%BE/"/>
+    <url>/2020/06/02/%E5%9F%BA%E4%BA%8E-Cloudflare-Workers-%E7%9A%84%E9%9A%8F%E6%9C%BA%E5%9B%BE/</url>
+    
+    <content type="html"><![CDATA[<p>一个私人的随机图服务。</p><a id="more"></a><p><img src="https://picture.butanediol.workers.dev/" alt="一个样例图片"></p><p>随机图的轮子其实网上有不少了，但基本都需要一台服务器，或者用别人提供的服务。</p><p>但其实托管图片获取直链还是比较简单的，所以想着用 Cloudflare Workers 在直链中随机选一个，来搭建一个私人的随机图片服务。</p><h2 id="你需要"><a href="#你需要" class="headerlink" title="你需要"></a>你需要</h2><ul><li>一个 Cloudflare 账号</li><li>一堆图片直链</li></ul><h2 id="图片直链"><a href="#图片直链" class="headerlink" title="图片直链"></a>图片直链</h2><p>不少图床都提供直链服务，比如 <a href="https://sm.ms/">sm.ms</a>（免费版单文件上限 5MB，速度很快），或者 <a href="https://img.vim-cn.com/">img.vim-cn.com</a>（单文件上限 50MB，国内速度一般）。</p><p>或者，如果你对这些公共的服务不太放心的话，一个 GitHub Repo 也是不错的选择。</p><p>总之，只需要一个直链，方法很多，自己灵活选择。</p><h2 id="部署-Workers"><a href="#部署-Workers" class="headerlink" title="部署 Workers"></a>部署 Workers</h2><p>方法不多说，网上一大堆，下面直接贴代码。</p><pre><code class="hljs javascript">addEventListener(<span class="hljs-string">&#x27;fetch&#x27;</span>, <span class="hljs-function"><span class="hljs-params">event</span> =&gt;</span> &#123;    event.respondWith(handleRequest(event.request))&#125;)<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handleRequest</span>(<span class="hljs-params">request</span>) </span>&#123;<span class="hljs-keyword">var</span> background_urls = [<span class="hljs-string">&#x27;https://w.wallhaven.cc/full/ey/wallhaven-eymzjk.jpg&#x27;</span>,<span class="hljs-string">&#x27;https://w.wallhaven.cc/full/j8/wallhaven-j8rk95.png&#x27;</span>]<span class="hljs-keyword">var</span> index = <span class="hljs-built_in">Math</span>.floor((<span class="hljs-built_in">Math</span>.random()*background_urls.length));res = <span class="hljs-keyword">await</span> fetch(background_urls[index])    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Response(res.body, &#123;        headers: &#123; <span class="hljs-string">&#x27;content-type&#x27;</span>: <span class="hljs-string">&#x27;image/jpeg&#x27;</span> &#125;,    &#125;)&#125;</code></pre><p><code>background_urls</code> 是一个保存直链的数组，将所有你想随机的图片加入进去即可。</p><div class="note note-info">            <p>P.S. 没有学过 Javascript，临时拼凑而成，希望有大佬可以优化地更好。</p>          </div>]]></content>
+    
+    
+    <categories>
+      
+      <category>写代码</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>折腾</tag>
+      
+      <tag>Cloudflare</tag>
+      
+      <tag>代码</tag>
+      
+      <tag>分享</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>分享一个 Sublime Text 的 Quantumult X 语法高亮</title>
+    <link href="/2020/05/17/%E5%88%86%E4%BA%AB%E4%B8%80%E4%B8%AA-Sublime-Text-%E7%9A%84-Quantumult-X-%E8%AF%AD%E6%B3%95%E9%AB%98%E4%BA%AE/"/>
+    <url>/2020/05/17/%E5%88%86%E4%BA%AB%E4%B8%80%E4%B8%AA-Sublime-Text-%E7%9A%84-Quantumult-X-%E8%AF%AD%E6%B3%95%E9%AB%98%E4%BA%AE/</url>
+    
+    <content type="html"><![CDATA[<p>给 Sublime Text 添加 Quantumult X 的语法高亮。</p><a id="more"></a><p>下面是代码：</p><pre><code class="hljs yaml"><span class="hljs-string">%YAML</span> <span class="hljs-number">1.2</span><span class="hljs-meta">---</span><span class="hljs-attr">name:</span> <span class="hljs-string">Quantumult</span> <span class="hljs-string">Conf</span><span class="hljs-attr">file_extensions:</span> [<span class="hljs-string">conf</span>]<span class="hljs-attr">scope:</span> <span class="hljs-string">source.c</span><span class="hljs-attr">contexts:</span>  <span class="hljs-attr">main:</span>    <span class="hljs-bullet">-</span> <span class="hljs-attr">match:</span> <span class="hljs-string">&#x27;([\w|-]+(|\s)+(?=([\=][\-]?)))&#x27;</span>      <span class="hljs-attr">scope:</span> <span class="hljs-string">keyword.other</span>    <span class="hljs-bullet">-</span> <span class="hljs-attr">match:</span> <span class="hljs-string">&#x27;^\[.+\]&#x27;</span>      <span class="hljs-attr">scope:</span> <span class="hljs-string">entity.name.section</span>    <span class="hljs-bullet">-</span> <span class="hljs-attr">match:</span> <span class="hljs-string">&#x27;\\/|\^|\?&#x27;</span>      <span class="hljs-attr">scope:</span> <span class="hljs-string">entity.name</span>    <span class="hljs-bullet">-</span> <span class="hljs-attr">match:</span> <span class="hljs-string">&#x27;((https|http)?:\/\/)[^(\s)|(,)]+&#x27;</span>      <span class="hljs-attr">scope:</span> <span class="hljs-string">constant.character.escape</span>    <span class="hljs-bullet">-</span> <span class="hljs-attr">match:</span> <span class="hljs-string">&#x27;(\#|;)(.+|$)&#x27;</span>      <span class="hljs-attr">scope:</span> <span class="hljs-string">comment.number-sign</span></code></pre><h2 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h2><p>在 <code>/Users/butanediol/Library/Application Support/Sublime Text 3/Packages/User</code><sup id="fnref:1" class="footnote-ref"><a href="#fn:1" rel="footnote"><span class="hint--top hint--rounded" aria-label="这是 macOS 的位置，Windows 或者 Linux 的在其他地方。点击设置中的 Browse Packages...，在打开的文件夹中双击进入 User 文件夹。">[1]</span></a></sup> 中新建一个 <code>Quantumult.sublime-syntax</code> 文件。</p><p>将上面的代码复制进去。</p><p>打开你的 quantumult.conf 应该就自动应用这个高亮语法了，如果没有，点击右下角的语法，选择 <code>Quantumult Conf</code>。</p><h2 id="效果图"><a href="#效果图" class="headerlink" title="效果图"></a>效果图</h2><p>没有！<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>这是 macOS 的位置，Windows 或者 Linux 的在其他地方。点击设置中的 <code>Browse Packages...</code>，在打开的文件夹中双击进入 <code>User</code> 文件夹。<br><a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>瞎折腾</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Quantumult</tag>
+      
+      <tag>Sublime Text</tag>
+      
+      <tag>iOS</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>提升国内 Apple Music 体验的代理规则</title>
+    <link href="/2020/05/07/%E6%8F%90%E5%8D%87%E5%9B%BD%E5%86%85-Apple-Music-%E4%BD%93%E9%AA%8C%E7%9A%84%E4%BB%A3%E7%90%86%E8%A7%84%E5%88%99/"/>
+    <url>/2020/05/07/%E6%8F%90%E5%8D%87%E5%9B%BD%E5%86%85-Apple-Music-%E4%BD%93%E9%AA%8C%E7%9A%84%E4%BB%A3%E7%90%86%E8%A7%84%E5%88%99/</url>
+    
+    <content type="html"><![CDATA[<p>国内访问 Apple Music 内容基本没什么大问题，但是对与自己上传的内容，访问性就很差。</p><a id="more"></a><h2 id="域名列表"><a href="#域名列表" class="headerlink" title="域名列表"></a>域名列表</h2><h3 id="已知功能"><a href="#已知功能" class="headerlink" title="已知功能"></a>已知功能</h3><p>这里是确定功能的域名。</p><table><thead><tr><th>功能</th><th>访问域名</th><th>连接情况</th></tr></thead><tbody><tr><td>页面：歌曲、歌单、艺人、专辑、MV - 国区</td><td><code>music.apple.com/cn</code></td><td>✅正常</td></tr><tr><td>页面：歌曲、歌单、艺人、专辑、MV - 外区</td><td><code>music.apple.com/[country_code]</code></td><td>✅视运营商情况而定</td></tr><tr><td>Apple Music 歌曲播放</td><td><code>aod.itunes.apple.com</code></td><td>✅正常</td></tr><tr><td>MV 播放</td><td><code>mvod.itunes.apple.com</code></td><td>✅正常</td></tr><tr><td>Beats 1 直播</td><td><code>itsliveradio.apple.com</code></td><td>⚠️可能无法访问</td></tr><tr><td>Beats 1 视频</td><td><code>aodp-ssl.apple.com</code></td><td>⚠️可能无法访问</td></tr><tr><td>电视、电影预告片</td><td><code>video-ssl.itunes.apple.com</code>  <code>mvod.itunes.apple.com</code></td><td>⚠️可能无法访问</td></tr><tr><td>电视、电影正片</td><td><code>hls-amt.itunes.apple.com</code>  <code>mvod.tiunes.apple.com</code></td><td>⚠️可能无法访问</td></tr><tr><td>iTunes Store 音乐试听</td><td><code>audio-ssl.itunes.apple.com</code></td><td>⚠️可能无法访问</td></tr><tr><td>iTunes Store 购买后播放</td><td><code>streamingaudio.itunes.apple.com</code></td><td>⚠️可能无法访问</td></tr><tr><td>iCloud 资料库上传</td><td><code>amazonaws.com</code></td><td>⚠️访问缓慢</td></tr><tr><td>播放上传歌曲</td><td><code>blobstore.apple.com</code>  <code>audio.itunes.apple.com</code></td><td>⚠️访问缓慢</td></tr></tbody></table><div class="note note-success">            <p>带有 ✅ 标记的建议使用直连策略。</p>          </div><div class="note note-warning">            <p>带有 ⚠️ 标记的建议使用代理策略。</p>          </div><h3 id="未知功能"><a href="#未知功能" class="headerlink" title="未知功能"></a>未知功能</h3><p>这里是一些不能确定功能的域名，建议走直连。</p><table><thead><tr><th>疑似功能</th><th>访问域名</th></tr></thead><tbody><tr><td></td><td><code>pXX-buy.itunes.apple.com</code><sup id="fnref:1" class="footnote-ref"><a href="#fn:1" rel="footnote">&lt;span class=”hint–top hint–rounded” aria-label=”这里的域名是 pXX-buy.itunes.apple.com，其中的 XX 是从 1 到 100 的数字。</td></tr><tr><td>“&gt;[1]</span></a></sup></td><td></td></tr><tr><td></td><td><code>radio-activity.itunes.apple.com</code></td></tr><tr><td>macOS、iOS 和 iTunes 使用</td><td><code>xp.apple.com</code></td></tr><tr><td>Siri、听写功能</td><td><code>guzzoni.apple.com</code></td></tr></tbody></table><h2 id="分流策略"><a href="#分流策略" class="headerlink" title="分流策略"></a>分流策略</h2><p>你可以直接使用下面的分流策略。</p><h3 id="Clash"><a href="#Clash" class="headerlink" title="Clash"></a>Clash</h3><pre><code class="hljs yaml"><span class="hljs-attr">Rule:</span><span class="hljs-bullet">-</span> <span class="hljs-string">DOMAIN-SUFFIX,blobstore.apple.com,Proxy</span><span class="hljs-bullet">-</span> <span class="hljs-string">DOMAIN-SUFFIX,itsliveradio.apple.com,Proxy</span><span class="hljs-bullet">-</span> <span class="hljs-string">DOMAIN-SUFFIX,aodp-ssl.apple.com,Proxy</span><span class="hljs-bullet">-</span> <span class="hljs-string">DOMAIN-SUFFIX,video-ssl.itunes.apple.com,Proxy</span><span class="hljs-bullet">-</span> <span class="hljs-string">DOMAIN-SUFFIX,mvod.itunes.apple.com,Proxy</span><span class="hljs-bullet">-</span> <span class="hljs-string">DOMAIN-SUFFIX,hls-amt.itunes.apple.com,Proxy</span><span class="hljs-bullet">-</span> <span class="hljs-string">DOMAIN-SUFFIX,audio-ssl.itunes.apple.com,Proxy</span><span class="hljs-bullet">-</span> <span class="hljs-string">DOMAIN-SUFFIX,streamingaudio.itunes.apple.com,Proxy</span><span class="hljs-bullet">-</span> <span class="hljs-string">DOMAIN-SUFFIX,amazonaws.com,Proxy</span><span class="hljs-bullet">-</span> <span class="hljs-string">DOMAIN-SUFFIX,audio.itunes.apple.com,Proxy</span><span class="hljs-bullet">-</span> <span class="hljs-string">DOMAIN-SUFFIX,xp.apple.com,DIRECT</span><span class="hljs-bullet">-</span> <span class="hljs-string">DOMAIN-SUFFIX,guzzoni.apple.com,DIRECT</span></code></pre><h3 id="Quantumult"><a href="#Quantumult" class="headerlink" title="Quantumult"></a>Quantumult</h3><pre><code class="hljs conf">host-suffix,blobstore.apple.com,proxyhost-suffix,itsliveradio.apple.com,proxyhost-suffix,aodp-ssl.apple.com,proxyhost-suffix,video-ssl.itunes.apple.com,proxyhost-suffix,mvod.itunes.apple.com,proxyhost-suffix,hls-amt.itunes.apple.com,proxyhost-suffix,audio-ssl.itunes.apple.com,proxyhost-suffix,streamingaudio.itunes.apple.com,proxyhost-suffix,amazonaws.com,proxyhost-suffix,audio.itunes.apple.com,proxyhost-suffix, xp.apple.com, directhost-suffix, guzzoni.apple.com, direct</code></pre><section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>这里的域名是 <code>pXX-buy.itunes.apple.com</code>，其中的 <code>XX</code> 是从 1 到 100 的数字。<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>]]></content>
+    
+    
+    <categories>
+      
+      <category>瞎折腾</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Quantumult</tag>
+      
+      <tag>Apple Music</tag>
+      
+      <tag>代理</tag>
+      
+      <tag>分流规则</tag>
+      
+      <tag>Clash</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>用 Cloudflare workers 和一台 VPS 解决 OneDrive 下载问题</title>
+    <link href="/2020/05/05/%E7%94%A8-Cloudflare-workders-%E5%92%8C%E4%B8%80%E5%8F%B0-VPS-%E8%A7%A3%E5%86%B3-OneDrive-%E4%B8%8B%E8%BD%BD%E9%97%AE%E9%A2%98/"/>
+    <url>/2020/05/05/%E7%94%A8-Cloudflare-workders-%E5%92%8C%E4%B8%80%E5%8F%B0-VPS-%E8%A7%A3%E5%86%B3-OneDrive-%E4%B8%8B%E8%BD%BD%E9%97%AE%E9%A2%98/</url>
+    
+    <content type="html"><![CDATA[<p>哪个男孩不想要一个大容量不限速网盘呢？但是百度云是不可能百度云的，这辈子都不可能百度云的，只能白嫖 OneDrive 维持一下生活这样子。</p><a id="more"></a><div class="note note-info">            <p>为了使用这个方法，你需要有一个域名，一台可以顺畅访问 OneDrive 的 VPS（只对带宽有要求，对性能、硬盘大小几乎无要求），和一颗能折腾的心。</p>          </div><div class="note note-danger">            <p>为了避免不必要的麻烦，所有代码段请务必看仔细！</p>          </div><p>据说在 2020 年初，OneDrive 在香港的服务器已经停用了，全部下载都走美国服务器，导致国内的下载速度几乎不能看。</p><p>如果是自己用的话，用这台 VPS 搭建一个代理就可以解决问题，但如果你想要分享文件给别人，让其他人用代理真的是非常麻烦，所以不如直接给 OneDrive 做一个反向代理，速度也是可以接受的范围。</p><p>这里你可以使用 Cloudflare 的 CDN 来加速反向代理，这样 VPS 对国内的线路就不用特别好，只要在海外速度足够快就可以了。</p><blockquote><p>实测，打包下载时的链接虽然写的是 <code>eastasia1-mediap.svc.ms</code>，似乎是东亚服务器，但仍然被解析到美国。</p><pre><code class="hljs sh">❯ nslookup eastasia1-mediap.svc.msServer:223.6.6.6Address:223.6.6.6<span class="hljs-comment">#53</span>Non-authoritative answer:eastasia1-mediap.svc.mscanonical name = svc-ms.spo-0008.spo-msedge.net.svc-ms.spo-0008.spo-msedge.netcanonical name = spo-0008.spo-msedge.net.Name:spo-0008.spo-msedge.netAddress: 13.107.136.13❯ curl cip.cc/13.107.136.13IP: 13.107.136.13地址: 美国  美国数据二: 美国 | Microsoft公司数据三: 美国华盛顿雷德蒙德 | 微软URL: http://www.cip.cc/13.107.136.13</code></pre></blockquote><p>最近看到了许多用 Cloudflare workers 的骚操作，比如网页套娃科学上网、免代理 Google drive 等。</p><p>刚好 OneDrive 也有 Fodi，同样可以做到。</p><h1 id="部署-Fodi"><a href="#部署-Fodi" class="headerlink" title="部署 Fodi"></a>部署 Fodi</h1><p>关于 Fodi 的部署，官方已经讲的很明白了，直接贴上官方链接好了。</p><p><a class='btn' href="https://github.com/vcheckzen/FODI" title="Fast OneDrive Index，OneDrive 秒级列表程序"> GitHub </a> <a class='btn' href="https://logi.im/back-end/fodi-on-cloudflare.html" title="在 Cloudflare 部署 Fodi 后端"> LOGI 的博客 </a></p><h1 id="反向代理"><a href="#反向代理" class="headerlink" title="反向代理"></a>反向代理</h1><h2 id="DNS"><a href="#DNS" class="headerlink" title="DNS"></a>DNS</h2><p>由于我们要使用 Cloudflare 的 CDN 来加速，所以需要把你的域名解析托管给 Cloudflare，没什么难度，有问题自行 Google。</p><p>先把域名和解析到你的服务器，例如你的域名是 <code>yourdomain.com</code>：</p><table><thead><tr><th>类型</th><th>名称</th><th>内容</th><th>TTL</th><th>代理状态</th></tr></thead><tbody><tr><td>A</td><td>d</td><td>123.456.78.9</td><td>自动</td><td>已代理</td></tr><tr><td>CNAME</td><td>fodi</td><td>xxx.github.io</td><td>自动</td><td>已代理</td></tr></tbody></table><p>即 <code>d.yourdomain.com</code> 解析到 <code>123.456.78.9</code>。<br>即 <code>fodi.yourdomain.com</code> 解析到你配置好的 Fodi。</p><p>当然你也可以使用 Coding pages 和/或不使用自定义域名。</p><h2 id="反向代理-1"><a href="#反向代理-1" class="headerlink" title="反向代理"></a>反向代理</h2><p>咱使用的是 Caddy，这样可以不用费心整 SSL，当然你也可以用 Nginx。</p><pre><code class="hljs caddy">https:&#x2F;&#x2F;d.yourdomain.com &#123; gzip tls mail@example.com proxy &#x2F; https:&#x2F;&#x2F;xxx-my.sharepoint.com&#125;http:&#x2F;&#x2F;d.yourdomain.com &#123; redir https:&#x2F;&#x2F;d.yourdomain.com&#125;</code></pre><div class="note note-warning">            <p><code>d.yourdomain.com</code> 换成你 VPS 的域名。</p><p><code>mail@example.com</code> 换成你的邮箱</p><p><code>https://xxx-my.sharepoint.com</code> 只是一个参考，如果你的也是这个形式，那么就把 xxx 换成你自己的，当然也有可能你使用了自定义域名，总之，哪个能访问到你的 OneDrive 就用哪个。</p>          </div><p>配置好之后，你登录 <code>d.yourdomain.com</code> 应该会打开 OneDrive 的登陆页面（已经登陆的话就直接进入 OneDrive 了）。</p><h1 id="再次配置-Workers"><a href="#再次配置-Workers" class="headerlink" title="再次配置 Workers"></a>再次配置 Workers</h1><p>在第 9 行和第 10 行（或者说定义完 TOKEN 的下一行）插入：</p><pre><code class="hljs js"><span class="hljs-keyword">const</span> ORIGIN_URL = <span class="hljs-string">&quot;https://xxx-my.sharepoint.com&quot;</span><span class="hljs-keyword">const</span> PROXY_URL = <span class="hljs-string">&quot;https://d.yourdomain.com&quot;</span></code></pre><p>在倒数几行，你应该能看到这样的代码：</p><pre><code class="hljs js"><span class="hljs-keyword">if</span> (encrypted) &#123;  <span class="hljs-keyword">return</span> <span class="hljs-built_in">JSON</span>.stringify(&#123; <span class="hljs-attr">parent</span>: parent, <span class="hljs-attr">files</span>: [], <span class="hljs-attr">encrypted</span>: <span class="hljs-literal">true</span> &#125;)&#125; <span class="hljs-keyword">else</span> &#123;  <span class="hljs-keyword">return</span> <span class="hljs-built_in">JSON</span>.stringify(&#123; <span class="hljs-attr">parent</span>: parent, <span class="hljs-attr">files</span>: files &#125;)&#125;</code></pre><p>在第二个 return 行的最后面加上 <code>.replace(RegExp(ORIGIN_URL,&quot;g&quot;),PROXY_URL)</code>，最终效果：</p><pre><code class="hljs js"><span class="hljs-keyword">if</span> (encrypted) &#123;  <span class="hljs-keyword">return</span> <span class="hljs-built_in">JSON</span>.stringify(&#123; <span class="hljs-attr">parent</span>: parent, <span class="hljs-attr">files</span>: [], <span class="hljs-attr">encrypted</span>: <span class="hljs-literal">true</span> &#125;)&#125; <span class="hljs-keyword">else</span> &#123;  <span class="hljs-keyword">return</span> <span class="hljs-built_in">JSON</span>.stringify(&#123; <span class="hljs-attr">parent</span>: parent, <span class="hljs-attr">files</span>: files &#125;).replace(<span class="hljs-built_in">RegExp</span>(ORIGIN_URL,<span class="hljs-string">&quot;g&quot;</span>),PROXY_URL)&#125;</code></pre><p>保存并部署。</p><h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><p>打开你的 Fodi，关闭你的代理，随便找个文件点击下载。</p><p>你的下载地址应该已经是 <code>d.yourdomain.com</code> 了。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>瞎折腾</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>折腾</tag>
+      
+      <tag>VPS</tag>
+      
+      <tag>Cloudflare</tag>
+      
+      <tag>OneDrive</tag>
+      
+      <tag>网盘</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>哈和草</title>
+    <link href="/2020/04/24/%E5%93%88%E5%92%8C%E8%8D%89/"/>
+    <url>/2020/04/24/%E5%93%88%E5%92%8C%E8%8D%89/</url>
+    
+    <content type="html"><![CDATA[<h3 id="什么是通哈膨胀？"><a href="#什么是通哈膨胀？" class="headerlink" title="什么是通哈膨胀？"></a>什么是通哈膨胀？</h3><p>本来“哈”这个字是用来形容笑的，但由于人们的<em>滥用</em>，哈这个字越来越没有笑的感觉。</p><p>甚至连“哈哈”都有一种嘲讽的意思，只有“哈哈哈”或者三个以上的“哈”才能表达出笑的意思来，否则，你可能只是在敷衍。</p><p>这就是所谓的通哈膨胀。</p><p>关于这个，可能很多人已经听过了。</p><p>但有膨胀就有紧缩。</p><h3 id="通草紧缩"><a href="#通草紧缩" class="headerlink" title="通草紧缩"></a>通草紧缩</h3><p>这个梗最初是从日本传来的，原来指的意思也是“笑”，也仅仅是好笑，有点接近我们的“23333333333”。</p><p>但似乎传到中国来之后，没有人像用“233”一样用“草”，而是在“艹”的基础上加了一点笑的意味。</p><p>常用组词“生草”、“太草了”等。</p><p>但少有人使用“草草”或者“草草草草草”，仿佛“草”多了就没有笑的意思了，恰好与“哈”相反。</p><p>我将其称为<strong>通草紧缩</strong>。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>杂谈</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>闲聊</tag>
+      
+      <tag>梗</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>意外找到一个解决 macOS 邮件不显示插件的方案</title>
+    <link href="/2020/03/30/%E6%84%8F%E5%A4%96%E6%89%BE%E5%88%B0%E4%B8%80%E4%B8%AA%E8%A7%A3%E5%86%B3-macOS-%E9%82%AE%E4%BB%B6%E4%B8%8D%E6%98%BE%E7%A4%BA%E6%8F%92%E4%BB%B6%E7%9A%84%E6%96%B9%E6%A1%88/"/>
+    <url>/2020/03/30/%E6%84%8F%E5%A4%96%E6%89%BE%E5%88%B0%E4%B8%80%E4%B8%AA%E8%A7%A3%E5%86%B3-macOS-%E9%82%AE%E4%BB%B6%E4%B8%8D%E6%98%BE%E7%A4%BA%E6%8F%92%E4%BB%B6%E7%9A%84%E6%96%B9%E6%A1%88/</url>
+    
+    <content type="html"><![CDATA[<p>最近在寻找 <a href="http://www.cydiaimpactor.com/">Cydia Impactor</a> 的替代品 <del>用来装 Ehentai-Viewer 看本子</del>，找到了 <a href="https://github.com/pixelomer/AltDeploy">AltDeploy</a> 这款软件。</p><p>AltDeploy 与 Cydia Impactor 外观和使用上几乎一模一样，区别是 AltDeploy 需要借助 macOS 自带的 mail.app 来完成应用签名。</p><p>按照正常的操作流程，在 AltDeploy 中点击安装插件之后，mail.app 的插件列表中应该会出现一个 AltServer，但咱这里却是空空如也，上网查找了许多解决方法都无效。</p><p>意外的，咱从一个商业软件的 FAQ 中找到了解决方法。</p><h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><div class="note note-warning">            <p>在阅读这篇方案之前，请先确保你的安装操作没有问题，并且你已经尝试了网上许多的方法但仍然无效。</p>          </div><h3 id="确保你的安装过程没有出错"><a href="#确保你的安装过程没有出错" class="headerlink" title="确保你的安装过程没有出错"></a>确保你的安装过程没有出错</h3><p>你可以通过在终端中启动 AltDeploy 并安装插件，查看日志并确保安装过程没有报错。</p><p>方法如下：</p><pre><code class="hljs sh">sudo AltDeploy.app/AltDeploy.app/Contents/MacOS/AltDeploy</code></pre><h3 id="确保你已经自行尝试了许多解决方案"><a href="#确保你已经自行尝试了许多解决方案" class="headerlink" title="确保你已经自行尝试了许多解决方案"></a>确保你已经自行尝试了许多解决方案</h3><p>如果没有，点击<a href="https://www.google.com/search?sxsrf=ALeKk00dhujs6vBf58OazJ8kyZCb9TXXsg:1585549594198&q=mac+mail+app+extensions+not+shown&spell=1">这里</a>。</p><h2 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h2><p>在开始之前，根据咱的解决经验，如果你曾经操作过 macOS 的 SIP，可以考虑先查看下面的第二条。</p><p>如果你不知道 SIP 是什么，那么你大概率没有操作过，按照下面的顺序阅读即可。</p><h3 id="1-沙盒机制问题"><a href="#1-沙盒机制问题" class="headerlink" title="1. 沙盒机制问题"></a>1. 沙盒机制问题</h3><p>处于沙盒的原因，mail.app 创建了一个符号链接文件夹 <code>~/Library/Containers/com.apple.mail/Data/Library/Mail</code>，它指向用户文件夹 <code>~/Library/Mail</code>。</p><p>但是 mail.app 却从 <code>~/Library/Containers/com.apple.mail/Data/Library/Mail</code> 中读取数据，而不是用户文件夹。</p><p>这个问题<strong>多半</strong>是由于手动或使用迁移助手更新系统，<code>~/Library/Containers/com.apple.mail/Data/Library/Mail</code> 文件夹被创建成了一个真实的文件夹，而不是一个符号链接。</p><p>通过下面两个方法来检查这个问题：</p><h4 id="检查问题"><a href="#检查问题" class="headerlink" title="检查问题"></a>检查问题</h4><h5 id="用终端命令检查"><a href="#用终端命令检查" class="headerlink" title="用终端命令检查"></a>用终端命令检查</h5><pre><code class="hljs sh">ls -lad ~/Library/Containers/com.apple.mail/Data/Library/Mail</code></pre><p>正常的话会返回</p><pre><code class="hljs sh">/Users/Username/Library/Containers/com.apple.mail/Data/Library/Mail -&gt; ../../../../Mail</code></pre><p>看不懂就用下面的方法</p><h5 id="在图形界面中检查"><a href="#在图形界面中检查" class="headerlink" title="在图形界面中检查"></a>在图形界面中检查</h5><p>打开 finder.app，按下 <kbd style="border:1px solid gray;font-size:1.2em;box-shadow:1px 0 1px 0 #eee, 0 2px 0 2px #ccc, 0 2px 0 3px #444;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;margin:2px 3px;padding:1px 5px;">Command⌘</kbd> + <kbd style="border:1px solid gray;font-size:1.2em;box-shadow:1px 0 1px 0 #eee, 0 2px 0 2px #ccc, 0 2px 0 3px #444;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;margin:2px 3px;padding:1px 5px;">Shift⇧</kbd> + <kbd style="border:1px solid gray;font-size:1.2em;box-shadow:1px 0 1px 0 #eee, 0 2px 0 2px #ccc, 0 2px 0 3px #444;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;margin:2px 3px;padding:1px 5px;">G</kbd>， </p><p>输入 <code>~/Library/Containers/com.apple.mail/Data/Library</code> 并回车。</p><p>正常情况下，Mail 文件夹的图标上会有一个小箭头。</p><p><img src="https://tva1.sinaimg.cn/large/00831rSTly1gdby8f2um7j316s0o8jxw.jpg"></p><h4 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h4><p>如果这里出了问题，可以直接下载 <a href="https://s3.amazonaws.com/media.smallcubed.com/images/support/Repair_Mail_Sandbox.zip">SANDBOX UTILITY APP</a>。<br>以防万一，咱在咱的 OneDrive 中也保存了一份，<a href="https://pan.丁二购买了一个.网址/A:/%E5%BA%94%E7%94%A8/Mac">点击下载</a>。</p><ol><li>退出 mail.app</li><li>解压 下载的文件</li><li>授予 Repair Mail Sandbox.zip 完全硬盘访问权限。<blockquote><p>打开系统偏好设置 - 安全与隐私，解锁设置，选择完全硬盘访问权限，将 Mail Sandbox.app 拖入右边的列表中，然后上锁。</p></blockquote></li></ol><p><img src="https://tva1.sinaimg.cn/large/00831rSTly1gdbyerpzcjj31vv0u0k06.jpg"></p><ol start="4"><li>右键打开 Repair Mail Sandbox.app，按照指示进行操作。</li><li>打开 mail.app 并查看插件是否出现。</li></ol><p>如果仍然没有解决问题请继续尝试下面的方法。</p><hr><p>其他两个原因与 mail.app 的 DataVaults 文件夹有关，该文件夹是在 macOS Mojave 中与 SIP 一起引入的。</p><p>DataVaults 文件夹是在首次启动时由 mail.app 创建。启用 SIP 后，这是一个隐藏文件夹，安装插件时，mail.app 会将插件的副本放入 DataVaults 文件夹中，如果该文件夹中的插件版本与 <code>~/Library/Mail/Bundles</code> 的不一致，mail.app 就不会加载这些插件，插件管理中也就不会显示这些插件。</p><h3 id="2-无法访问-DataVults-文件夹"><a href="#2-无法访问-DataVults-文件夹" class="headerlink" title="2. 无法访问 DataVults 文件夹"></a>2. 无法访问 DataVults 文件夹</h3><p>有时从备份或通过迁移助手还原用户数据时，也会还原 DataVaults 文件夹。 但是，由于它是一个复制的文件夹，而不是由 mail.app 直接创建的文件夹，mail.app 无权访问它。<br>发生这种情况时，需要删除 DataVaults 文件夹，以便下次打开邮件时可以重新创建它。</p><h4 id="操作方法"><a href="#操作方法" class="headerlink" title="操作方法"></a>操作方法</h4><h5 id="关闭-SIP"><a href="#关闭-SIP" class="headerlink" title="关闭 SIP"></a>关闭 SIP</h5><p>重新启动你的 Mac，并在开机的时候按下 <kbd style="border:1px solid gray;font-size:1.2em;box-shadow:1px 0 1px 0 #eee, 0 2px 0 2px #ccc, 0 2px 0 3px #444;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;margin:2px 3px;padding:1px 5px;">Command⌘</kbd> + <kbd style="border:1px solid gray;font-size:1.2em;box-shadow:1px 0 1px 0 #eee, 0 2px 0 2px #ccc, 0 2px 0 3px #444;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;margin:2px 3px;padding:1px 5px;">R</kbd> 进入恢复模式。</p><p>等待恢复模式加载完毕后，点击实用工具，选择终端。</p><p>在终端中输入：</p><pre><code class="hljs sh">csrutil <span class="hljs-built_in">disable</span></code></pre><p>然后重新启动电脑。</p><h5 id="删除-DataVaults"><a href="#删除-DataVaults" class="headerlink" title="删除 DataVaults"></a>删除 DataVaults</h5><p>打开 finder.app，按下 <kbd style="border:1px solid gray;font-size:1.2em;box-shadow:1px 0 1px 0 #eee, 0 2px 0 2px #ccc, 0 2px 0 3px #444;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;margin:2px 3px;padding:1px 5px;">Command⌘</kbd> + <kbd style="border:1px solid gray;font-size:1.2em;box-shadow:1px 0 1px 0 #eee, 0 2px 0 2px #ccc, 0 2px 0 3px #444;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;margin:2px 3px;padding:1px 5px;">Shift⇧</kbd> + <kbd style="border:1px solid gray;font-size:1.2em;box-shadow:1px 0 1px 0 #eee, 0 2px 0 2px #ccc, 0 2px 0 3px #444;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;margin:2px 3px;padding:1px 5px;">G</kbd>， 输入</p><p><code>~/Library/Containers/com.apple.mail/Data/</code> 并回车。</p><p>选择文件夹 <code>DataVaults</code>，然后按下 <kbd style="border:1px solid gray;font-size:1.2em;box-shadow:1px 0 1px 0 #eee, 0 2px 0 2px #ccc, 0 2px 0 3px #444;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;margin:2px 3px;padding:1px 5px;">Command⌘</kbd> + <kbd style="border:1px solid gray;font-size:1.2em;box-shadow:1px 0 1px 0 #eee, 0 2px 0 2px #ccc, 0 2px 0 3px #444;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;margin:2px 3px;padding:1px 5px;">Option⌥</kbd> + <kbd style="border:1px solid gray;font-size:1.2em;box-shadow:1px 0 1px 0 #eee, 0 2px 0 2px #ccc, 0 2px 0 3px #444;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;margin:2px 3px;padding:1px 5px;">Delete</kbd>。</p><p><strong>注意：不要使用一般的删除方法，否则重新开启 SIP 时会出现问题。</strong></p><h5 id="重新开启-SIP"><a href="#重新开启-SIP" class="headerlink" title="重新开启 SIP"></a>重新开启 SIP</h5><p>重新启动你的 Mac，并在开机的时候按下 <kbd style="border:1px solid gray;font-size:1.2em;box-shadow:1px 0 1px 0 #eee, 0 2px 0 2px #ccc, 0 2px 0 3px #444;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;margin:2px 3px;padding:1px 5px;">Command⌘</kbd> + <kbd style="border:1px solid gray;font-size:1.2em;box-shadow:1px 0 1px 0 #eee, 0 2px 0 2px #ccc, 0 2px 0 3px #444;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;margin:2px 3px;padding:1px 5px;">R</kbd> 进入恢复模式。</p><p>等待恢复模式加载完毕后，点击实用工具，选择终端。</p><p>在终端中输入：</p><pre><code class="hljs sh">csrutil <span class="hljs-built_in">enable</span></code></pre><p>然后重新启动电脑。</p><hr><p>到这一步，咱的问题就已经解决了，但是如果你没有找到 DataVaults 文件夹，看看下面的步骤。</p><h3 id="3-没有找到-DataVaults-文件夹"><a href="#3-没有找到-DataVaults-文件夹" class="headerlink" title="3. 没有找到 DataVaults 文件夹"></a>3. 没有找到 DataVaults 文件夹</h3><p>在 Catalina 中，如果用户的 home 文件夹在一个单独的分区/硬盘，而不是标准的 /Users/username 文件夹中，mail.app 找不到隐藏的 DataVaults 文件夹。</p><p>那么你就需要把你的插件手动添加到 <code>~/Library/Containers/com.apple.mail/Data/DataVaults/MailBundles/Library/Mail/Bundles</code> 文件夹中。</p><h4 id="操作方法-1"><a href="#操作方法-1" class="headerlink" title="操作方法"></a>操作方法</h4><h5 id="关闭-SIP-1"><a href="#关闭-SIP-1" class="headerlink" title="关闭 SIP"></a>关闭 SIP</h5><p>略，见上文。</p><h5 id="复制你的插件"><a href="#复制你的插件" class="headerlink" title="复制你的插件"></a>复制你的插件</h5><p>重启 Mac 之后，打开 finder.app，按下 <kbd style="border:1px solid gray;font-size:1.2em;box-shadow:1px 0 1px 0 #eee, 0 2px 0 2px #ccc, 0 2px 0 3px #444;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;margin:2px 3px;padding:1px 5px;">Command⌘</kbd> + <kbd style="border:1px solid gray;font-size:1.2em;box-shadow:1px 0 1px 0 #eee, 0 2px 0 2px #ccc, 0 2px 0 3px #444;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;margin:2px 3px;padding:1px 5px;">Shift⇧</kbd> + <kbd style="border:1px solid gray;font-size:1.2em;box-shadow:1px 0 1px 0 #eee, 0 2px 0 2px #ccc, 0 2px 0 3px #444;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;margin:2px 3px;padding:1px 5px;">G</kbd> 然后输入 <code>~/Library/Mail/Bundles</code>。</p><p>复制你的插件文件到 <code>~/Library/Containers/com.apple.mail/Data/DataVaults/MailBundles/Library/Mail/Bundles</code> 文件夹中。</p><h5 id="重新开启-SIP-1"><a href="#重新开启-SIP-1" class="headerlink" title="重新开启 SIP"></a>重新开启 SIP</h5><p>略，见上文。</p><p><strong>注意，如果你的用户文件夹在一个单独的分区，每次更新插件时你都需要重复这个步骤。</strong><br>希望 macOS 10.16 可以修复这个问题。</p><hr><p>来源: <a href="https://smallcubed.com/support/scs/troubleshooting.html#no-plugin-visible">SmallCubed</a></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>瞎折腾</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>macOS</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>折腾一下自定义 CSS</title>
+    <link href="/2020/03/28/%E6%8A%98%E8%85%BE%E8%87%AA%E5%AE%9A%E4%B9%89-CSS/"/>
+    <url>/2020/03/28/%E6%8A%98%E8%85%BE%E8%87%AA%E5%AE%9A%E4%B9%89-CSS/</url>
+    
+    <content type="html"><![CDATA[<p>学 CSS 是不可能学的，这辈子都不可能学的，只能靠 Google 和 CV 维持一下生活这样子。</p><a id="more"></a><h2 id="自定义-CSS"><a href="#自定义-CSS" class="headerlink" title="自定义 CSS"></a>自定义 CSS</h2><h3 id="修改原有样式"><a href="#修改原有样式" class="headerlink" title="修改原有样式"></a>修改原有样式</h3><p>方法非常简单，打开你的浏览器的调试工具（我使用的是 Safari，但 Chrome 和 Firefox 的应该也差不多），可以点击网页元素选择按钮（Safari 在元素上右键，点击选择元素；Chrome 在开发者工具里点击左上角的图标）来浏览对应的 HTML 代码，也可以在 HTML 代码上滑动光标，对应的元素会随之高亮。</p><p><img src="https://tva1.sinaimg.cn/large/00831rSTly1gd9soe00x4j31bg0u0e4a.jpg"></p><p>在右侧的<strong>样式</strong>中就可以看到对应的 CSS 代码。双击就可以修改对应的值，或者添加新的标签。</p><p><img src="https://tva1.sinaimg.cn/large/00831rSTly1gd9srpz8i2j30ho0eq0va.jpg"></p><p>全部复制下来，粘贴到自定义 CSS 中即可。</p><h3 id="Dark-Mode"><a href="#Dark-Mode" class="headerlink" title="Dark Mode"></a>Dark Mode</h3><p>现在 iOS 13、Android Q、macOS 10.15 都原生支持了 Dark Mode，只要搭配一个同样支持此功能的浏览器就可以跟随系统状态变化。</p><p>在自定义 CSS 中添加如下代码:</p><pre><code class="hljs CSS"><span class="hljs-keyword">@media</span> screen <span class="hljs-keyword">and</span> (<span class="hljs-attribute">prefers-color-scheme:</span> dark) &#123;&lt;!<span class="hljs-selector-tag">--</span> 此处填写自定义代码 <span class="hljs-selector-tag">--</span>&gt;&#125;</code></pre><p>把深色模式所需要变化的样式统统粘贴到大括号里，就可以实现网页深色模式跟随系统变化。</p><h2 id="自定义-HTML"><a href="#自定义-HTML" class="headerlink" title="自定义 HTML"></a>自定义 HTML</h2><h3 id="Live2D-看板娘"><a href="#Live2D-看板娘" class="headerlink" title="Live2D 看板娘"></a>Live2D 看板娘</h3><p>如果你用的是 WordPress 或者 Hexo，可以通过直接安装插件的方法来获取。</p><p>但如果是 PyOne 这种比较简单的，手动安装十分麻烦。</p><p>这里我们用 iframe 的方法通过链接其他网页来实现。</p><h4 id="直接使用"><a href="#直接使用" class="headerlink" title="直接使用"></a>直接使用</h4><p>个人使用的是这个 <a href="https://github.com/stevenjoezhang/live2d-widget">Live2D Widget</a></p><p>如果不需要自定义的话，只需要加入这两行自定义 HTML 代码:</p><pre><code class="hljs HTML"><span class="hljs-symbol">&amp;lt;</span>link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css&quot;&gt;<span class="hljs-symbol">&amp;lt;</span>script src=&quot;https://cdn.jsdelivr.net/gh/stevenjoezhang/live2d-widget@latest/autoload.js&quot;&gt;<span class="hljs-symbol">&amp;lt;</span>/script&gt;</code></pre><h4 id="自定义"><a href="#自定义" class="headerlink" title="自定义"></a>自定义</h4><p>如果需要对效果进行一些更改的话，需要有一个能够保存和获取 <code>autoreload.js</code> 的地址，例如 GitHub pages 或者其他 pages 服务。</p><p>然后修改 <code>script</code> 的地址到你的文件即可。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>瞎折腾</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>美化</tag>
+      
+      <tag>折腾</tag>
+      
+      <tag>代码</tag>
+      
+      <tag>分享</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>咱的 Google 付款信息被封禁了！</title>
+    <link href="/2020/03/10/%E5%92%B1%E7%9A%84-Google-%E4%BB%98%E6%AC%BE%E4%BF%A1%E6%81%AF%E8%A2%AB%E5%B0%81%E7%A6%81%E4%BA%86%EF%BC%81/"/>
+    <url>/2020/03/10/%E5%92%B1%E7%9A%84-Google-%E4%BB%98%E6%AC%BE%E4%BF%A1%E6%81%AF%E8%A2%AB%E5%B0%81%E7%A6%81%E4%BA%86%EF%BC%81/</url>
+    
+    <content type="html"><![CDATA[<h2 id="什么情况！"><a href="#什么情况！" class="headerlink" title="什么情况！"></a>什么情况！</h2><p>某天，咱收到了这样一封 Google 发来的邮件：</p><blockquote><p>]考虑到可疑活动可能带来的风险, 我们已暂停您通过自己的帐号购买 Google 产品和服务的权限，以防止出现未经授权的扣款。</p><p>如果您想恢复使用付款功能的权限，我们需要验证您是您最近通过 Google 所用付款方式的授权用户。</p><p>请<em>点击此处</em>完成验证流程。您需要上传以下材料：</p><ol><li><p>付款方式的所有权证明，例如付款方式或银行对帐单的图片或扫描件</p></li><li><p>政府签发的带证件照的身份证件的扫描件（用于核实付款方式上的付款人姓名）</p></li></ol><p>在验证期间，请勿创建新的 Google 帐号进行购买交易，因为这类帐号可能也会被暂停。如需详细了解验证流程，请访问 <em>Google Payments 帮助中心</em>。</p><p>您在此处提供的个人信息会被添加到您的付款资料中。我们将按照 <em>Google 隐私权政策</em>和 <em>Google Payments 隐私权声明</em>（如果适用）安全地存储和处理这些信息。</p><p>此致</p><p>Google 支持团队敬上</p></blockquote><p>是的，开头的那个 <code>]</code> 并不是咱不小心按到了键盘，Google 发来的邮件就是有这样一个东西。</p><p><img src="https://tva1.sinaimg.cn/large/00831rSTly1gcp0l1wkm2j30pu0mejy9.jpg"></p><p>在仔细确认了这封邮件确实是 Google 发过来的之后<sup id="fnref:1" class="footnote-ref"><a href="#fn:1" rel="footnote"><span class="hint--top hint--rounded" aria-label="咱觉得 Gmail 应该能识别出自家邮件的吧。">[1]</span></a></sup>，咱点开了验证链接。</p><h2 id="为什么会这样？"><a href="#为什么会这样？" class="headerlink" title="为什么会这样？"></a>为什么会这样？</h2><p>仔细回想了一下近期的操作，有以下几点可能会被认为是“可疑活动”（按照可能性从大到小排序）：</p><ol><li><p>最近手机不知道出了什么问题，无法在 Google Play 更新和下载软件。于是咱多次尝试了重置 Google Play，多次重新进行<strong>生物识别身份验证</strong><sup id="fnref:2" class="footnote-ref"><a href="#fn:2" rel="footnote"><span class="hint--top hint--rounded" aria-label="就是 Google Play 购买的时候使用生物识别，比如指纹。在 Google Play 的设置里可以手动输入密码进行开启。">[2]</span></a></sup>。</p></li><li><p>最近的网络不是很稳定，导致咱频繁更换 IP 地址。</p></li><li><p>很久以前使用的 GCP 欠费了，几个月前咱停止了服务，并且不打算继续使用，不过部分超出赠送额度的账单没有支付。（可能会慢慢还）</p></li><li><p>咱尝试使用 Magisk 模块打开 Google 位置记录和 Google Feed。</p></li></ol><h2 id="该怎么做！"><a href="#该怎么做！" class="headerlink" title="该怎么做！"></a>该怎么做！</h2><p>于是咱点开了邮件中的“点击此处”链接，Google 要求提供三项信息：</p><ol><li><p><strong>你的说明（选填）</strong><del>卖个可怜？</del></p></li><li><p><strong>付款方式的所有权证明，例如付款方式或银行对帐单的图片或扫描件。</strong><del>说实话咱没太看懂这是要提交什么</del></p></li><li><p><strong>政府签发的带证件照的身份证件的扫描件（用于核实付款方式上的付款人姓名）</strong></p></li></ol><p>给！都可以给！</p><h3 id="ROUND-1"><a href="#ROUND-1" class="headerlink" title="ROUND 1"></a>ROUND 1</h3><p>咱先在第一项说明里解释了一下：</p><blockquote><p>Google 你懂咱们大陆用户的，咱们什么情况你们都有点 *BEEP* 数吧…</p></blockquote><p>然后第二项咱并不明白要提交什么，咱猜测是类似银行账户账单一类的东西，但中行的这张万事达（也有可能是 VISA）有点特别，而且咱六个月以来并没有在 Google Play 上用这张卡购买过东西。所以咱只能截了一张近期消费记录的图。<del>咱近期也只有一笔交易记录，就是买的俄罗斯的廉价 VPS，月付不到 1 刀，还是按小时收费。这是咱的  <a href="https://hostvds.com/?affiliate_uuid=8e4e60f7-0ff0-465a-8c17-3dc62c240768">AFF</a><sup id="fnref:3" class="footnote-ref"><a href="#fn:3" rel="footnote"><span class="hint--top hint--rounded" aria-label="广告时间：0.78$/mo 的是 1 GiB RAM，10 GiB 硬盘，50 Mbps 带宽，不限制流量（反正没看到）的，咱购买的时候付款方式仅支持银行账户，PayPal 还在路上，需要的同学快快点 AFF！">[3]</span></a></sup></del></p><p>第三项简单，咱上传了咱的身份证照片（带头像的一面），热乎的，现拍的。</p><p>发送了之后，会收到这样一封邮件：</p><blockquote><p>我们审核您提交的信息需要 24-48 小时，请耐心等待。在决定是否恢复您使用购买功能的权限后，我们会立即通过电子邮件通知您。</p><p>在审核期间，请勿创建新的 Google 帐号进行购买交易，因为这类帐号可能也会被暂停。</p><p>您提交的个人信息会被添加到您的付款资料中。我们将按照 Google 隐私权政策和 Google Payments 隐私权声明（如果适用）安全地存储和处理这些信息。</p><p>此致<br>Google 支持团队敬上</p></blockquote><p>然后就是等…</p><blockquote><p>说是 24-48 小时，其实很快就给了回复：</p><p>我们无法通过您提交的文件验证您的付款信息，原因如下：</p><p>我们无法验证您提交的付款方式图片<br>请解决这些问题，然后点击此处重新提交您的信息。</p><p>您在此处提供的个人信息会被添加到您的付款资料中。我们将按照适用的 Google 隐私权政策和 Google Payments 隐私权声明安全地存储和处理这些信息。</p><p>此致<br>Google 支持团队敬上</p></blockquote><p>失败了…</p><p>看起来是第二条出了问题，于是咱咨询了 #rich 拓。</p><p><img src="https://tva1.sinaimg.cn/large/00831rSTly1gcp1du46swj312v0u07bo.jpg"></p><p>大佬说上传银行卡卡面！</p><p><img src="https://tva1.sinaimg.cn/large/00831rSTly1gcp1exptf3j305c05ct8y.jpg" alt="奇怪的知识增加了！"></p><h3 id="ROUND-2"><a href="#ROUND-2" class="headerlink" title="ROUND 2"></a>ROUND 2</h3><p>既然 Google 不吃这一条，咱也就没必要卖乖了，第一条直接留空。</p><p>第二条，咱上传了咱的银行卡卡面（正面），咱的 <code>CVV</code> 在背面，所以只需要打码卡号的前 12 位即可。</p><p>第三条还是刚刚那张热乎的身份证照片。</p><p>然后…</p><p><img src="https://tva1.sinaimg.cn/large/00831rSTly1gcp1hza6xjj30q20g0gpw.jpg"></p><h3 id="ROUND-3"><a href="#ROUND-3" class="headerlink" title="ROUND 3"></a>ROUND 3</h3><p>在瞎点一通帮助链接但并没有找到帮助邮件地址之后，咱抱着瞎猫碰上死耗子的想法，把银行卡和身份证放在一起，拍了一张照片，上面是身份证，下面是银行卡，卡号还是打码。</p><p>然后在 2、3 项中上传同一张照片。</p><p><img src="https://tva1.sinaimg.cn/large/00831rSTly1gcp1kyg4lvj30pi0lc45h.jpg"></p><p><strong>？？？</strong></p><p>嗯？过了？</p><p>或许是 Google 被咱坚持不懈的精神打动了，将两张照片放在一起上传居然就过了。</p><p>开心过后，冷静下来，仔细一想：</p><p><font size="20"> <strong>咱 $^{TM}$ 又没钱买东西！摔！</strong></font></p><section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>咱觉得 Gmail 应该能识别出自家邮件的吧。<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:2" class="footnote-text"><span>就是 Google Play 购买的时候使用生物识别，比如指纹。在 Google Play 的设置里可以手动输入密码进行开启。<a href="#fnref:2" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:3" class="footnote-text"><span>广告时间：0.78$/mo 的是 <code>1 GiB RAM</code>，<code>10 GiB</code> 硬盘，<code>50 Mbps</code> 带宽，不限制流量（反正没看到）的，咱购买的时候付款方式仅支持银行账户，PayPal 还在路上，需要的同学快快点 AFF！<a href="#fnref:3" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>]]></content>
+    
+    
+    <categories>
+      
+      <category>杂谈</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>踩坑</tag>
+      
+      <tag>笔记</tag>
+      
+      <tag>VPS</tag>
+      
+      <tag>Google</tag>
+      
+      <tag>闲聊</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>记一次用服务器转发 OneDrive 的尝试</title>
+    <link href="/2020/03/04/%E8%AE%B0%E4%B8%80%E6%AC%A1%E7%94%A8%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%BD%AC%E5%8F%91-OneDrive-%E7%9A%84%E5%B0%9D%E8%AF%95/"/>
+    <url>/2020/03/04/%E8%AE%B0%E4%B8%80%E6%AC%A1%E7%94%A8%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%BD%AC%E5%8F%91-OneDrive-%E7%9A%84%E5%B0%9D%E8%AF%95/</url>
+    
+    <content type="html"><![CDATA[<div class="note note-warning">            <p>经过求证，rclone 挂载并不能实现流量转发，只是让文件先下载到服务器，再从服务器发送到用户，无法解决延迟和服务器空间问题。</p><p>如果想用流量转发的话可以不用继续看了，不过如果你只是想在服务器上使用 rclone，你也可以参考下面的方法（虽然在 rclone 的官方文档中也有给出）。</p>          </div><div class="note note-info">            <p>原理类似，但效果更好的解决办法可以查看 <a class="btn" href="https://blog.butanediol.me/2020/05/05/用-Cloudflare-workers-和一台-VPS-解决-OneDrive-下载问题/"  title="用 Cloudflare workders 和一台 VPS 解决 OneDrive 下载问题" target="_blank">这里</a> 。</p>          </div><h2 id="想法"><a href="#想法" class="headerlink" title="想法"></a>想法</h2><p>尝试过了 PyOne、Onindex、OLAINDEX 等软件，其中 PyOne 带有流量转发功能，但不知道为什么，<code>50 MiB</code> 左右的小文件还能够正常转发，上百 MiB 甚至几 GiB 的文件在下载的时候均只有几十 MiB。</p><p>我猜测是 PyOne 要先将文件下载，然后再转发，这会导致两个问题：</p><ol><li>对本地空间有要求，由于 OneDrive 限制单文件大小最大为 <code>15 GiB</code>，因此你可能需要至少有 <code>15 GiB</code> 的硬盘可用空间。</li><li>对网络速度有要求，<code>15 GiB</code> 的文件难道要等服务器下载完成之后才能开始下载吗？这肯定是不现实的。假设 <code>1 Gbps</code> 的理论带宽全部跑满，一个 <code>4 GiB</code> 的文件就要等待 30 秒，这个时间怕是浏览器都判定为响应超时了。</li></ol><p>而 Onindex 和 OLAINDEX 暂时不支持流量转发。</p><p>所以我的想法是：<br>用 <a href="rclone.org">rclone</a><sup id="fnref:1" class="footnote-ref"><a href="#fn:1" rel="footnote"><span class="hint--top hint--rounded" aria-label="rclone 是一个命令行软件，它可以同步许多云储存服务。">[1]</span></a></sup> 将文件夹挂载到本地，然后再用 WebDAV 或是其他的网页文件管理器来下载这个文件夹中的文件，或者导出直链来分享。</p><h2 id="尝试"><a href="#尝试" class="headerlink" title="尝试"></a>尝试</h2><p>由于我连接到 VPS 的通道不是特别稳定，所以先在本地虚拟机上进行测试。</p><p>这里我选用的系统是 Ubuntu 18.04.4 LTS。</p><h3 id="rclone"><a href="#rclone" class="headerlink" title="rclone"></a>rclone</h3><h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><p>先安装 Rclone，安装步骤在<a href="https://rclone.org/install/">官网</a>上就有，现成脚本，非常简单。当然你也可以选择编译安装或者 Docker。</p><pre><code class="hljs bash">curl https://rclone.org/install.sh | sudo bash</code></pre><p>不仅服务器需要安装，你的电脑也需要安装，这里就省略了，官网的方法十分简单。</p><p>然后在本地电脑的终端中输入:</p><pre><code class="hljs bash">rclone authorize <span class="hljs-string">&quot;onedrive&quot;</span></code></pre><p>然后会自动打开一个浏览器窗口，登陆你要绑定的 OneDrive 账户。之后返回终端窗口，会看到一大段文字，找到用<code>&#123;&#125;</code>包裹的开头和结尾，连带 <code>&#123;&#125;</code> 一起复制下来，备用。</p><p>这时候返回你的服务器，按照我下面的步骤进行操作:</p><pre><code class="hljs bash">sudo rclone config</code></pre><p>输入你的账户密码，然后会弹出这个：</p><pre><code class="hljs bash">No remotes found - make a new onen) New remotes) Set configuration passwordq) Quit confign/s/q&gt;</code></pre><p>这里我们输入 <code>n</code> 回车，意思是添加一个远端云服务。</p><pre><code class="hljs bash">name&gt;</code></pre><p>出现这个，输入一个名称，后面需要用到，<strong>请记住</strong>，我这里记为 <code>od</code>。</p><p>然后会弹出一大段选项，选择其中的 <code>OneDrive</code>，在我这个版本，OneDrive 是 23。</p><pre><code class="hljs bash">Type of storage to configure.Enter a string value. Press Enter <span class="hljs-keyword">for</span> the default (<span class="hljs-string">&quot;&quot;</span>).Choose a number from below, or <span class="hljs-built_in">type</span> <span class="hljs-keyword">in</span> your own value 1 / 1Fichier   \ <span class="hljs-string">&quot;fichier&quot;</span> 2 / Alias <span class="hljs-keyword">for</span> an existing remote   \ <span class="hljs-string">&quot;alias&quot;</span> 3 / Amazon Drive   \ <span class="hljs-string">&quot;amazon cloud drive&quot;</span> 4 / Amazon S3 Compliant Storage Provider (AWS, Alibaba, Ceph, Digital Ocean, Dreamhost, IBM COS, Minio, etc)   \ <span class="hljs-string">&quot;s3&quot;</span> 5 / Backblaze B2   \ <span class="hljs-string">&quot;b2&quot;</span> 6 / Box   \ <span class="hljs-string">&quot;box&quot;</span> 7 / Cache a remote   \ <span class="hljs-string">&quot;cache&quot;</span> 8 / Citrix Sharefile   \ <span class="hljs-string">&quot;sharefile&quot;</span> 9 / Dropbox   \ <span class="hljs-string">&quot;dropbox&quot;</span>10 / Encrypt/Decrypt a remote   \ <span class="hljs-string">&quot;crypt&quot;</span>11 / FTP Connection   \ <span class="hljs-string">&quot;ftp&quot;</span>12 / Google Cloud Storage (this is not Google Drive)   \ <span class="hljs-string">&quot;google cloud storage&quot;</span>13 / Google Drive   \ <span class="hljs-string">&quot;drive&quot;</span>14 / Google Photos   \ <span class="hljs-string">&quot;google photos&quot;</span>15 / Hubic   \ <span class="hljs-string">&quot;hubic&quot;</span>16 / In memory object storage system.   \ <span class="hljs-string">&quot;memory&quot;</span>17 / JottaCloud   \ <span class="hljs-string">&quot;jottacloud&quot;</span>18 / Koofr   \ <span class="hljs-string">&quot;koofr&quot;</span>19 / Local Disk   \ <span class="hljs-string">&quot;local&quot;</span>20 / Mail.ru Cloud   \ <span class="hljs-string">&quot;mailru&quot;</span>21 / Mega   \ <span class="hljs-string">&quot;mega&quot;</span>22 / Microsoft Azure Blob Storage   \ <span class="hljs-string">&quot;azureblob&quot;</span>23 / Microsoft OneDrive   \ <span class="hljs-string">&quot;onedrive&quot;</span>24 / OpenDrive   \ <span class="hljs-string">&quot;opendrive&quot;</span>25 / Openstack Swift (Rackspace Cloud Files, Memset Memstore, OVH)   \ <span class="hljs-string">&quot;swift&quot;</span>26 / Pcloud   \ <span class="hljs-string">&quot;pcloud&quot;</span>27 / Put.io   \ <span class="hljs-string">&quot;putio&quot;</span>28 / QingCloud Object Storage   \ <span class="hljs-string">&quot;qingstor&quot;</span>29 / SSH/SFTP Connection   \ <span class="hljs-string">&quot;sftp&quot;</span>30 / Sugarsync   \ <span class="hljs-string">&quot;sugarsync&quot;</span>31 / Transparently chunk/split large files   \ <span class="hljs-string">&quot;chunker&quot;</span>32 / Union merges the contents of several remotes   \ <span class="hljs-string">&quot;union&quot;</span>33 / Webdav   \ <span class="hljs-string">&quot;webdav&quot;</span>34 / Yandex Disk   \ <span class="hljs-string">&quot;yandex&quot;</span>35 / http Connection   \ <span class="hljs-string">&quot;http&quot;</span>36 / premiumize.me   \ <span class="hljs-string">&quot;premiumizeme&quot;</span>Storage&gt; 23</code></pre><p>接下来的几个选项，前三个都可以使用默认，第四个我们选择 <code>no</code>:</p><pre><code class="hljs bash">Microsoft App Client IdLeave blank normally.Enter a string value. Press Enter <span class="hljs-keyword">for</span> the default (<span class="hljs-string">&quot;&quot;</span>).client_id&gt; Microsoft App Client SecretLeave blank normally.Enter a string value. Press Enter <span class="hljs-keyword">for</span> the default (<span class="hljs-string">&quot;&quot;</span>).client_secret&gt; Edit advanced config? (y/n)y) Yesn) No (default)y/n&gt; Remote configUse auto config? * Say Y <span class="hljs-keyword">if</span> not sure * Say N <span class="hljs-keyword">if</span> you are working on a remote or headless machiney) Yes (default)n) Noy/n&gt; n</code></pre><p>接下来，请输入你刚刚从本地电脑上获得的一大串文字，包括 <code>&#123;&#125;</code>。这里我就不演示了。</p><pre><code class="hljs bash">Choose a number from below, or <span class="hljs-built_in">type</span> <span class="hljs-keyword">in</span> an existing value 1 / OneDrive Personal or Business   \ <span class="hljs-string">&quot;onedrive&quot;</span> 2 / Root Sharepoint site   \ <span class="hljs-string">&quot;sharepoint&quot;</span> 3 / Type <span class="hljs-keyword">in</span> driveID   \ <span class="hljs-string">&quot;driveid&quot;</span> 4 / Type <span class="hljs-keyword">in</span> SiteID   \ <span class="hljs-string">&quot;siteid&quot;</span> 5 / Search a Sharepoint site   \ <span class="hljs-string">&quot;search&quot;</span>Your choice&gt; 1</code></pre><p>这个地方我们选择 1。<br>然后稍等片刻，等待程序获取信息。之后你会看到这样一段文字：</p><pre><code class="hljs bash">0: OneDrive (business) id=*************</code></pre><p>然后输入 <code>0</code>，回车。</p><p>如果出现这样的文字，直接回车即可：</p><pre><code class="hljs bash">Found drive <span class="hljs-string">&#x27;root&#x27;</span> of <span class="hljs-built_in">type</span> <span class="hljs-string">&#x27;business&#x27;</span>, URL: https://butanediol-my.sharepoint.com/personal/admin_butanediol_onmicrosoft_com/DocumentsIs that okay?y) Yes (default)n) Noy/n&gt;</code></pre><p>最后会确认你刚刚输入的信息，直接回车，选择 <code>y</code>：</p><pre><code class="hljs bash">y) Yes this is OK (default)e) Edit this remoted) Delete this remotey/e/d&gt;</code></pre><p>接下来 rclone 会展示现有的 remotes，一般没问题，输入 <code>q</code> 回车退出即可。</p><h4 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h4><p>使用下面这条命令新建一个文件夹<sup id="fnref:2" class="footnote-ref"><a href="#fn:2" rel="footnote"><span class="hint--top hint--rounded" aria-label="你可以起任意名字，或者使用其他可用的文件夹。">[2]</span></a></sup>：</p><pre><code class="hljs bash">mkdir onedrive</code></pre><p>这里我将其命名为 <code>onedrive</code>。</p><p>这时候你可以选择再开一个 SSH 窗口，或者使用 tmux、screen 等软件（如果你熟悉 Linux），执行一下下面这条命令：</p><pre><code class="hljs bash">sudo rclone mount od:folder onedrive --copy-links --no-gzip-encodi --no-check-certificate --allow-other --allow-non-empty --<span class="hljs-built_in">umask</span> 000</code></pre><p>这里的 <code>od</code> 就是最初输入的名字，需要替换。</p><p>冒号后面的 <code>folder</code> 是你 OneDrive 中的文件夹名，例如你的 OneDrive 根目录中有一个叫 Share 的文件夹，那么这里就填写 <code>:Share</code>。</p><p>后面的 <code>onedrive</code> 是服务器硬盘中文件夹，这里我就用刚刚创建的文件夹。</p><p>然后在另一个窗口中进入这个文件夹：</p><pre><code class="hljs bash"><span class="hljs-built_in">cd</span> onedrive</code></pre><p>如果你的 OneDrive 文件夹中原本有文件，可以使用 <code>ls</code> 命令，查看原有文件。</p><p>如果你的 OneDrive 文件夹为空，可以使用 <code>touch filename</code> 命令，创建一个名为 <code>filename</code> 的新文件。不出意外的话，你的 OneDrive 中也会同步出现一个同名文件。</p><p>至此，rclone 绑定账号已经完成了。</p><h4 id="开机自启"><a href="#开机自启" class="headerlink" title="开机自启"></a>开机自启</h4><p>下面这段命令，先将除去注释的第一行换成刚刚测试的那一行。</p><p>再将其中</p><pre><code class="hljs bash"><span class="hljs-comment">#将后面修改成你上面手动运行命令中，除了rclone的全部参数</span><span class="hljs-built_in">command</span>=<span class="hljs-string">&quot;mount od:folder onedrive --copy-links --no-gzip-encoding --no-check-certificate --allow-other --allow-non-empty --umask 000&quot;</span><span class="hljs-built_in">command</span>=<span class="hljs-string">&quot;mount Butanediol:Share /home/butanediol/Onedrive --copy-links --no-gzip-encoding --no-check-certificate --allow-other --allow-non-empty --umask 000&quot;</span><span class="hljs-comment">#以下是一整条命令，一起复制到SSH客户端运行</span>cat &gt; /etc/systemd/system/rclone.service &lt;&lt;<span class="hljs-string">EOF</span><span class="hljs-string">[Unit]</span><span class="hljs-string">Description=Rclone</span><span class="hljs-string">After=network-online.target</span><span class="hljs-string"></span><span class="hljs-string">[Service]</span><span class="hljs-string">Type=simple</span><span class="hljs-string">ExecStart=$(command -v rclone) $&#123;command&#125;</span><span class="hljs-string">Restart=on-abort</span><span class="hljs-string">User=root</span><span class="hljs-string"></span><span class="hljs-string">[Install]</span><span class="hljs-string">WantedBy=default.target</span><span class="hljs-string">EOF</span></code></pre><h3 id="Caddy"><a href="#Caddy" class="headerlink" title="Caddy"></a>Caddy</h3><p>对 Caddy 指定一个目录，Caddy 可以自动生成一个简易的页面，相当于一个文件服务器。</p><p>那么配置 Caddy 指定这个挂载 OneDrive 的路径就可以了。</p><pre><code class="hljs less"><span class="hljs-attribute">https</span>:<span class="hljs-comment">//yourdomain.com &#123;</span>  gzip  tls example<span class="hljs-variable">@yourdomain</span>.com  browse /onedrive-mount-path&#125;</code></pre><section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>rclone 是一个命令行软件，它可以同步许多云储存服务。<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:2" class="footnote-text"><span>你可以起任意名字，或者使用其他可用的文件夹。<a href="#fnref:2" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>]]></content>
+    
+    
+    <categories>
+      
+      <category>瞎折腾</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Linux</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>如何在 Mixplorer 中使用 OneDrive？</title>
+    <link href="/2020/02/15/%E5%A6%82%E4%BD%95%E5%9C%A8-mixplorer-%E4%B8%AD%E4%BD%BF%E7%94%A8-onedrive/"/>
+    <url>/2020/02/15/%E5%A6%82%E4%BD%95%E5%9C%A8-mixplorer-%E4%B8%AD%E4%BD%BF%E7%94%A8-onedrive/</url>
+    
+    <content type="html"><![CDATA[<h2 id="打开-Azure"><a href="#打开-Azure" class="headerlink" title="打开 Azure"></a>打开 Azure</h2><h3 id="注册应用"><a href="#注册应用" class="headerlink" title="注册应用"></a>注册应用</h3><p><a href="https://portal.azure.com/?l=zh-hans.zh-cn#blade/Microsoft_AAD_RegisteredApps/ApplicationsListBlade">点击这里</a>打开 Azure，登陆你的 OneDrive 账号。点击<strong>新注册</strong>。</p><p><img src="https://tva1.sinaimg.cn/large/0082zybpgy1gbxecuych5j30zm0f040w.jpg"></p><p>名称随意填写，这里我填写的是 Mixplorer，受支持的账户类型选择<strong>任何组织目录（任何 Azure AD 目录 - 多租户）中的账户和个人 Microsoft 账户（例如，Skype、Xbox）</strong>，重定向 URI 填写 <code>https://sharepoint.com</code>。</p><p><img src="https://tva1.sinaimg.cn/large/0082zybpgy1gbxedi2oj4j315k0u0791.jpg"></p><h3 id="应用设置"><a href="#应用设置" class="headerlink" title="应用设置"></a>应用设置</h3><h4 id="API-权限"><a href="#API-权限" class="headerlink" title="API 权限"></a>API 权限</h4><p>进入应用设置后，先点击左边的 <strong>API 权限</strong>，点击<strong>添加权限</strong>，选择<strong>常用 Microsoft API</strong> 中的 <strong>Microsoft Graph</strong>，然后选择<strong>委托的权限</strong>。</p><p><img src="https://tva1.sinaimg.cn/large/0082zybpgy1gbxeiauusaj31ik0pmq7l.jpg"></p><p>在选择权限中搜索 <code>file</code>，然后选择 <code>Files.ReadWrite</code> 和 <code>Files.ReadWriteAll</code> 两项。添加权限。</p><p><img src="https://tva1.sinaimg.cn/large/0082zybpgy1gbxejcl4klj30po10m0w0.jpg"></p><h3 id="证书和密码"><a href="#证书和密码" class="headerlink" title="证书和密码"></a>证书和密码</h3><p>在左边的管理中选择<strong>证书和密码</strong>，点击<strong>新客户端密码</strong>，说明随意填写，截止期限选择<strong>1 年内</strong><sup id="fnref:1" class="footnote-ref"><a href="#fn:1" rel="footnote"><span class="hint--top hint--rounded" aria-label="也可以选择 2 年内或从不，我不进行测试了">[1]</span></a></sup>。</p><p><img src="https://tva1.sinaimg.cn/large/0082zybpgy1gbxeny9zptj30ys0laacj.jpg"></p><p>然后点击<strong>添加</strong>。</p><p>你将会看到一个<strong>值</strong>，<strong>请务必</strong>将其复制下来，保存好！</p><h4 id="应用-ID"><a href="#应用-ID" class="headerlink" title="应用 ID"></a>应用 ID</h4><p>现在返回<strong>概述</strong>，将<strong>应用程序（客户端）ID</strong> 保存下来。</p><p><img src="https://tva1.sinaimg.cn/large/0082zybpgy1gbxfzbxx46j313s0bijt9.jpg"></p><h2 id="打开-Mixplorer"><a href="#打开-Mixplorer" class="headerlink" title="打开 Mixplorer"></a>打开 Mixplorer</h2><p>点击左上角的汉堡菜单，再点击菜单右上角的列表。点击 <strong>Add storage</strong>。</p><p><img src="https://tva1.sinaimg.cn/large/0082zybpgy1gbxeuck3ndj30oe18m42i.jpg"></p><p>选择 <strong>OneDrive</strong>。</p><p><img src="https://tva1.sinaimg.cn/large/0082zybpgy1gbxew3d56zj30oe18mgto.jpg"></p><p>Display name 可以随意填写</p><p>在 <strong>client_id</strong> 的等号后填写<strong>应用程序 ID</strong>，<strong>client_secret</strong> 的等号后填写密钥，也就是之前说到的<strong>值</strong>，最后，<strong>redirect_uri</strong> 的等号后填写 <code>https://sharepoint.com</code>。</p><p><img src="https://tva1.sinaimg.cn/large/0082zybpgy1gbxfzprey6j30oe18mgvf.jpg"></p><p>然后点击保存。</p><p>之后会出现一个九宫格，这是一个可选的密码，我不需要，直接点击下一步。你也可以绘制一个九宫格密码，增强安全性。</p><p>之后，等待加载完成，会弹出 Office 的登陆界面，这里登陆你刚刚用于注册 Azure 的账户，即你的 OneDrive 账户。</p><p>完成登陆后，Mixplorer 会自动获取 token，然后就可以正常使用你的 OneDrive 了。</p><p><img src="https://tva1.sinaimg.cn/large/0082zybpgy1gbxf3gmdh4j30oe18mjz9.jpg"></p><blockquote><p>注，你的 OneDrive 文件应该储存在 Files 文件夹中，而非 Mixplorer 中的根目录。</p></blockquote><h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>随意选择一个文件点击，在打开方式窗口中，你可以选择<strong>保存在临时文件夹</strong> 或 <strong>获取直链</strong>，这里我选择<strong>获取直链</strong>。然后使用 ADM 下载。</p><p><img src="https://tva1.sinaimg.cn/large/0082zybpgy1gbxf5w26yjj30oe18mgsf.jpg"></p><p>这个方法是不支持断点续传的，所以 AMD 可能会报一个错误，忽略即可。</p><p><img src="https://tva1.sinaimg.cn/large/0082zybpgy1gbxf76yv7qj30oe18mjwu.jpg"></p><p>我的梯子开的是<strong>绕过中国大陆和局域网</strong>模式，所以这里走了代理，我的宽带是 100 M 广电网，属于墙中墙类型，因此这个速度还算不错了，如果不走代理的话我这里的速度可能只有 200 KiB/s 左右。裸连速度与你的 ISP、带宽、OneDrive 服务位置等因素相关，我这里只作为参考。</p><h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>我这个方法适用于 OneDrive for Business，对于个人版本的 OneDrive 我没有进行测试，但应该可用。希望有进行测试的朋友可以把你的结果和经验分享到评论区中。</p><section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>也可以选择 <strong>2 年内</strong>或<strong>从不</strong>，我不进行测试了<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>]]></content>
+    
+    
+    <categories>
+      
+      <category>瞎折腾</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>小课堂</tag>
+      
+      <tag>Android</tag>
+      
+      <tag>玩机</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Hexo 中 Markdown 的一些小问题</title>
+    <link href="/2020/02/10/hexo%E4%B8%ADmarkdown%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B0%8F%E9%97%AE%E9%A2%98/"/>
+    <url>/2020/02/10/hexo%E4%B8%ADmarkdown%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B0%8F%E9%97%AE%E9%A2%98/</url>
+    
+    <content type="html"><![CDATA[<p>更新：</p><p>结果发现这个并不是插件的问题。</p><p>如果代码块的语言是「存在的」，就不会有这个问题。但因为我写的语言是 ‘Python3’（由于我在 Mac 里是这样区分 Python 2 和 3 的），但 「Python3」 并不是 Markdown 渲染器认可的语言，所以一直出问题。</p><p>如果改为 「Python」 就能够正常渲染了。</p><hr><p>昨天写 <a href="https://butanediol.github.io/2020/02/09/matplotlib-xue-xi-ri-ji-yi/">Matplotlib 学习日记（一）</a> 的时候，遇到了一点小问题。</p><p>官方文档中的定义有一段用了类似 HTML 格式的标记：</p><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">class</span> &#x27;<span class="hljs-attr">matplotlib.figure.Figure</span>&#x27;&gt;</span></code></pre><p>Markdown 是兼容 HTML 的，这就导致浏览器将这段代码当成 HTML 来解析了。</p><p>一般来说，写在代码块里的 HTML 是不会被解析的，在<a href="https://blog.endureblaze.cn/">炎忍</a>大佬的博客中测试也确实是这样，但我的博客安装了<a href="https://github.com/ele828/hexo-prism-plugin">Hexo Prism Plugin</a>代码高亮插件，我推测是这个插件导致的这个问题。</p><p>于是我用转义字符的方法，将 <code>&lt;</code> 替换成了 <code>&amp;lt;</code>，<code>&gt;</code> 替换成 <code>&amp;gt;</code> 即可，就可以正常显示了。</p><p>注意，这个问题仅在大代码块（<a href="https://github.com/ele828/hexo-prism-plugin">Hexo Prism Plugin</a>高亮的代码块）中会出现，行内代码则没有这个问题。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>写代码</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Hexo</tag>
+      
+      <tag>踩坑</tag>
+      
+      <tag>小课堂</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Matplotlib 学习日记（一）</title>
+    <link href="/2020/02/09/matplotlib-%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0%EF%BC%88%E4%B8%80%EF%BC%89/"/>
+    <url>/2020/02/09/matplotlib-%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0%EF%BC%88%E4%B8%80%EF%BC%89/</url>
+    
+    <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>如果有看过我之前几篇 matplotlib 学习笔记的读者，会发现我们用的是 <code>plt.scatter()</code> <code>plt.plot()</code> 这些函数进行图像的生成，然后再用 <code>plt.show()</code> 来绘制图像。</p><p>但是<strong>有且仅有一个</strong>地方出现了 <code>plt.figure</code> 这样的一个类，然后我们就再也没有动过这个叫 <code>figure</code> 的东西。</p><p>对于我这样的 Python （或者说编程）初学者来说，这就相当于声明了一个变量后就再也没有使用过一样。</p><p>下面是我的一些理解。</p><h2 id="从文档中来"><a href="#从文档中来" class="headerlink" title="从文档中来"></a>从文档中来</h2><h3 id="plt-figure-是个什么东西？"><a href="#plt-figure-是个什么东西？" class="headerlink" title="plt.figure 是个什么东西？"></a>plt.figure 是个什么东西？</h3><p>当然，如果没有指定别名的话，这个东西叫 <code>matplotlib.pyplot.figure</code>。</p><p>先来粘贴一段<a href="http://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.figure.html">官方文档</a>中的说明：</p><pre><code class="hljs python">matplotlib.pyplot.figure(num=<span class="hljs-literal">None</span>, figsize=<span class="hljs-literal">None</span>, dpi=<span class="hljs-literal">None</span>, facecolor=<span class="hljs-literal">None</span>, edgecolor=None, frameon=True, FigureClass=&lt;class &#x27;matplotlib.figure.Figure&#x27;&gt;, clear=<span class="hljs-literal">False</span>, **kwargs)</code></pre><p>它可以被理解为一个画布，那么 <code>fig = plt.figure()</code> 就相当于我们创建了一个画布。</p><p>那么，在我们创建画布之后，所有的作画内容都会被画在这个画布上，直到 <code>plt.show()</code> 把这幅画展示出来。</p><p>或者，官方也提供了这样一条提示：</p><blockquote><p>Notes</p><p>If you are creating many figures, make sure you explicitly call <a href="http://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.close.html#matplotlib.pyplot.close"><code>pyplot.close()</code></a> on the figures you are not using, because this will enable pyplot to properly clean up the memory.</p></blockquote><p>意思是说，如果你用了太多的画布，别忘记用 <code>pyplot.close()</code> 关闭一些不用的画布，这样就可以让 pyplot 正确地清理出一些内存。</p><p>这种写法看似迷惑，但理解后我认为还是有很大好处的。毕竟，我们在写代码的时候，最重要的就是头脑清晰，同时在多个 figure 上编辑图表是很难保证头脑清晰的，这样的设计，简化了代码，还增强了可读性。</p><h3 id="但凡事都有例外"><a href="#但凡事都有例外" class="headerlink" title="但凡事都有例外"></a>但凡事都有例外</h3><p>如果你就是想编辑好几个图像，那我们也有办法。</p><p>翻回上面官方文档中的定义，其中第一个参数是 <code>num</code>，这是一个可选参数，默认值为 <code>none</code>，类型可以是整形，字符串，如果留空，系统会自动创建一个普通的 figure，这个 figure 的 <code>num</code> 顺次加一（取决于你之前创建了多少），并将这个 <code>num</code> 保存在新建 figure 的属性中。如果你指定了这个参数 <code>num</code> 的值，这就会分成下面几种情况：</p><ul><li>你之前用过这个值：系统会将之前的 figure 激活，然后你就可以继续在这张图表上编辑。</li><li>你之前没用过这个值：系统会创建一个新的 figure，同样，新的 figure 也会将这个值保存到自己的属性中，方便你下次使用。</li></ul><p>除此之外，如果你传入的是一个 <code>string</code>，系统还会将这个 <code>string</code> 作为图表窗口的标题。</p><hr><h2 id="官方文档"><a href="#官方文档" class="headerlink" title="官方文档"></a>官方文档</h2><p>如果你不方便浏览官方文档（或者只是懒得点开另外的链接）：</p><h3 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h3><p><img src="https://tva1.sinaimg.cn/large/0082zybply1gbqjhwlzt8j30zq0u0dni.jpg"></p><h3 id="返回值"><a href="#返回值" class="headerlink" title="返回值"></a>返回值</h3><p><img src="https://tva1.sinaimg.cn/large/0082zybply1gbqjj3d086j31aq06uq46.jpg"></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>写代码</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>踩坑</tag>
+      
+      <tag>笔记</tag>
+      
+      <tag>数据可视化</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>【资源分享】【漫画】掠夺者|星掠者</title>
+    <link href="/2020/02/07/%E8%B5%84%E6%BA%90%E5%88%86%E4%BA%AB-%E6%BC%AB%E7%94%BB-%E6%8E%A0%E5%A4%BA%E8%80%85-%E6%98%9F%E6%8E%A0%E8%80%85/"/>
+    <url>/2020/02/07/%E8%B5%84%E6%BA%90%E5%88%86%E4%BA%AB-%E6%BC%AB%E7%94%BB-%E6%8E%A0%E5%A4%BA%E8%80%85-%E6%98%9F%E6%8E%A0%E8%80%85/</url>
+    
+    <content type="html"><![CDATA[<div class="note note-info">            <p>看了一下，这个漫画也挺崩的，不是好奇宝宝的话可以忽略了。</p>          </div><blockquote><p>资源来自 <a href="https://vol.moe/comic/53374.htm">Vol.moe</a><br>博客同步至：001-050 话</p></blockquote><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>2020 年 1 月新番播出了星掠者的 TV 动画，说实话我还比较喜欢这个背景设定，但动画版过于贫穷，故事推进非常慢不说，清洁工作“避重就轻”，于是打算来看看漫画。</p><p>并且一直以来都想找一个类似 <a href="https://share.dmhy.org/">DMHY</a> 的漫画站，可惜并没有找到。而 <a href="https://vol.moe/">Vol.moe</a> 如果不捐助的话，只有每月 2 GiB，每日 200 MiB 的下载配额，对于站内高质量的漫画资源来根本不够用，于是把自己下载到的分享出来。</p><p>漫画的相关信息以及原始上传者参考 <a href="https://vol.moe/comic/53374.htm">Vol.moe</a>。这里简单拷贝一下。</p><blockquote><p><strong>掠奪者</strong>(Prandara)  都市破壞者 Prandara，星掠者<br>作者：<a href="https://vol.moe/list/%E6%B0%B4%E7%84%A1%E6%9C%88%E3%81%99%E3%81%86/">水無月すう</a>　　　<br>狀態：連載    地區：日本    語言：繁體    分類：愛情 奇幻<br>版本：雜志    最後出版：2018<br>維護者：<a href="https://vol.moe/u/10000003/">Suki</a>  更新：2019-06-10 </p></blockquote><h2 id="下载链接"><a href="#下载链接" class="headerlink" title="下载链接"></a>下载链接</h2><h3 id="蓝奏云"><a href="#蓝奏云" class="headerlink" title="蓝奏云"></a>蓝奏云</h3><p><a href="https://www.lanzous.com/i94h9va">001-002</a><br><a href="https://www.lanzous.com/i94hgvc">003-005</a><br><a href="https://www.lanzous.com/i94hcjg">006-010</a><br><a href="https://www.lanzous.com/i94hecb">011-015</a><br><a href="https://www.lanzous.com/i94hfte">016-020</a><br><a href="https://www.lanzous.com/i961mpi">021-025</a><br><a href="https://www.lanzous.com/i961nxc">026-030</a><br><a href="https://www.lanzous.com/i961p0b">031-035</a><br><a href="https://www.lanzous.com/i961q2j">036-040</a><br><a href="https://www.lanzous.com/i96r7ze">041-045</a><br><a href="https://www.lanzous.com/i96r9lc">046-050</a></p><h3 id="OneDrive"><a href="#OneDrive" class="headerlink" title="OneDrive"></a>OneDrive</h3><p><strong>不稳定，国内直连缓慢，代理可加速</strong></p><h3 id="百度网盘"><a href="#百度网盘" class="headerlink" title="百度网盘"></a>百度网盘</h3><p><del>毕竟文件不大，建议选择百度网盘将就一下。</del><br>百度网盘里有 001-050 合集。<br><a href="https://pan.baidu.com/s/13hL-Pxh72xHydvWQ4JBC9g">001-050</a></p><pre><code class="hljs 提取码">qtn8</code></pre><h3 id="滥用图床"><a href="#滥用图床" class="headerlink" title="滥用图床"></a>滥用图床</h3><p><strong>大小限制 50 MiB</strong><br><strong>速度一般，可能需要手动更改文件后缀名，且下载后文件名为乱码，需要手动重命名</strong><br><a href="https://img.vim-cn.com/87/ff339654e1787bf4b223ac96eceaa8c7d5a27f.epub">001-002</a><br><a href="https://img.vim-cn.com/cf/c4940cc0b7043e9ef95f164768882c9224f865.epub">003-005</a><br>006-050<sup id="fnref:1" class="footnote-ref"><a href="#fn:1" rel="footnote"><span class="hint--top hint--rounded" aria-label="文件过大，图床不提供上传服务">[1]</span></a></sup></p><section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>文件过大，图床不提供上传服务<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>]]></content>
+    
+    
+    <categories>
+      
+      <category>资源</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>资源</tag>
+      
+      <tag>漫画</tag>
+      
+      <tag>EPUB</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Matplotlib 数据可视化（二）</title>
+    <link href="/2020/01/31/matplotlib-%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96%EF%BC%88%E4%BA%8C%EF%BC%89/"/>
+    <url>/2020/01/31/matplotlib-%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96%EF%BC%88%E4%BA%8C%EF%BC%89/</url>
+    
+    <content type="html"><![CDATA[<h1 id="Matplotlib-数据可视化（二）"><a href="#Matplotlib-数据可视化（二）" class="headerlink" title="Matplotlib 数据可视化（二）"></a>Matplotlib 数据可视化（二）</h1><h2 id="引入"><a href="#引入" class="headerlink" title="引入"></a>引入</h2><p>这一篇做的其实是上一篇的练习。</p><p>想象有一个小人，每一回合随机移动一次，我们想记录下小人每次移动后的位置，并用 matplotlib 以散点图的形式绘制出来。<br>下面我们做的就是模拟这个过程。</p><h2 id="生成数据"><a href="#生成数据" class="headerlink" title="生成数据"></a>生成数据</h2><p>要生成随机数据，先导入一个函数：</p><pre><code class="hljs python"><span class="hljs-keyword">from</span> random <span class="hljs-keyword">import</span> choice</code></pre><p>这里附上一段简单的介绍：</p><blockquote><p><code>random</code> 模块有大量的函数用来产生随机数和随机选择元素。 比如，要想从一个序列中随机的抽取一个元素，可以使用 <code>random.choice()</code></p><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-keyword">import</span> random<span class="hljs-meta">&gt;&gt;&gt; </span>values = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>]<span class="hljs-meta">&gt;&gt;&gt; </span>random.choice(values)<span class="hljs-number">2</span><span class="hljs-meta">&gt;&gt;&gt; </span>random.choice(values)<span class="hljs-number">3</span></code></pre><p><a href="https://python3-cookbook.readthedocs.io/zh_CN/latest/c03/p11_pick_things_at_random.html">Python3 Cookbook 3.0.0 文档</a></p></blockquote><p>当然这里我们只导入了 <code>choice</code> 函数，直接使用就好了。<br>这里先写一个 <code>RandomWalk</code> 类</p><p><strong><code>random_walk.py</code></strong></p><pre><code class="hljs python">--snip--<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">RandomWalk</span>():</span><span class="hljs-string">&quot;&quot;&quot;一个生成随机漫步数据的类&quot;&quot;&quot;</span><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span>(<span class="hljs-params">self, num_points=<span class="hljs-number">5000</span></span>):</span><span class="hljs-string">&quot;&quot;&quot;初始化随机漫步的属性&quot;&quot;&quot;</span>self.num_points = num_pointsself.x_values = [<span class="hljs-number">0</span>]self.y_values = [<span class="hljs-number">0</span>]<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">fill_walk</span>(<span class="hljs-params">self</span>):</span><span class="hljs-string">&quot;&quot;&quot;计算随机漫步包含的所有点&quot;&quot;&quot;</span><span class="hljs-comment"># 不断漫步，直到列表达到指定的长度</span><span class="hljs-keyword">while</span> <span class="hljs-built_in">len</span>(self.x_values) &lt; self.num_points:<span class="hljs-comment"># 决定前进方向以及沿这个方向前进的距离</span>x_direction = choice([<span class="hljs-number">1</span>, <span class="hljs-number">-1</span>])x_distance = choice([<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>])x_step = x_direction * x_distancey_direction = choice([<span class="hljs-number">1</span>, <span class="hljs-number">-1</span>])y_distance = choice([<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>])y_step = x_direction * y_distance<span class="hljs-comment"># 拒绝原地踏步</span><span class="hljs-keyword">if</span> x_step == <span class="hljs-number">0</span> <span class="hljs-keyword">and</span> y_step == <span class="hljs-number">0</span>:<span class="hljs-keyword">continue</span><span class="hljs-comment"># 计算下一个点的 x 和 y 值</span>next_x = self.x_values[<span class="hljs-number">-1</span>] + x_stepnext_y = self.y_values[<span class="hljs-number">-1</span>] + y_stepself.x_values.append(next_x)self.y_values.append(next_y)</code></pre><p>这个类接收一个参数 <code>num_points</code> 表示漫步/随机生成数据的数量。我们把它的默认值定为 5000。<br>然后先来看这个 <code>fill_walk()</code> 函数。</p><h4 id="fill-walk-函数"><a href="#fill-walk-函数" class="headerlink" title="fill_walk() 函数"></a><code>fill_walk()</code> 函数</h4><p>首先这个循环很容易理解，只要 <code>x_values</code> 的长度没有到达预定的数量就一直生成数据，于是我们可以获得指定数量的随机数据。</p><p>生成的数据包含两个数字，<code>x_step</code> 和 <code>y_step</code>，即漫步的纵横方向。先从 ±1 中随机挑选一个，指定了移动的方向是正方向还是负方向，然后再从 <code>distance</code> 中随机选一个数，指定了移动距离。两个数字相乘就是移动的量。</p><p>但是有一种可能是，x 和 y 同时选中了 0，我们不想让它原地踏步，所以如果出现这种情况，就不写入数据，而是再随机一轮。</p><p>但在这里我们要画出的并不是位置的变化量，而是位置本身，所以我们要计算出，这次移动之后，我们漫步到了什么位置。<br><code>next_x</code> 和 <code>next_y</code> 的值就是上一次 x 和 y 的位置，加上变化量。</p><p>看到这里，<code>x_values</code> 和 <code>y_values</code> 的功能也就明了了，他们记录的是小人每次移动后的位置。<br>然后我们把这个移动的量分别存入 <code>x_values</code> 和 <code>y_values</code> 中，两个相同位置的 x 和 y 值一一对应，就是小人每次移动后的位置。</p><p>因为我们想让小人从原点出发，所以这里我们初始化 <code>x_values</code> 和 <code>y_values</code> 中的第一个值为 0。</p><h2 id="绘制图像"><a href="#绘制图像" class="headerlink" title="绘制图像"></a>绘制图像</h2><h3 id="基础图像"><a href="#基础图像" class="headerlink" title="基础图像"></a>基础图像</h3><p>首先导入需要的模块。<br>**<code>rw_visual.py</code>**</p><pre><code class="hljs python"><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<span class="hljs-keyword">from</span> random_walk <span class="hljs-keyword">import</span> RandomWalk</code></pre><p><strong><code>rw_visual.py</code></strong></p><pre><code class="hljs python">rw = RandomWalk()rw.fill_walk()plt.scatter(rw.x_values, rw.y_values, s=<span class="hljs-number">10</span>, c=<span class="hljs-string">&#x27;blue&#x27;</span>, edgecolor=<span class="hljs-string">&#x27;none&#x27;</span>)plt.show()</code></pre><p>首先创建一个 <code>RandomWalk</code> 类的实例，并运行 <code>fill_walk()</code> 函数来生成数据。</p><p>然后绘制散点图，x 和 y 的数据即 <code>RandomWalk</code> 中的 <code>x_values</code> 和 <code>y_values</code>。<br><img src="https://tva1.sinaimg.cn/large/006tNbRwly1gbfit0o8orj30zk0twtbu.jpg" alt="我的效果图"></p><h3 id="进阶图像"><a href="#进阶图像" class="headerlink" title="进阶图像"></a>进阶图像</h3><p>既然是随机漫步，我们就想知道开始的位置和结束的位置，以及行走的方向。</p><p><strong><code>rw_visual.py</code></strong></p><pre><code class="hljs python">rw = RandomWalk()rw.fill_walk()--snip--plt.figure(figsize=(<span class="hljs-number">10</span>, <span class="hljs-number">6</span>))point_numbers = <span class="hljs-built_in">list</span>(<span class="hljs-built_in">range</span>(rw.num_points))plt.scatter(rw.x_values, rw.y_values, s=<span class="hljs-number">10</span>, c=point_numbers, cmap=plt.cm.Blues,edgecolor=<span class="hljs-string">&#x27;none&#x27;</span>)<span class="hljs-comment"># 突出起点和终点</span>plt.scatter(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, c=<span class="hljs-string">&#x27;green&#x27;</span>, edgecolor=<span class="hljs-string">&#x27;none&#x27;</span>, s=<span class="hljs-number">100</span>)plt.scatter(rw.x_values[<span class="hljs-number">-1</span>], rw.y_values[<span class="hljs-number">-1</span>], c=<span class="hljs-string">&#x27;red&#x27;</span>, edgecolor=<span class="hljs-string">&#x27;none&#x27;</span>, s=<span class="hljs-number">100</span>)--snip--plt.show()</code></pre><p><code>plt.figure(figsize=(10, 6))</code> 设置了绘图窗口的尺寸，<code>figure()</code> 是用来指定图表的一些参数的，例如尺寸、分辨率、颜色，这里我们制定尺寸，所以需要给形参 <code>figsize</code> 一个<strong>元组</strong>，规定绘图窗口的尺寸，单位是<strong>英寸</strong>。</p><p>这里 Python 默认你的屏幕分辨率是 80 PPI（像素/英寸），如果想设定的话，可以使用形参 <code>dpi</code>，如 <code>plt.figure(dpi=128, figsize(10, 6))</code>。<sup id="fnref:1" class="footnote-ref"><a href="#fn:1" rel="footnote"><span class="hint--top hint--rounded" aria-label="这个 DPI 的概念感觉不是很清楚，在这里应该就认为屏幕上的 Dots per inch 就是 Pixels per inch 了。">[1]</span></a></sup></p><p>然后我们想按照漫步的顺序来给点上色，先走到的点颜色浅，后走到的点颜色深，于是我们创建一个列表，内容是 <code>[1,2,3,..., rw.numpoints]</code>，这个列表的长度刚好与漫步的次数相同。</p><p>此外，我们还想突出起点和终点，于是使用了额外的两行，重新定义了起点和终点的属性。起点就是 <code>(rw.x_values[0], rw.y_values[0])</code> 点，也就是 <code>(0, 0)</code> 点，我们用绿色标出；终点就是最后一组数据，即 <code>(rw.x_values[-1], rw.y_values[-1])</code> 点，用红色标出。</p><p><img src="https://tva1.sinaimg.cn/large/006tNbRwly1gbfjzmvyexj319l0u0dlw.jpg" alt="我的效果图"></p><p>除此之外还可以隐藏坐标轴：<br>**<code>rw_visual.py</code>**</p><pre><code class="hljs python">plt.axes().get_xaxis().set_visible(<span class="hljs-literal">False</span>)plt.axes().get_yaxis().set_visible(<span class="hljs-literal">False</span>)</code></pre><p>但是我这里会报两个 Warning:</p><pre><code class="hljs bash">MatplotlibDeprecationWarning: Adding an axes using the same arguments as a previous axes currently reuses the earlier instance.  In a future version, a new instance will always be created and returned.  Meanwhile, this warning can be suppressed, and the future behavior ensured, by passing a unique label to each axes instance.  plt.axes().get_xaxis().set_visible(False)MatplotlibDeprecationWarning: Adding an axes using the same arguments as a previous axes currently reuses the earlier instance.  In a future version, a new instance will always be created and returned.  Meanwhile, this warning can be suppressed, and the future behavior ensured, by passing a unique label to each axes instance.  plt.axes().get_yaxis().set_visible(False)</code></pre><p>意思似乎是，现在这个版本可以这样写，但以后可能会有问题，如果你不打算更新版本的话也没问题。<br><img src="https://tva1.sinaimg.cn/large/006tNbRwly1gbfka9ln6fj319l0u0jwu.jpg" alt="我的效果图"></p><section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>这个 DPI 的概念感觉不是很清楚，在这里应该就认为屏幕上的 Dots per inch 就是 Pixels per inch 了。<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>]]></content>
+    
+    
+    <categories>
+      
+      <category>写代码</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>小课堂</tag>
+      
+      <tag>数据可视化</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Matplotlib 数据可视化（一）</title>
+    <link href="/2020/01/22/matplotlib-%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96%EF%BC%88%E4%B8%80%EF%BC%89/"/>
+    <url>/2020/01/22/matplotlib-%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96%EF%BC%88%E4%B8%80%EF%BC%89/</url>
+    
+    <content type="html"><![CDATA[<h1 id="Matplotlib-数据可视化（一）"><a href="#Matplotlib-数据可视化（一）" class="headerlink" title="Matplotlib 数据可视化（一）"></a>Matplotlib 数据可视化（一）</h1><p>由于 macOS 中用 Homebrew 安装的 pygame 似乎有点小问题，Python 的学习就先跳过 pygame 啦，直接到数据可视化。</p><p>学一个第三方库需要了解许多这个模块的函数，这里把容易记的、不容易记得统统记一下。</p><h2 id="折线图"><a href="#折线图" class="headerlink" title="折线图"></a>折线图</h2><p>本章惯例，先导入模块。</p><pre><code class="hljs python"><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt</code></pre><p>先来看看基本用法。</p><pre><code class="hljs python">x_values = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>]y_values = [<span class="hljs-number">1</span>, <span class="hljs-number">4</span>, <span class="hljs-number">9</span>, <span class="hljs-number">16</span>]plt.plot(x_values, y_values, linewidth=<span class="hljs-number">5</span>)plt.title(<span class="hljs-string">&quot;Title&quot;</span>)plt.xlabel(<span class="hljs-string">&quot;x_value&quot;</span>, fontsize=<span class="hljs-number">14</span>)plt.ylabel(<span class="hljs-string">&quot;y_value&quot;</span>, fontsize=<span class="hljs-number">14</span>)plt.tick_params(axis=<span class="hljs-string">&#x27;both&#x27;</span>, labelsize=<span class="hljs-number">14</span>)plt.show()</code></pre><p>这里 <code>plt.plot()</code> 函数接受的前两个参数分别是 <code>x</code> 坐标值和 <code>y</code> 坐标值，类型是两个列表。后面的参数 <code>linewidth</code> 是线条粗细。</p><p><code>plt.xlabel</code> 和 <code>plt.ylabel</code> 比较相似，都是先接受了一个字符串作为 x 轴或 y 轴的轴标题，后面的 <code>fontsize</code> 是一个 <code>int</code> 确定了字体大小。</p><p>最后用一个 <code>plt.show</code> 来让 matplotlib 进行绘图并显示。</p><p><img src="https://tva1.sinaimg.cn/large/006tNbRwly1gb4at9c9s8j30zk0twtae.jpg"></p><h2 id="散点图"><a href="#散点图" class="headerlink" title="散点图"></a>散点图</h2><pre><code class="hljs python"><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> pltx_values = <span class="hljs-built_in">list</span>(<span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>,<span class="hljs-number">1001</span>))y_values = [x**<span class="hljs-number">2</span> <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> x_values]plt.scatter(x_values, y_values, c=(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0.8</span>), edgecolor=<span class="hljs-string">&#x27;none&#x27;</span>, s=<span class="hljs-number">40</span>)plt.title(<span class="hljs-string">&quot;Title&quot;</span>, fontsize=<span class="hljs-number">24</span>)plt.xlabel(<span class="hljs-string">&quot;x_label&quot;</span>, fontsize=<span class="hljs-number">14</span>)plt.ylabel(<span class="hljs-string">&quot;y_label&quot;</span>, fontsize=<span class="hljs-number">14</span>)plt.tick_params(axis=<span class="hljs-string">&#x27;both&#x27;</span>, which=<span class="hljs-string">&#x27;major&#x27;</span>, labelsize=<span class="hljs-number">14</span>)plt.axis([<span class="hljs-number">0</span>, <span class="hljs-number">1100</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1100000</span>])plt.show()</code></pre><p>这里的 <code>x_values</code> 和 <code>y_values</code> 我们让 Python 自己进行计算，而不是写好的数据。因为数据比较多，点比较密集，在 <code> plt.scatter()</code> 中我们指定 <code>s</code> 参数为 <code>40</code>，这是点的大小；<code>edgecolor</code> 设定了数据点的轮廓颜色，取消轮廓就填写 <code>none</code>。</p><hr><h3 id="小提示"><a href="#小提示" class="headerlink" title="小提示"></a>小提示</h3><ol><li><p>2.0.0 版本的 matplotlib 中 <code>scatter()</code> 的参数 edgecolor 默认就是 <code>none</code>。</p></li><li><p>这里的颜色值使用的是 RGB 值，但取值范围是 0-1，越接近 1，指定的颜色越<strong>浅</strong>。</p></li><li><p>书上的代码中，参数 <code>c</code> 是这样写的，但是我这样写的时候会报错：</p><pre><code class="hljs plain">&#39;c&#39; argument looks like a single numeric RGB or RGBA sequence, which should be avoided as value-mapping will have precedence in case its length matches with &#39;x&#39; &amp; &#39;y&#39;.  Please use a 2-D array with a single row if you really want to specify the same RGB or RGBA value for all points.</code></pre><p>似乎是因为书上的版本比较旧，从 3.0.3 的 matplotlib 开始，参数 <code>c</code> 应该用一个二维数组。所以参数 <code>c</code> 改为 <code>c=np.array([[0, 0, 0.8]])</code> 就没问题了，注意是两层中括号，而且别忘记 <code>import numpy as np</code>。</p><p><a href="https://stackoverflow.com/questions/55109716/c-argument-looks-like-a-single-numeric-rgb-or-rgba-sequencp">参考链接 - StackOverflow</a></p></li></ol><hr><p>或者想要更 fancy 的效果，也可以这样写:</p><pre><code class="hljs python">plt.scatter(x_values, y_values, c=y_values, cmap=plt.cm.Blues,edgecolor=<span class="hljs-string">&#x27;none&#x27;</span>, s=<span class="hljs-number">40</span>)</code></pre><p>这里把参数 <code>c</code> 设置成了一个 y 值列表，使用参数 cmap (colormap) 告诉 pyplot 使用哪个颜色映射，这里用的是 ‘blue’，y 值较小的显示为浅蓝色，较大的为深蓝色。<br>(其实有许多预制的很有意思的色彩映射，等我整明白了再写一篇文章 ww)</p><p><code>plt.axis</code> 接受一个列表，其中含有四个数字，分别是：x 轴的起始数值，x 轴的终止数值，y 轴的起始数值，和 y 轴的终止数值。即，x、y 轴的取值范围。</p><p><img src="https://tva1.sinaimg.cn/large/006tNbRwly1gb4as4oyl1j31dg0u0go2.jpg"></p><p><del>吐槽</del>疑问：为什么 <code>plt.scatter</code> 的参数里 <code>edgecolor</code> 不是驼峰命名呢？</p><hr><h2 id="保存图表"><a href="#保存图表" class="headerlink" title="保存图表"></a>保存图表</h2><p>要想看到生成的图表除了可以用 <code>plt.show()</code> 之外，还可以用 <code>plt.savefig</code><br>例如：</p><pre><code class="hljs python">plt.savefig(<span class="hljs-string">&#x27;squares_plot.png&#x27;</span>)</code></pre><p>这样就可以在目录里生成一个 <code>squares_plt.png</code> 图片文件，相当于用 <code>plt.show()</code> 显示然后手动点击保存。<br>不过书中给出的参数还有一个，<code>bbox_inches=&#39;tight&#39;</code>。书中给出的解释是，这个参数可以帮助去除图表中多余的空白区域，但是我第一次加上之后直接生成了一张空白图片，后来发现不是参数的锅，而是要**替换掉 <code>plt.show()</code>**而不是再加一行。（没看清书犯低级错误）</p><p><img src="https://img.vim-cn.com/3a/53d9d18db1c169d2015ff427b59fe63b425a8f.png" alt="这个色彩映射名称是 rainbow"></p><h2 id="QUIZ"><a href="#QUIZ" class="headerlink" title="QUIZ"></a>QUIZ</h2><ol><li>绘制一个图形，显示前 5 个和前 5000 个数字的立方。</li><li>给前面绘制的立方图指定颜色映射。</li></ol><p><img src="https://img.vim-cn.com/a9/cb1eb62b4578e94130e8db5a564ec2a0689128.png" alt="交个作业"></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>写代码</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>小课堂</tag>
+      
+      <tag>数据可视化</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>一份来自木耳人的 Bose Soundsport Free 真无线耳机测评</title>
+    <link href="/2020/01/21/%E4%B8%80%E4%BB%BD%E6%9D%A5%E8%87%AA%E6%9C%A8%E8%80%B3%E4%BA%BA%E7%9A%84-Bose-Soundsport-Free-%E7%9C%9F%E6%97%A0%E7%BA%BF%E8%80%B3%E6%9C%BA%E6%B5%8B%E8%AF%84/"/>
+    <url>/2020/01/21/%E4%B8%80%E4%BB%BD%E6%9D%A5%E8%87%AA%E6%9C%A8%E8%80%B3%E4%BA%BA%E7%9A%84-Bose-Soundsport-Free-%E7%9C%9F%E6%97%A0%E7%BA%BF%E8%80%B3%E6%9C%BA%E6%B5%8B%E8%AF%84/</url>
+    
+    <content type="html"><![CDATA[<h1 id="一份来自木耳人的-Bose-Soundsport-Free-真无线耳机测评"><a href="#一份来自木耳人的-Bose-Soundsport-Free-真无线耳机测评" class="headerlink" title="一份来自木耳人的 Bose Soundsport Free 真无线耳机测评"></a>一份来自木耳人的 Bose Soundsport Free 真无线耳机测评</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>一直以来，我用的耳机都是价格不超过 300 RMB 的（当然淘宝 9.9 包邮的也有不少），主要原因有两点：一是没钱，二是我认为我的木耳配不上太好的耳机。但哪个<del>男孩</del>木耳不想体验一把呢？</p><p>正好最近收到了老姐寄来的礼物，Soundsport Free，那么我就从一个木耳的角度评测一下这对耳机吧。</p><p>业余测评，并不能做到专业测评那么精致，许多粗糙的地方还请见谅。</p><hr><p>一点题外话：</p><p>由于我对耳机并不是特别了解，只知道 Bose 以降噪出名，所以我最初以为这款耳机是带主动降噪的，但上网查询了一下发现它并不支持。</p><p>不带降噪的 Bose？「这么捞的 Bose 还有什么听的必要吗？（半恼）」</p><p>不过总归是一份礼物，而且是自己的第一对 TWS，我还是很开心的。</p><hr><h2 id="外观"><a href="#外观" class="headerlink" title="外观"></a>外观</h2><h3 id="包装"><a href="#包装" class="headerlink" title="包装"></a>包装</h3><p>包装是一个环绕封纸，中间包裹盒子，上面带有拉手，可以直接拉出，包装足够大，不是很容易脱落，强迫症表示满足。</p><p>里面的盒子取出之后，向两边展开，左边是六国语言的宣传图和特性介绍，中间是耳机本体和配件，包括说明书、注意事项、两对不同大小的鲨鱼鳍配塞，microUSB 充电线，还有一包干燥剂。</p><p><img src="https://img.vim-cn.com/0c/67ebc03437d3f45c4e14d96f50a764f27af75e.jpg" alt="充电线被我随手丢了，这种线太多了，我也不知道哪根是原装的，就不照了"></p><h3 id="本体"><a href="#本体" class="headerlink" title="本体"></a>本体</h3><h4 id="充电盒"><a href="#充电盒" class="headerlink" title="充电盒"></a>充电盒</h4><p>可能因为我的手手汗比较多，而且有点油，这个充电盒也会看起来有点油，总之不太耐脏。充电盒上有五个电量指示灯，按下开盒按键后会亮，稍微用力一些按下盒子才会弹开。盒子中间有左右耳机充电灯，放上耳机之后就会点亮。</p><h4 id="耳机"><a href="#耳机" class="headerlink" title="耳机"></a>耳机</h4><p>这耳机看起来还是挺大的，我觉得戴上之后拉低了我的颜值（XD），但宣传图上看起来倒是还可以，是因为他们脸大，而且都是黑人吗？但是佩戴的感觉还是比较舒适的，而且比较牢固。</p><h2 id="音质"><a href="#音质" class="headerlink" title="音质"></a>音质</h2><p>说实话音质确实比我之前的杂牌无线耳机好，但具体好在哪我并不是特别清楚（可能这就是木耳吧）。比较明显的一点就是，在有音频播放，但声音较小的时候，不会有于无音频播放时相差巨大的背景杂音。此外，之前的无线耳机听得时间长了会有一种不适的感觉（不是由于不贴合导致耳朵的酸痛，就是音频上的）。</p><p>由于对这方面我实在是过于外行，所以贴一个之前看到的知乎答案，里面说的还是比较详细的。</p><p><a href="https://zhuanlan.zhihu.com/p/84976945">真无线耳机终极对比测评</a></p><p>觉得太长不看的，我就直接把对这款耳机的结论粘贴到这里了</p><blockquote><p><strong>BOSE SoundSport Free。</strong>这个耳机从曲线上看问题不是很严重，但实际听起来低频和人声整体都很模糊，不清晰。不知道是不是编解码协议/芯片/设计的原因。低频比实测的频响曲线要多，类似于哈曼曲线那种低频，这一点测量和听音的误差可能是因为默认的鲨鱼鳍耳套和人工耳不太匹配造成的。虽然低频相对于参考低频略多，不过三频依旧算是比较均衡。但是无奈太模糊了，最多只能给到4.5分。不过，如果你预算充足的情况下，我个人依旧推荐作为运动耳机购买，比较这个音质在所有运动耳机中还算不错的了，做工和佩戴也都很好，不容易掉，至少我个人的耳朵是这样的。</p></blockquote><h2 id="个人体验"><a href="#个人体验" class="headerlink" title="个人体验"></a>个人体验</h2><p>从我个人体验来看，说实话我觉得这款耳机对不起这个价钱。</p><p>先罗列一下缺点：</p><ol><li>耳机是区分主副的，右耳机作为与手机连接的主耳机。所以如果想用单个耳机听歌的话，只能用右耳。或者左右耳机都取出，然后把右耳机揣兜里。</li><li>用于切换不同连接设备的按钮在左耳机上，所以就算你只想用右耳机听歌，但身边有两台或更多配对过的设备，并且耳机没有连接到你想用的那一部，你就需要把左耳机也取出来按两下，切换设备之后再放回去。</li><li>耳机上的控制按钮奇硬，而且可以说是毫无反馈感。</li><li>连接手机延迟高到离谱，比我原来的杂牌耳机都高。我估计能有 500 ms。</li><li>综合 3、4 两点，当你想双击按钮切换歌曲时，你不知道你是否成功按下了按钮，因为手感毫无变化，而且无论是否按成功，手机都要等上半秒钟才有反应，所以经常按多或者按少。我基本上已经放弃耳机控制切歌和控制音量的功能了。</li><li>断连，就在我写这篇评测的时候还中断了一次。在我的 iPhone 8 和 OnePlus 5 上都出现过这个问题。但都是只断左耳，左耳「滴」一声之后两只耳机都无声，然后再重新连接，恢复正常。不过没有刚拿到的时候那么频繁了。</li></ol><p>当然再来说说优点：</p><ol><li>续航比较满意，一套充满，大概能坚持 3 天。（我属于比较重度的用户）</li><li>有按钮控制不同设备的连接切换，虽然这个硬件上的搭配有点反人类，但这个功能还是不错的。我见识比较少，不知道其他的真无线耳机是怎么操作的，但这个功能我觉得还行，就放在优点里了。</li></ol><p>其他：</p><ol><li>iOS 上的 Bose Connect 支持 Music（好像还有 Spotify），也就是可以直接在 Bose 的软件里面访问自己的 Music 音乐资料库。而如果你使用网易云音乐、QQ 音乐等音乐软件，它也会通过歌名自动查找歌词，在软件中显示。不过背景图好像是预置的，就那么几张，都是风景照片。（虽然我也不怎么用这个软件）</li><li>接口还是 microUSB 让我有点不爽。</li><li>连接我的 iPhone 的稳定性明显强于 OnePlus 5。断连次数少，距离拉远时，OnePlus 5 比 iPhone 先断开连接。Bose Connect 软件也是 iOS 上面做的比较好。</li></ol><h2 id="尾声"><a href="#尾声" class="headerlink" title="尾声"></a>尾声</h2><p>虽然我罗列的缺点很多，但它仍然要作为我的主力耳机服役，没办法，谁让我没钱呢（哭）。</p><p>我不知道这东西现在入手多少钱，但是当时 1699 的价格我觉得有点智商检测的感觉。</p><p>两点题外话：</p><p>我一直有攒钱买 AirPods 的想法，它吸引我的地方在于<strong>无降噪</strong>，对，无论是主动降噪还是纯靠塞的「被动」降噪都没有，这样我就可以在听歌的时候还能听到别人说话了。特别是出了 AirPods Pro，降噪和通透模式都有，并且可以轻松连接 iOS 设备，确实很有吸引力。</p><p>果然，贵，还是我的错。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>杂谈</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>非专业测评</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Hello World</title>
+    <link href="/2020/01/20/hello-world/"/>
+    <url>/2020/01/20/hello-world/</url>
+    
+    <content type="html"><![CDATA[<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>今天捣鼓了一中午，用 <a href="https://hexo.io/">Hexo</a> 搭建了自己的博客。高中毕业之后，有许多以前想做的事情都有时间做了，比如学习 Python，还有制作一款图标包，特别是放假回家后比较无聊，最近想学着做点好恰的，于是想把做的过程记录下来，打造一个集学习、生活于一体的个人 blog，于是就有了这样的一个写博客的想法。</p><p>建好了之后，看着只有一篇 Hello World 的主页，不禁感到一阵空虚，但想一次写好几篇文章的确不太现实，所以我打算先把之前写过的一些小文章重新排版一下，转移到 hexo 博客来。<del>充一下门面</del></p><p>所以，虽然说这篇<del>由 Hello World 改成的</del>开博感言是博客里的第一篇文章，但在时间线中可以看到还有更早的文章出现。鉴于你现在阅读的这篇感言并不怎么重要，<del>而且隔一段时间之后再来看说不定会很羞耻，</del>就让它埋没在其他的文章中吧。</p><p>顺便，由于对 hexo 和这个主题的使用还不是很熟练，为了方便之后的编辑，我把一些相关的代码片段备注在下方，这样在编辑的时候就不需要询问 Google 和查阅主题的文档了。</p><h2 id="代码片段"><a href="#代码片段" class="headerlink" title="代码片段"></a>代码片段</h2><h3 id="Hexo"><a href="#Hexo" class="headerlink" title="Hexo"></a>Hexo</h3><pre><code class="hljs bash">hexo clean <span class="hljs-comment"># 清除 hexo 缓存</span>hexo g <span class="hljs-comment"># 等价于 hexo generate</span>hexo d <span class="hljs-comment"># 等价于 hexo deploy</span>hexo g -d <span class="hljs-comment"># 等价于上面两条命令</span>hexo new [post_name] <span class="hljs-comment"># 新建一篇 post</span>hexo new page [page_name] <span class="hljs-comment"># 新建一个 page</span></code></pre><h3 id="Matery-主题"><a href="#Matery-主题" class="headerlink" title="Matery 主题"></a>Matery 主题</h3><h4 id="Front-matter-选项"><a href="#Front-matter-选项" class="headerlink" title="Front-matter 选项"></a>Front-matter 选项</h4><table><thead><tr><th>配置选项</th><th>默认值</th><th>描述</th></tr></thead><tbody><tr><td>title</td><td><code>Markdown</code> 的文件标题</td><td>文章标题，强烈建议填写此选项</td></tr><tr><td>date</td><td>文件创建时的日期时间</td><td>发布时间，强烈建议填写此选项，且最好保证全局唯一</td></tr><tr><td>author</td><td>根 <code>_config.yml</code> 中的 <code>author</code></td><td>文章作者</td></tr><tr><td>img</td><td><code>featureImages</code> 中的某个值</td><td>文章特征图，推荐使用图床(腾讯云、七牛云、又拍云等)来做图片的路径.如: <code>http://xxx.com/xxx.jpg</code></td></tr><tr><td>top</td><td><code>true</code></td><td>推荐文章（文章是否置顶），如果 <code>top</code> 值为 <code>true</code>，则会作为首页推荐文章</td></tr><tr><td>cover</td><td><code>false</code></td><td><code>v1.0.2</code>版本新增，表示该文章是否需要加入到首页轮播封面中</td></tr><tr><td>coverImg</td><td>无</td><td><code>v1.0.2</code>版本新增，表示该文章在首页轮播封面需要显示的图片路径，如果没有，则默认使用文章的特色图片</td></tr><tr><td>password</td><td>无</td><td>文章阅读密码，如果要对文章设置阅读验证密码的话，就可以设置 <code>password</code> 的值，该值必须是用 <code>SHA256</code> 加密后的密码，防止被他人识破。前提是在主题的 <code>config.yml</code> 中激活了 <code>verifyPassword</code> 选项</td></tr><tr><td>toc</td><td><code>true</code></td><td>是否开启 TOC，可以针对某篇文章单独关闭 TOC 的功能。前提是在主题的 <code>config.yml</code> 中激活了 <code>toc</code> 选项</td></tr><tr><td>mathjax</td><td><code>false</code></td><td>是否开启数学公式支持 ，本文章是否开启 <code>mathjax</code>，且需要在主题的 <code>_config.yml</code> 文件中也需要开启才行</td></tr><tr><td>summary</td><td>无</td><td>文章摘要，自定义的文章摘要内容，如果这个属性有值，文章卡片摘要就显示这段文字，否则程序会自动截取文章的部分内容作为摘要</td></tr><tr><td>categories</td><td>无</td><td>文章分类，本主题的分类表示宏观上大的分类，只建议一篇文章一个分类</td></tr><tr><td>tags</td><td>无</td><td>文章标签，一篇文章可以多个标签</td></tr><tr><td>keywords</td><td>文章标题</td><td>文章关键字，SEO 时需要</td></tr><tr><td>reprintPolicy</td><td>cc_by</td><td>文章转载规则， 可以是 cc_by, cc_by_nd, cc_by_sa, cc_by_nc, cc_by_nc_nd, cc_by_nc_sa, cc0, noreprint 或 pay 中的一个</td></tr></tbody></table><blockquote><p><strong>注意</strong>:</p><ol><li>如果 <code>img</code> 属性不填写的话，文章特色图会根据文章标题的 <code>hashcode</code> 的值取余，然后选取主题中对应的特色图片，从而达到让所有文章都的特色图<strong>各有特色</strong>。</li><li><code>date</code> 的值尽量保证每篇文章是唯一的，因为本主题中 <code>Gitalk</code> 和 <code>Gitment</code> 识别 <code>id</code> 是通过 <code>date</code> 的值来作为唯一标识的。</li><li>如果要对文章设置阅读验证密码的功能，不仅要在 Front-matter 中设置采用了 SHA256 加密的 password 的值，还需要在主题的 <code>_config.yml</code> 中激活了配置。有些在线的 SHA256 加密的地址，可供你使用：<a href="http://tool.oschina.net/encrypt?type=2">开源中国在线工具</a>、<a href="http://encode.chahuo.com/">chahuo</a>、<a href="http://tool.chinaz.com/tools/hash.aspx">站长工具</a>。</li><li>您可以在文章md文件的 front-matter 中指定 reprintPolicy 来给单个文章配置转载规则</li></ol></blockquote><h2 id="插件推荐"><a href="#插件推荐" class="headerlink" title="插件推荐"></a>插件推荐</h2><h3 id="hexo-permalink-pinyin"><a href="#hexo-permalink-pinyin" class="headerlink" title="hexo-permalink-pinyin"></a>hexo-permalink-pinyin</h3><h4 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h4><p>将博客永久链接中的中文编码替换为拼音。</p><h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><pre><code class="hljs bash">npm install hexo-permalink-pinyin --save</code></pre><h4 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h4><p>在博客设置 <code>_config.yml</code> 中：</p><pre><code class="hljs yml"><span class="hljs-attr">permalink_pinyin:</span><span class="hljs-attr">enable:</span> <span class="hljs-literal">true</span><span class="hljs-attr">seperator:</span> <span class="hljs-string">&#x27;-&#x27;</span></code></pre><blockquote><p><code>enbable</code> 启用开关<br><code>seperator</code> 分隔符，默认为<code>-</code></p></blockquote><h3 id="hexo-reference"><a href="#hexo-reference" class="headerlink" title="hexo-reference"></a>hexo-reference</h3><h4 id="描述-1"><a href="#描述-1" class="headerlink" title="描述"></a>描述</h4><p>为 Hexo 的 Markdown 渲染器添加脚注功能。</p><h4 id="安装-1"><a href="#安装-1" class="headerlink" title="安装"></a>安装</h4><pre><code class="hljs bash">npm install hexo-reference --save</code></pre><p>无需额外配置</p><h3 id="hexo-filter-flowchart"><a href="#hexo-filter-flowchart" class="headerlink" title="hexo-filter-flowchart"></a>hexo-filter-flowchart</h3><h4 id="描述-2"><a href="#描述-2" class="headerlink" title="描述"></a>描述</h4><p>为 Hexo 的 Markdown 渲染器添加流程图功能。</p><h4 id="安装-2"><a href="#安装-2" class="headerlink" title="安装"></a>安装</h4><pre><code class="hljs bash">npm install hexo-filter-flowchart --save</code></pre><p>无需额外配置</p><p>例子：</p><pre><code class="hljs flow">st&#x3D;&gt;start: 闹钟响起op&#x3D;&gt;operation: 与床板分离cond&#x3D;&gt;condition: 分离成功?e&#x3D;&gt;end: 快乐的一天st-&gt;op-&gt;condcond(yes)-&gt;econd(no)-&gt;op</code></pre><h3 id="hexo-tag-kbd"><a href="#hexo-tag-kbd" class="headerlink" title="hexo-tag-kbd"></a>hexo-tag-kbd</h3><h4 id="描述-3"><a href="#描述-3" class="headerlink" title="描述"></a>描述</h4><p>为 Hexo 的 Markdown 渲染器添加 keyboard 渲染功能。</p><h4 id="安装-3"><a href="#安装-3" class="headerlink" title="安装"></a>安装</h4><pre><code class="hljs bash">npm install hexo-tag-kbd@latest --save</code></pre><p>无需额外配置</p><p>例子：</p><pre><code class="hljs markdown">Press &#123;% kbd Command%&#125; + &#123;% kbd Q%&#125; to quit.</code></pre><p>Press <kbd style="border:1px solid gray;font-size:1.2em;box-shadow:1px 0 1px 0 #eee, 0 2px 0 2px #ccc, 0 2px 0 3px #444;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;margin:2px 3px;padding:1px 5px;">Command⌘</kbd> + <kbd style="border:1px solid gray;font-size:1.2em;box-shadow:1px 0 1px 0 #eee, 0 2px 0 2px #ccc, 0 2px 0 3px #444;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;margin:2px 3px;padding:1px 5px;">Q</kbd> to quit.</p><div class="note note-primary">                      </div>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>Hexo</tag>
+      
+      <tag>闲聊</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>如何画一个 PinkBee 图标？</title>
+    <link href="/2019/09/06/%E5%A6%82%E4%BD%95%E7%94%BB%E4%B8%80%E4%B8%AA-PinkBee-%E5%9B%BE%E6%A0%87%EF%BC%9F/"/>
+    <url>/2019/09/06/%E5%A6%82%E4%BD%95%E7%94%BB%E4%B8%80%E4%B8%AA-PinkBee-%E5%9B%BE%E6%A0%87%EF%BC%9F/</url>
+    
+    <content type="html"><![CDATA[<h1 id="如何画一个-PinkBee-图标？"><a href="#如何画一个-PinkBee-图标？" class="headerlink" title="如何画一个 PinkBee 图标？"></a>如何画一个 PinkBee 图标？</h1><h2 id="Part-1-原图"><a href="#Part-1-原图" class="headerlink" title="Part 1 原图"></a>Part 1 原图</h2><ol><li><p>打开一个画板，设置大小为 <code>108*108</code></p><p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g6q6a04bozj318a0q075o.jpg" alt="新建画板"></p></li><li><p>把想画的图标拖进来</p><p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g6q6bii59yj315u0pe0v0.jpg"></p></li><li><p>临摹轮廓</p><p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g6q6dompmfj30p40p0ta1.jpg" alt="图标描边（雾）"></p></li><li><p>从色板中选择颜色并上色，然后取消轮廓</p><p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g6q6fmer69j31ee0fu0w2.jpg" alt="选择饱和度较低的颜色"></p></li></ol><h2 id="Part-2-内部填充"><a href="#Part-2-内部填充" class="headerlink" title="Part 2 内部填充"></a>Part 2 内部填充</h2><ol><li><p>将重绘好的部分<strong>复制</strong>一份（不是必要步骤，但如果图标的填充颜色比较复杂，例如有渐变色，推荐复制一份，这里其实并不需要，只是为了演示）</p><p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g6q6ik0o6aj308y07it92.jpg"></p></li><li><p>随意画一些直线，然后使其稍微弯曲</p><p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g6q6me67mlj31280j6n0a.jpg"></p><p>直到画成这样(画好后我用一个矩形裁切了一下，比较美观)</p><p><del>我才不会告诉你可以直接画好几个之后重复使用的</del></p><p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g6q6oqmtcmj30gi0da7bq.jpg"></p></li><li><p>将其中一个 <code>YouTube 1</code>图层设置为透明，然后与画的斜线栅栏进行<del>萌</del>蒙版剪裁 </p><p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g6q6ux9sg3j312o0h8gqe.jpg"></p></li><li><p>设置线条宽度为 <code>3 px</code></p><blockquote><p>当有多个图层时候，可以为了提高辨识度，酌情提高边框宽度到 <code>3.5</code>或<code>4</code>，原则上不超过 <code>4</code></p></blockquote><p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g6q6uujzslj31580ho77i.jpg"></p></li></ol><h2 id="Part-3-描边"><a href="#Part-3-描边" class="headerlink" title="Part 3 描边"></a>Part 3 描边</h2><ol><li><p>在图标周围用同样方式画出一些随意的线条，颜色与图标相同，宽度统一为 <code>1 px</code></p><p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g6q71ymd1yj30us09cjsl.jpg"></p><blockquote><p>在边缘曲率较小的地方，线条应该长而平滑；但在转弯、连接处，线条应该短促、弯曲。</p></blockquote><blockquote><p>对于一些复杂图形做图标的底板时候，如文字 logo，可只在外部进行描边，而笔画的内部可以不描边</p><p>相同的，对于复杂的 logo，当已经有规则或不规则的形状作为背板时，可以不加描边</p><p>总而言之，只有图标整体的外轮廓必须描边，其他位置可以酌情取消</p><p>参考：<code>kancolle</code> 图标和 <code>kanotify</code> 图标（均在游戏分类中）</p></blockquote><p>完工时如图</p><p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g6q792fs24j30yw0p8tge.jpg"></p></li><li><p>整理图层</p><p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g6q7e86b5wj316a0iwdkn.jpg"></p></li></ol><h2 id="Part-4-重复"><a href="#Part-4-重复" class="headerlink" title="Part 4 重复"></a>Part 4 重复</h2><p>为其他图层也执行同样的操作</p><p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g6q7h1vq6tj31780jkdlc.jpg"></p><blockquote><p>Tip：同一个内线条编组可以通过移动、旋转（ $180^\circ$ ） 来让它们每一个看起来都是与众不同的 </p></blockquote><h2 id="Part-5-调整"><a href="#Part-5-调整" class="headerlink" title="Part 5 调整"></a>Part 5 调整</h2><ol><li><p>将所有图层选中、组合</p><p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g6q7k8x7t3j30b004sweo.jpg"></p></li><li><p>将较长的一边缩放至接近画板大小（<code>108*108</code>）</p><p>对于长宽比接近 1 的图片，可以将长边缩放至 <code>100 - 106</code>；对于长宽不均衡的细长形图标可以直接拉到 <code>108</code></p></li></ol><blockquote><p>Tip：建议在最初临摹原图的时候接近画板大小，这样在缩放时候不会使内部填充间距过密集或稀疏。</p></blockquote><h2 id="Part-6-导出欣赏"><a href="#Part-6-导出欣赏" class="headerlink" title="Part 6 导出欣赏"></a>Part 6 导出欣赏</h2>]]></content>
+    
+    
+    <categories>
+      
+      <category>杂谈</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>小课堂</tag>
+      
+      <tag>PinkBee</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  
+</search>

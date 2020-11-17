@@ -1,0 +1,18 @@
+details {
+    transition: height 0.75s ease;
+    overflow: auto;
+}
+
+details:not([open]) {
+    max-height: 100px;
+	transition: max-height ease-in-out 0.75s;
+	-webkit-transition: max-height cubic-bezier(0.75, 0, 0.25, 1) 0.75s;
+	overflow: auto;
+}
+
+details[open] {
+    max-height: 5000px;
+    transition: max-height ease-in-out 0.75s;
+    -webkit-transition: max-height cubic-bezier(0.75, 0, 0.25, 1) 0.75s;
+    overflow: auto;
+}

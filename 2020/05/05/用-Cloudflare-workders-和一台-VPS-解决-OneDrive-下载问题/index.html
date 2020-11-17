@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#a5544c">
+  <meta name="description" content="趴窝">
+  <meta name="author" content="丁二 Butanediol">
+  <meta name="keywords" content="丁二">
+  <title>用 Cloudflare workers 和一台 VPS 解决 OneDrive 下载问题 - 丁丁の店</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/atom-one-dark.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+  
+<link rel="stylesheet" href="/css/dark.css">
+<link rel="stylesheet" href="/css/heimu.css">
+<link rel="stylesheet" href="/css/animation.css">
+<link rel="stylesheet" href="/fontawesome/css/all.css">
+<link rel="stylesheet" href="https://at.alicdn.com/t/font_1808290_xku9cl5tdk9.css">
+
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>丁丁の店</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" target="_blank" rel="noopener" href="https://travellings.now.sh/">
+                <i class="fas fa-plane-departure"></i>
+                开往
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-caret-square-down"></i>
+                更多
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" target="_blank" rel="noopener" href="https://cloud.butanediol.me">
+                    <i class="fas fa-hdd"></i>
+                    丁二仓库
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/static/pgp.asc">
+                    <i class="fas fa-key"></i>
+                    PGP
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/media/posts_img/cloudflare_fodi.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-05-05 10:26">
+      2020年5月5日 上午
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      13
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <p>哪个男孩不想要一个大容量不限速网盘呢？但是百度云是不可能百度云的，这辈子都不可能百度云的，只能白嫖 OneDrive 维持一下生活这样子。</p>
+<a id="more"></a>
+
+<div class="note note-info">
+            <p>为了使用这个方法，你需要有一个域名，一台可以顺畅访问 OneDrive 的 VPS（只对带宽有要求，对性能、硬盘大小几乎无要求），和一颗能折腾的心。</p>
+          </div>
+
+<div class="note note-danger">
+            <p>为了避免不必要的麻烦，所有代码段请务必看仔细！</p>
+          </div>
+
+<p>据说在 2020 年初，OneDrive 在香港的服务器已经停用了，全部下载都走美国服务器，导致国内的下载速度几乎不能看。</p>
+<p>如果是自己用的话，用这台 VPS 搭建一个代理就可以解决问题，但如果你想要分享文件给别人，让其他人用代理真的是非常麻烦，所以不如直接给 OneDrive 做一个反向代理，速度也是可以接受的范围。</p>
+<p>这里你可以使用 Cloudflare 的 CDN 来加速反向代理，这样 VPS 对国内的线路就不用特别好，只要在海外速度足够快就可以了。</p>
+<blockquote>
+<p>实测，打包下载时的链接虽然写的是 <code>eastasia1-mediap.svc.ms</code>，似乎是东亚服务器，但仍然被解析到美国。</p>
+<div class="hljs"><pre><code class="hljs sh">❯ nslookup eastasia1-mediap.svc.ms
+Server:		223.6.6.6
+Address:	223.6.6.6<span class="hljs-comment">#53</span>
+
+Non-authoritative answer:
+eastasia1-mediap.svc.ms	canonical name = svc-ms.spo-0008.spo-msedge.net.
+svc-ms.spo-0008.spo-msedge.net	canonical name = spo-0008.spo-msedge.net.
+Name:	spo-0008.spo-msedge.net
+Address: 13.107.136.13
+
+❯ curl cip.cc/13.107.136.13
+IP	: 13.107.136.13
+地址	: 美国  美国
+
+数据二	: 美国 | Microsoft公司
+
+数据三	: 美国华盛顿雷德蒙德 | 微软
+
+URL	: http://www.cip.cc/13.107.136.13</code></pre></div>
+</blockquote>
+<p>最近看到了许多用 Cloudflare workers 的骚操作，比如网页套娃科学上网、免代理 Google drive 等。</p>
+<p>刚好 OneDrive 也有 Fodi，同样可以做到。</p>
+<h1 id="部署-Fodi"><a href="#部署-Fodi" class="headerlink" title="部署 Fodi"></a>部署 Fodi</h1><p>关于 Fodi 的部署，官方已经讲的很明白了，直接贴上官方链接好了。</p>
+<p><a class='btn' target="_blank" rel="noopener" href="https://github.com/vcheckzen/FODI" title="Fast OneDrive Index，OneDrive 秒级列表程序"> GitHub </a> <a class='btn' target="_blank" rel="noopener" href="https://logi.im/back-end/fodi-on-cloudflare.html" title="在 Cloudflare 部署 Fodi 后端"> LOGI 的博客 </a></p>
+<h1 id="反向代理"><a href="#反向代理" class="headerlink" title="反向代理"></a>反向代理</h1><h2 id="DNS"><a href="#DNS" class="headerlink" title="DNS"></a>DNS</h2><p>由于我们要使用 Cloudflare 的 CDN 来加速，所以需要把你的域名解析托管给 Cloudflare，没什么难度，有问题自行 Google。</p>
+<p>先把域名和解析到你的服务器，例如你的域名是 <code>yourdomain.com</code>：</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>名称</th>
+<th>内容</th>
+<th>TTL</th>
+<th>代理状态</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>A</td>
+<td>d</td>
+<td>123.456.78.9</td>
+<td>自动</td>
+<td>已代理</td>
+</tr>
+<tr>
+<td>CNAME</td>
+<td>fodi</td>
+<td>xxx.github.io</td>
+<td>自动</td>
+<td>已代理</td>
+</tr>
+</tbody></table>
+<p>即 <code>d.yourdomain.com</code> 解析到 <code>123.456.78.9</code>。<br>即 <code>fodi.yourdomain.com</code> 解析到你配置好的 Fodi。</p>
+<p>当然你也可以使用 Coding pages 和/或不使用自定义域名。</p>
+<h2 id="反向代理-1"><a href="#反向代理-1" class="headerlink" title="反向代理"></a>反向代理</h2><p>咱使用的是 Caddy，这样可以不用费心整 SSL，当然你也可以用 Nginx。</p>
+<div class="hljs"><pre><code class="hljs caddy">https:&#x2F;&#x2F;d.yourdomain.com &#123;
+ gzip
+ tls mail@example.com
+ proxy &#x2F; https:&#x2F;&#x2F;xxx-my.sharepoint.com
+&#125;
+
+http:&#x2F;&#x2F;d.yourdomain.com &#123;
+ redir https:&#x2F;&#x2F;d.yourdomain.com
+&#125;</code></pre></div>
+
+
+<div class="note note-warning">
+            <p><code>d.yourdomain.com</code> 换成你 VPS 的域名。</p><p><code>mail@example.com</code> 换成你的邮箱</p><p><code>https://xxx-my.sharepoint.com</code> 只是一个参考，如果你的也是这个形式，那么就把 xxx 换成你自己的，当然也有可能你使用了自定义域名，总之，哪个能访问到你的 OneDrive 就用哪个。</p>
+          </div>
+
+<p>配置好之后，你登录 <code>d.yourdomain.com</code> 应该会打开 OneDrive 的登陆页面（已经登陆的话就直接进入 OneDrive 了）。</p>
+<h1 id="再次配置-Workers"><a href="#再次配置-Workers" class="headerlink" title="再次配置 Workers"></a>再次配置 Workers</h1><p>在第 9 行和第 10 行（或者说定义完 TOKEN 的下一行）插入：</p>
+<div class="hljs"><pre><code class="hljs js"><span class="hljs-keyword">const</span> ORIGIN_URL = <span class="hljs-string">&quot;https://xxx-my.sharepoint.com&quot;</span>
+<span class="hljs-keyword">const</span> PROXY_URL = <span class="hljs-string">&quot;https://d.yourdomain.com&quot;</span></code></pre></div>
+
+<p>在倒数几行，你应该能看到这样的代码：</p>
+<div class="hljs"><pre><code class="hljs js"><span class="hljs-keyword">if</span> (encrypted) &#123;
+  <span class="hljs-keyword">return</span> <span class="hljs-built_in">JSON</span>.stringify(&#123; <span class="hljs-attr">parent</span>: parent, <span class="hljs-attr">files</span>: [], <span class="hljs-attr">encrypted</span>: <span class="hljs-literal">true</span> &#125;)
+&#125; <span class="hljs-keyword">else</span> &#123;
+  <span class="hljs-keyword">return</span> <span class="hljs-built_in">JSON</span>.stringify(&#123; <span class="hljs-attr">parent</span>: parent, <span class="hljs-attr">files</span>: files &#125;)
+&#125;</code></pre></div>
+
+
+<p>在第二个 return 行的最后面加上 <code>.replace(RegExp(ORIGIN_URL,&quot;g&quot;),PROXY_URL)</code>，最终效果：</p>
+<div class="hljs"><pre><code class="hljs js"><span class="hljs-keyword">if</span> (encrypted) &#123;
+  <span class="hljs-keyword">return</span> <span class="hljs-built_in">JSON</span>.stringify(&#123; <span class="hljs-attr">parent</span>: parent, <span class="hljs-attr">files</span>: [], <span class="hljs-attr">encrypted</span>: <span class="hljs-literal">true</span> &#125;)
+&#125; <span class="hljs-keyword">else</span> &#123;
+  <span class="hljs-keyword">return</span> <span class="hljs-built_in">JSON</span>.stringify(&#123; <span class="hljs-attr">parent</span>: parent, <span class="hljs-attr">files</span>: files &#125;).replace(<span class="hljs-built_in">RegExp</span>(ORIGIN_URL,<span class="hljs-string">&quot;g&quot;</span>),PROXY_URL)
+&#125;</code></pre></div>
+
+<p>保存并部署。</p>
+<h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><p>打开你的 Fodi，关闭你的代理，随便找个文件点击下载。</p>
+<p>你的下载地址应该已经是 <code>d.yourdomain.com</code> 了。</p>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E7%9E%8E%E6%8A%98%E8%85%BE/">瞎折腾</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%8A%98%E8%85%BE/">折腾</a>
+                    
+                      <a class="hover-with-bg" href="/tags/VPS/">VPS</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Cloudflare/">Cloudflare</a>
+                    
+                      <a class="hover-with-bg" href="/tags/OneDrive/">OneDrive</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E7%BD%91%E7%9B%98/">网盘</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/05/07/%E6%8F%90%E5%8D%87%E5%9B%BD%E5%86%85-Apple-Music-%E4%BD%93%E9%AA%8C%E7%9A%84%E4%BB%A3%E7%90%86%E8%A7%84%E5%88%99/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">提升国内 Apple Music 体验的代理规则</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2020/04/24/%E5%93%88%E5%92%8C%E8%8D%89/">
+                        <span class="hidden-mobile">哈和草</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <div class="comments" id="comments">
+                
+                
+  <div id="vcomments"></div>
+  <script type="text/javascript">
+    function loadValine() {
+      addScript('https://cdn.staticfile.org/valine/1.4.14/Valine.min.js', function () {
+        new Valine({
+          el: "#vcomments",
+          app_id: "HqFsh1LCE27dz8hTC6c5S0fC-gzGzoHsz",
+          app_key: "xwj5VSA24fO1r9O5cOXuFGFS",
+          placeholder: "唠唠？",
+          path: window.location.pathname,
+          avatar: "retro",
+          meta: ["nick","mail","link"],
+          pageSize: "10",
+          lang: "zh-CN",
+          highlight: true,
+          recordIP: false,
+          serverURLs: "",
+        });
+      });
+    }
+    createObserver(loadValine, 'vcomments');
+  </script>
+  <noscript>Please enable JavaScript to view the <a target="_blank" href="https://valine.js.org" rel="nofollow noopener noopener">comments
+      powered by Valine.</a></noscript>
+
+
+              </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+  <div class="col-lg-7 mx-auto nopadding-md">
+    <div class="container custom post-content mx-auto">
+      <img src="/media/all_avatars.png" srcset="/img/loading.gif" class="rounded mx-auto d-block mt-5" style="width:150px; height:50px;">
+    </div>
+  </div>
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+    <div class="col-lg-7 mx-auto nopadding-md">
+      <div class="container custom mx-auto">
+        <center><a href="https://travellings.now.sh/" target="blank" title="开往 - 友链接力"><img class="travellings" src="/media/travellings.svg" srcset="/img/loading.gif" alt="开往 - 友链接力" width="160"></a></center>
+      </div>
+    </div>
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- LeanCloud 统计PV -->
+        <span id="leancloud-site-pv-container" style="display: none">
+            总访问量 
+            <span id="leancloud-site-pv"></span>
+             次
+          </span>
+      
+      
+        <!-- LeanCloud 统计UV -->
+        <span id="leancloud-site-uv-container" style="display: none">
+            总访客数 
+            <span id="leancloud-site-uv"></span>
+             人
+          </span>
+      
+
+    
+  </div>
+
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+  <script defer>
+  (function () {
+    // 查询存储的记录
+    function getRecord(Counter, target) {
+      return new Promise(function (resolve, reject) {
+        Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({target})))
+          .then(resp => resp.json())
+          .then(({results, code, error}) => {
+            if (code === 401) {
+              throw error;
+            }
+            if (results && results.length > 0) {
+              var record = results[0];
+              resolve(record);
+            } else {
+              Counter('post', '/classes/Counter', {target, time: 0})
+                .then(resp => resp.json())
+                .then((record, error) => {
+                  if (error) {
+                    throw error;
+                  }
+                  resolve(record);
+                }).catch(error => {
+                console.error('Failed to create', error);
+                reject(error);
+              });
+            }
+          }).catch((error) => {
+          console.error('LeanCloud Counter Error:', error);
+          reject(error);
+        });
+      })
+    }
+
+    // 发起自增请求
+    function increment(Counter, incrArr) {
+      return new Promise(function (resolve, reject) {
+        Counter('post', '/batch', {
+          "requests": incrArr
+        }).then((res) => {
+          res = res.json();
+          if (res.error) {
+            throw res.error;
+          }
+          resolve(res);
+        }).catch((error) => {
+          console.error('Failed to save visitor count', error);
+          reject(error);
+        });
+      });
+    }
+
+    // 构建自增请求体
+    function buildIncrement(objectId) {
+      return {
+        "method": "PUT",
+        "path": `/1.1/classes/Counter/${ objectId }`,
+        "body": {
+          "time": {
+            '__op': 'Increment',
+            'amount': 1
+          }
+        }
+      }
+    }
+
+    // 校验是否为有效的 UV
+    function validUV() {
+      var key = 'LeanCloud_UV_Flag';
+      var flag = localStorage.getItem(key);
+      if (flag) {
+        // 距离标记小于 24 小时则不计为 UV
+        if (new Date().getTime() - parseInt(flag) <= 86400000) {
+          return false;
+        }
+      }
+      localStorage.setItem(key, new Date().getTime().toString());
+      return true;
+    }
+
+    function addCount(Counter) {
+      var enableIncr = 'true' === 'true' && window.location.hostname !== 'localhost';
+      var getterArr = [];
+      var incrArr = [];
+
+      // 请求 PV 并自增
+      var pvCtn = document.querySelector('#leancloud-site-pv-container');
+      if (pvCtn || enableIncr) {
+        var pvGetter = getRecord(Counter, 'site-pv').then((record) => {
+          incrArr.push(buildIncrement(record.objectId))
+          var ele = document.querySelector('#leancloud-site-pv');
+          if (ele) {
+            ele.innerText = record.time + 1;
+            if (pvCtn) {
+              pvCtn.style.display = 'inline';
+            }
+          }
+        });
+        getterArr.push(pvGetter);
+      }
+
+      // 请求 UV 并自增
+      var uvCtn = document.querySelector('#leancloud-site-uv-container');
+      if (uvCtn || enableIncr) {
+        var uvGetter = getRecord(Counter, 'site-uv').then((record) => {
+          var vuv = validUV();
+          vuv && incrArr.push(buildIncrement(record.objectId))
+          var ele = document.querySelector('#leancloud-site-uv');
+          if (ele) {
+            ele.innerText = record.time + (vuv ? 1 : 0);
+            if (uvCtn) {
+              uvCtn.style.display = 'inline';
+            }
+          }
+        });
+        getterArr.push(uvGetter);
+      }
+
+      // 如果是文章，请求文章的浏览数，并自增
+      if ('true' === 'true') {
+        var viewCtn = document.querySelector('#leancloud-post-views-container');
+        if (viewCtn || enableIncr) {
+          var target = decodeURI('/2020/05/05/%E7%94%A8-Cloudflare-workders-%E5%92%8C%E4%B8%80%E5%8F%B0-VPS-%E8%A7%A3%E5%86%B3-OneDrive-%E4%B8%8B%E8%BD%BD%E9%97%AE%E9%A2%98/');
+          var viewGetter = getRecord(Counter, target).then((record) => {
+            incrArr.push(buildIncrement(record.objectId))
+            if (viewCtn) {
+              var ele = document.querySelector('#leancloud-post-views');
+              if (ele) {
+                ele.innerText = (record.time || 0) + 1;
+                viewCtn.style.display = 'inline';
+              }
+            }
+          });
+          getterArr.push(viewGetter);
+        }
+      }
+
+      // 如果启动计数自增，批量发起自增请求
+      if (enableIncr) {
+        Promise.all(getterArr).then(() => {
+          incrArr.length > 0 && increment(Counter, incrArr);
+        })
+      }
+    }
+
+    var app_id = 'HqFsh1LCE27dz8hTC6c5S0fC-gzGzoHsz'
+    var app_key = 'xwj5VSA24fO1r9O5cOXuFGFS'
+    var server_url = 'https://b-test.hic.plus'
+
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${ api_server }/1.1${ url }`, {
+          method,
+          headers: {
+            'X-LC-Id': app_id,
+            'X-LC-Key': app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+
+      addCount(Counter);
+    }
+
+    var api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${ app_id.slice(0, 8).toLowerCase() }.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(resp => resp.json())
+        .then(({api_server}) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+
+
+  
+<script src="/css/js/instantchat.js"></script>
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "用 Cloudflare workers 和一台 VPS 解决 OneDrive 下载问题&nbsp;",
+      ],
+      cursorChar: "|",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+      icon: "§"
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+</body>
+</html>

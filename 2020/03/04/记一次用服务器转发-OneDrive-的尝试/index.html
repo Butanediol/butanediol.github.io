@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#a5544c">
+  <meta name="description" content="趴窝">
+  <meta name="author" content="丁二 Butanediol">
+  <meta name="keywords" content="丁二">
+  <title>记一次用服务器转发 OneDrive 的尝试 - 丁丁の店</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/atom-one-dark.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+  
+<link rel="stylesheet" href="/css/dark.css">
+<link rel="stylesheet" href="/css/heimu.css">
+<link rel="stylesheet" href="/css/animation.css">
+<link rel="stylesheet" href="/fontawesome/css/all.css">
+<link rel="stylesheet" href="https://at.alicdn.com/t/font_1808290_xku9cl5tdk9.css">
+
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>丁丁の店</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" target="_blank" rel="noopener" href="https://travellings.now.sh/">
+                <i class="fas fa-plane-departure"></i>
+                开往
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-caret-square-down"></i>
+                更多
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" target="_blank" rel="noopener" href="https://cloud.butanediol.me">
+                    <i class="fas fa-hdd"></i>
+                    丁二仓库
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/static/pgp.asc">
+                    <i class="fas fa-key"></i>
+                    PGP
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/media/posts_img/d5eed7edd3634a2992ecdeb7ae543fd0.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-03-04 18:54">
+      2020年3月4日 晚上
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      26
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <div class="note note-warning">
+            <p>经过求证，rclone 挂载并不能实现流量转发，只是让文件先下载到服务器，再从服务器发送到用户，无法解决延迟和服务器空间问题。</p><p>如果想用流量转发的话可以不用继续看了，不过如果你只是想在服务器上使用 rclone，你也可以参考下面的方法（虽然在 rclone 的官方文档中也有给出）。</p>
+          </div>
+
+<div class="note note-info">
+            <p>原理类似，但效果更好的解决办法可以查看 <a class="btn" href="https://blog.butanediol.me/2020/05/05/用-Cloudflare-workers-和一台-VPS-解决-OneDrive-下载问题/"  title="用 Cloudflare workders 和一台 VPS 解决 OneDrive 下载问题" target="_blank">这里</a> 。</p>
+          </div>
+
+<h2 id="想法"><a href="#想法" class="headerlink" title="想法"></a>想法</h2><p>尝试过了 PyOne、Onindex、OLAINDEX 等软件，其中 PyOne 带有流量转发功能，但不知道为什么，<code>50 MiB</code> 左右的小文件还能够正常转发，上百 MiB 甚至几 GiB 的文件在下载的时候均只有几十 MiB。</p>
+<p>我猜测是 PyOne 要先将文件下载，然后再转发，这会导致两个问题：</p>
+<ol>
+<li>对本地空间有要求，由于 OneDrive 限制单文件大小最大为 <code>15 GiB</code>，因此你可能需要至少有 <code>15 GiB</code> 的硬盘可用空间。</li>
+<li>对网络速度有要求，<code>15 GiB</code> 的文件难道要等服务器下载完成之后才能开始下载吗？这肯定是不现实的。假设 <code>1 Gbps</code> 的理论带宽全部跑满，一个 <code>4 GiB</code> 的文件就要等待 30 秒，这个时间怕是浏览器都判定为响应超时了。</li>
+</ol>
+<p>而 Onindex 和 OLAINDEX 暂时不支持流量转发。</p>
+<p>所以我的想法是：<br>用 <a href="rclone.org">rclone</a><sup id="fnref:1" class="footnote-ref"><a href="#fn:1" rel="footnote"><span class="hint--top hint--rounded" aria-label="rclone 是一个命令行软件，它可以同步许多云储存服务。
+">[1]</span></a></sup> 将文件夹挂载到本地，然后再用 WebDAV 或是其他的网页文件管理器来下载这个文件夹中的文件，或者导出直链来分享。</p>
+<h2 id="尝试"><a href="#尝试" class="headerlink" title="尝试"></a>尝试</h2><p>由于我连接到 VPS 的通道不是特别稳定，所以先在本地虚拟机上进行测试。</p>
+<p>这里我选用的系统是 Ubuntu 18.04.4 LTS。</p>
+<h3 id="rclone"><a href="#rclone" class="headerlink" title="rclone"></a>rclone</h3><h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><p>先安装 Rclone，安装步骤在<a target="_blank" rel="noopener" href="https://rclone.org/install/">官网</a>上就有，现成脚本，非常简单。当然你也可以选择编译安装或者 Docker。</p>
+<div class="hljs"><pre><code class="hljs bash">curl https://rclone.org/install.sh | sudo bash</code></pre></div>
+<p>不仅服务器需要安装，你的电脑也需要安装，这里就省略了，官网的方法十分简单。</p>
+<p>然后在本地电脑的终端中输入:</p>
+<div class="hljs"><pre><code class="hljs bash">rclone authorize <span class="hljs-string">&quot;onedrive&quot;</span></code></pre></div>
+
+<p>然后会自动打开一个浏览器窗口，登陆你要绑定的 OneDrive 账户。之后返回终端窗口，会看到一大段文字，找到用<code>&#123;&#125;</code>包裹的开头和结尾，连带 <code>&#123;&#125;</code> 一起复制下来，备用。</p>
+<p>这时候返回你的服务器，按照我下面的步骤进行操作:</p>
+<div class="hljs"><pre><code class="hljs bash">sudo rclone config</code></pre></div>
+<p>输入你的账户密码，然后会弹出这个：</p>
+<div class="hljs"><pre><code class="hljs bash">No remotes found - make a new one
+n) New remote
+s) Set configuration password
+q) Quit config
+n/s/q&gt;</code></pre></div>
+<p>这里我们输入 <code>n</code> 回车，意思是添加一个远端云服务。</p>
+<div class="hljs"><pre><code class="hljs bash">name&gt;</code></pre></div>
+<p>出现这个，输入一个名称，后面需要用到，<strong>请记住</strong>，我这里记为 <code>od</code>。</p>
+<p>然后会弹出一大段选项，选择其中的 <code>OneDrive</code>，在我这个版本，OneDrive 是 23。</p>
+<div class="hljs"><pre><code class="hljs bash">Type of storage to configure.
+Enter a string value. Press Enter <span class="hljs-keyword">for</span> the default (<span class="hljs-string">&quot;&quot;</span>).
+Choose a number from below, or <span class="hljs-built_in">type</span> <span class="hljs-keyword">in</span> your own value
+ 1 / 1Fichier
+   \ <span class="hljs-string">&quot;fichier&quot;</span>
+ 2 / Alias <span class="hljs-keyword">for</span> an existing remote
+   \ <span class="hljs-string">&quot;alias&quot;</span>
+ 3 / Amazon Drive
+   \ <span class="hljs-string">&quot;amazon cloud drive&quot;</span>
+ 4 / Amazon S3 Compliant Storage Provider (AWS, Alibaba, Ceph, Digital Ocean, Dreamhost, IBM COS, Minio, etc)
+   \ <span class="hljs-string">&quot;s3&quot;</span>
+ 5 / Backblaze B2
+   \ <span class="hljs-string">&quot;b2&quot;</span>
+ 6 / Box
+   \ <span class="hljs-string">&quot;box&quot;</span>
+ 7 / Cache a remote
+   \ <span class="hljs-string">&quot;cache&quot;</span>
+ 8 / Citrix Sharefile
+   \ <span class="hljs-string">&quot;sharefile&quot;</span>
+ 9 / Dropbox
+   \ <span class="hljs-string">&quot;dropbox&quot;</span>
+10 / Encrypt/Decrypt a remote
+   \ <span class="hljs-string">&quot;crypt&quot;</span>
+11 / FTP Connection
+   \ <span class="hljs-string">&quot;ftp&quot;</span>
+12 / Google Cloud Storage (this is not Google Drive)
+   \ <span class="hljs-string">&quot;google cloud storage&quot;</span>
+13 / Google Drive
+   \ <span class="hljs-string">&quot;drive&quot;</span>
+14 / Google Photos
+   \ <span class="hljs-string">&quot;google photos&quot;</span>
+15 / Hubic
+   \ <span class="hljs-string">&quot;hubic&quot;</span>
+16 / In memory object storage system.
+   \ <span class="hljs-string">&quot;memory&quot;</span>
+17 / JottaCloud
+   \ <span class="hljs-string">&quot;jottacloud&quot;</span>
+18 / Koofr
+   \ <span class="hljs-string">&quot;koofr&quot;</span>
+19 / Local Disk
+   \ <span class="hljs-string">&quot;local&quot;</span>
+20 / Mail.ru Cloud
+   \ <span class="hljs-string">&quot;mailru&quot;</span>
+21 / Mega
+   \ <span class="hljs-string">&quot;mega&quot;</span>
+22 / Microsoft Azure Blob Storage
+   \ <span class="hljs-string">&quot;azureblob&quot;</span>
+23 / Microsoft OneDrive
+   \ <span class="hljs-string">&quot;onedrive&quot;</span>
+24 / OpenDrive
+   \ <span class="hljs-string">&quot;opendrive&quot;</span>
+25 / Openstack Swift (Rackspace Cloud Files, Memset Memstore, OVH)
+   \ <span class="hljs-string">&quot;swift&quot;</span>
+26 / Pcloud
+   \ <span class="hljs-string">&quot;pcloud&quot;</span>
+27 / Put.io
+   \ <span class="hljs-string">&quot;putio&quot;</span>
+28 / QingCloud Object Storage
+   \ <span class="hljs-string">&quot;qingstor&quot;</span>
+29 / SSH/SFTP Connection
+   \ <span class="hljs-string">&quot;sftp&quot;</span>
+30 / Sugarsync
+   \ <span class="hljs-string">&quot;sugarsync&quot;</span>
+31 / Transparently chunk/split large files
+   \ <span class="hljs-string">&quot;chunker&quot;</span>
+32 / Union merges the contents of several remotes
+   \ <span class="hljs-string">&quot;union&quot;</span>
+33 / Webdav
+   \ <span class="hljs-string">&quot;webdav&quot;</span>
+34 / Yandex Disk
+   \ <span class="hljs-string">&quot;yandex&quot;</span>
+35 / http Connection
+   \ <span class="hljs-string">&quot;http&quot;</span>
+36 / premiumize.me
+   \ <span class="hljs-string">&quot;premiumizeme&quot;</span>
+Storage&gt; 23</code></pre></div>
+<p>接下来的几个选项，前三个都可以使用默认，第四个我们选择 <code>no</code>:</p>
+<div class="hljs"><pre><code class="hljs bash">Microsoft App Client Id
+Leave blank normally.
+Enter a string value. Press Enter <span class="hljs-keyword">for</span> the default (<span class="hljs-string">&quot;&quot;</span>).
+client_id&gt; 
+Microsoft App Client Secret
+Leave blank normally.
+Enter a string value. Press Enter <span class="hljs-keyword">for</span> the default (<span class="hljs-string">&quot;&quot;</span>).
+client_secret&gt; 
+Edit advanced config? (y/n)
+y) Yes
+n) No (default)
+y/n&gt; 
+Remote config
+Use auto config?
+ * Say Y <span class="hljs-keyword">if</span> not sure
+ * Say N <span class="hljs-keyword">if</span> you are working on a remote or headless machine
+y) Yes (default)
+n) No
+y/n&gt; n</code></pre></div>
+<p>接下来，请输入你刚刚从本地电脑上获得的一大串文字，包括 <code>&#123;&#125;</code>。这里我就不演示了。</p>
+<div class="hljs"><pre><code class="hljs bash">Choose a number from below, or <span class="hljs-built_in">type</span> <span class="hljs-keyword">in</span> an existing value
+ 1 / OneDrive Personal or Business
+   \ <span class="hljs-string">&quot;onedrive&quot;</span>
+ 2 / Root Sharepoint site
+   \ <span class="hljs-string">&quot;sharepoint&quot;</span>
+ 3 / Type <span class="hljs-keyword">in</span> driveID
+   \ <span class="hljs-string">&quot;driveid&quot;</span>
+ 4 / Type <span class="hljs-keyword">in</span> SiteID
+   \ <span class="hljs-string">&quot;siteid&quot;</span>
+ 5 / Search a Sharepoint site
+   \ <span class="hljs-string">&quot;search&quot;</span>
+Your choice&gt; 1</code></pre></div>
+
+<p>这个地方我们选择 1。<br>然后稍等片刻，等待程序获取信息。之后你会看到这样一段文字：</p>
+<div class="hljs"><pre><code class="hljs bash">0: OneDrive (business) id=*************</code></pre></div>
+<p>然后输入 <code>0</code>，回车。</p>
+<p>如果出现这样的文字，直接回车即可：</p>
+<div class="hljs"><pre><code class="hljs bash">Found drive <span class="hljs-string">&#x27;root&#x27;</span> of <span class="hljs-built_in">type</span> <span class="hljs-string">&#x27;business&#x27;</span>, URL: https://butanediol-my.sharepoint.com/personal/admin_butanediol_onmicrosoft_com/Documents
+Is that okay?
+y) Yes (default)
+n) No
+y/n&gt;</code></pre></div>
+
+<p>最后会确认你刚刚输入的信息，直接回车，选择 <code>y</code>：</p>
+<div class="hljs"><pre><code class="hljs bash">y) Yes this is OK (default)
+e) Edit this remote
+d) Delete this remote
+y/e/d&gt;</code></pre></div>
+
+<p>接下来 rclone 会展示现有的 remotes，一般没问题，输入 <code>q</code> 回车退出即可。</p>
+<h4 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h4><p>使用下面这条命令新建一个文件夹<sup id="fnref:2" class="footnote-ref"><a href="#fn:2" rel="footnote"><span class="hint--top hint--rounded" aria-label="你可以起任意名字，或者使用其他可用的文件夹。
+">[2]</span></a></sup>：</p>
+<div class="hljs"><pre><code class="hljs bash">mkdir onedrive</code></pre></div>
+
+<p>这里我将其命名为 <code>onedrive</code>。</p>
+<p>这时候你可以选择再开一个 SSH 窗口，或者使用 tmux、screen 等软件（如果你熟悉 Linux），执行一下下面这条命令：</p>
+<div class="hljs"><pre><code class="hljs bash">sudo rclone mount od:folder onedrive --copy-links --no-gzip-encodi --no-check-certificate --allow-other --allow-non-empty --<span class="hljs-built_in">umask</span> 000</code></pre></div>
+<p>这里的 <code>od</code> 就是最初输入的名字，需要替换。</p>
+<p>冒号后面的 <code>folder</code> 是你 OneDrive 中的文件夹名，例如你的 OneDrive 根目录中有一个叫 Share 的文件夹，那么这里就填写 <code>:Share</code>。</p>
+<p>后面的 <code>onedrive</code> 是服务器硬盘中文件夹，这里我就用刚刚创建的文件夹。</p>
+<p>然后在另一个窗口中进入这个文件夹：</p>
+<div class="hljs"><pre><code class="hljs bash"><span class="hljs-built_in">cd</span> onedrive</code></pre></div>
+
+<p>如果你的 OneDrive 文件夹中原本有文件，可以使用 <code>ls</code> 命令，查看原有文件。</p>
+<p>如果你的 OneDrive 文件夹为空，可以使用 <code>touch filename</code> 命令，创建一个名为 <code>filename</code> 的新文件。不出意外的话，你的 OneDrive 中也会同步出现一个同名文件。</p>
+<p>至此，rclone 绑定账号已经完成了。</p>
+<h4 id="开机自启"><a href="#开机自启" class="headerlink" title="开机自启"></a>开机自启</h4><p>下面这段命令，先将除去注释的第一行换成刚刚测试的那一行。</p>
+<p>再将其中</p>
+<div class="hljs"><pre><code class="hljs bash"><span class="hljs-comment">#将后面修改成你上面手动运行命令中，除了rclone的全部参数</span>
+<span class="hljs-built_in">command</span>=<span class="hljs-string">&quot;mount od:folder onedrive --copy-links --no-gzip-encoding --no-check-certificate --allow-other --allow-non-empty --umask 000&quot;</span>
+<span class="hljs-built_in">command</span>=<span class="hljs-string">&quot;mount Butanediol:Share /home/butanediol/Onedrive --copy-links --no-gzip-encoding --no-check-certificate --allow-other --allow-non-empty --umask 000&quot;</span>
+<span class="hljs-comment">#以下是一整条命令，一起复制到SSH客户端运行</span>
+cat &gt; /etc/systemd/system/rclone.service &lt;&lt;<span class="hljs-string">EOF</span>
+<span class="hljs-string">[Unit]</span>
+<span class="hljs-string">Description=Rclone</span>
+<span class="hljs-string">After=network-online.target</span>
+<span class="hljs-string"></span>
+<span class="hljs-string">[Service]</span>
+<span class="hljs-string">Type=simple</span>
+<span class="hljs-string">ExecStart=$(command -v rclone) $&#123;command&#125;</span>
+<span class="hljs-string">Restart=on-abort</span>
+<span class="hljs-string">User=root</span>
+<span class="hljs-string"></span>
+<span class="hljs-string">[Install]</span>
+<span class="hljs-string">WantedBy=default.target</span>
+<span class="hljs-string">EOF</span></code></pre></div>
+
+<h3 id="Caddy"><a href="#Caddy" class="headerlink" title="Caddy"></a>Caddy</h3><p>对 Caddy 指定一个目录，Caddy 可以自动生成一个简易的页面，相当于一个文件服务器。</p>
+<p>那么配置 Caddy 指定这个挂载 OneDrive 的路径就可以了。</p>
+<div class="hljs"><pre><code class="hljs less"><span class="hljs-attribute">https</span>:<span class="hljs-comment">//yourdomain.com &#123;</span>
+  gzip
+  tls example<span class="hljs-variable">@yourdomain</span>.com
+  browse /onedrive-mount-path
+&#125;</code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>rclone 是一个命令行软件，它可以同步许多云储存服务。
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:2" class="footnote-text"><span>你可以起任意名字，或者使用其他可用的文件夹。
+<a href="#fnref:2" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E7%9E%8E%E6%8A%98%E8%85%BE/">瞎折腾</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Linux/">Linux</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/03/10/%E5%92%B1%E7%9A%84-Google-%E4%BB%98%E6%AC%BE%E4%BF%A1%E6%81%AF%E8%A2%AB%E5%B0%81%E7%A6%81%E4%BA%86%EF%BC%81/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">咱的 Google 付款信息被封禁了！</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2020/02/15/%E5%A6%82%E4%BD%95%E5%9C%A8-mixplorer-%E4%B8%AD%E4%BD%BF%E7%94%A8-onedrive/">
+                        <span class="hidden-mobile">如何在 Mixplorer 中使用 OneDrive？</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <div class="comments" id="comments">
+                
+                
+  <div id="vcomments"></div>
+  <script type="text/javascript">
+    function loadValine() {
+      addScript('https://cdn.staticfile.org/valine/1.4.14/Valine.min.js', function () {
+        new Valine({
+          el: "#vcomments",
+          app_id: "HqFsh1LCE27dz8hTC6c5S0fC-gzGzoHsz",
+          app_key: "xwj5VSA24fO1r9O5cOXuFGFS",
+          placeholder: "唠唠？",
+          path: window.location.pathname,
+          avatar: "retro",
+          meta: ["nick","mail","link"],
+          pageSize: "10",
+          lang: "zh-CN",
+          highlight: true,
+          recordIP: false,
+          serverURLs: "",
+        });
+      });
+    }
+    createObserver(loadValine, 'vcomments');
+  </script>
+  <noscript>Please enable JavaScript to view the <a target="_blank" href="https://valine.js.org" rel="nofollow noopener noopener">comments
+      powered by Valine.</a></noscript>
+
+
+              </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+  <div class="col-lg-7 mx-auto nopadding-md">
+    <div class="container custom post-content mx-auto">
+      <img src="/media/all_avatars.png" srcset="/img/loading.gif" class="rounded mx-auto d-block mt-5" style="width:150px; height:50px;">
+    </div>
+  </div>
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+    <div class="col-lg-7 mx-auto nopadding-md">
+      <div class="container custom mx-auto">
+        <center><a href="https://travellings.now.sh/" target="blank" title="开往 - 友链接力"><img class="travellings" src="/media/travellings.svg" srcset="/img/loading.gif" alt="开往 - 友链接力" width="160"></a></center>
+      </div>
+    </div>
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- LeanCloud 统计PV -->
+        <span id="leancloud-site-pv-container" style="display: none">
+            总访问量 
+            <span id="leancloud-site-pv"></span>
+             次
+          </span>
+      
+      
+        <!-- LeanCloud 统计UV -->
+        <span id="leancloud-site-uv-container" style="display: none">
+            总访客数 
+            <span id="leancloud-site-uv"></span>
+             人
+          </span>
+      
+
+    
+  </div>
+
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+  <script defer>
+  (function () {
+    // 查询存储的记录
+    function getRecord(Counter, target) {
+      return new Promise(function (resolve, reject) {
+        Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({target})))
+          .then(resp => resp.json())
+          .then(({results, code, error}) => {
+            if (code === 401) {
+              throw error;
+            }
+            if (results && results.length > 0) {
+              var record = results[0];
+              resolve(record);
+            } else {
+              Counter('post', '/classes/Counter', {target, time: 0})
+                .then(resp => resp.json())
+                .then((record, error) => {
+                  if (error) {
+                    throw error;
+                  }
+                  resolve(record);
+                }).catch(error => {
+                console.error('Failed to create', error);
+                reject(error);
+              });
+            }
+          }).catch((error) => {
+          console.error('LeanCloud Counter Error:', error);
+          reject(error);
+        });
+      })
+    }
+
+    // 发起自增请求
+    function increment(Counter, incrArr) {
+      return new Promise(function (resolve, reject) {
+        Counter('post', '/batch', {
+          "requests": incrArr
+        }).then((res) => {
+          res = res.json();
+          if (res.error) {
+            throw res.error;
+          }
+          resolve(res);
+        }).catch((error) => {
+          console.error('Failed to save visitor count', error);
+          reject(error);
+        });
+      });
+    }
+
+    // 构建自增请求体
+    function buildIncrement(objectId) {
+      return {
+        "method": "PUT",
+        "path": `/1.1/classes/Counter/${ objectId }`,
+        "body": {
+          "time": {
+            '__op': 'Increment',
+            'amount': 1
+          }
+        }
+      }
+    }
+
+    // 校验是否为有效的 UV
+    function validUV() {
+      var key = 'LeanCloud_UV_Flag';
+      var flag = localStorage.getItem(key);
+      if (flag) {
+        // 距离标记小于 24 小时则不计为 UV
+        if (new Date().getTime() - parseInt(flag) <= 86400000) {
+          return false;
+        }
+      }
+      localStorage.setItem(key, new Date().getTime().toString());
+      return true;
+    }
+
+    function addCount(Counter) {
+      var enableIncr = 'true' === 'true' && window.location.hostname !== 'localhost';
+      var getterArr = [];
+      var incrArr = [];
+
+      // 请求 PV 并自增
+      var pvCtn = document.querySelector('#leancloud-site-pv-container');
+      if (pvCtn || enableIncr) {
+        var pvGetter = getRecord(Counter, 'site-pv').then((record) => {
+          incrArr.push(buildIncrement(record.objectId))
+          var ele = document.querySelector('#leancloud-site-pv');
+          if (ele) {
+            ele.innerText = record.time + 1;
+            if (pvCtn) {
+              pvCtn.style.display = 'inline';
+            }
+          }
+        });
+        getterArr.push(pvGetter);
+      }
+
+      // 请求 UV 并自增
+      var uvCtn = document.querySelector('#leancloud-site-uv-container');
+      if (uvCtn || enableIncr) {
+        var uvGetter = getRecord(Counter, 'site-uv').then((record) => {
+          var vuv = validUV();
+          vuv && incrArr.push(buildIncrement(record.objectId))
+          var ele = document.querySelector('#leancloud-site-uv');
+          if (ele) {
+            ele.innerText = record.time + (vuv ? 1 : 0);
+            if (uvCtn) {
+              uvCtn.style.display = 'inline';
+            }
+          }
+        });
+        getterArr.push(uvGetter);
+      }
+
+      // 如果是文章，请求文章的浏览数，并自增
+      if ('true' === 'true') {
+        var viewCtn = document.querySelector('#leancloud-post-views-container');
+        if (viewCtn || enableIncr) {
+          var target = decodeURI('/2020/03/04/%E8%AE%B0%E4%B8%80%E6%AC%A1%E7%94%A8%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%BD%AC%E5%8F%91-OneDrive-%E7%9A%84%E5%B0%9D%E8%AF%95/');
+          var viewGetter = getRecord(Counter, target).then((record) => {
+            incrArr.push(buildIncrement(record.objectId))
+            if (viewCtn) {
+              var ele = document.querySelector('#leancloud-post-views');
+              if (ele) {
+                ele.innerText = (record.time || 0) + 1;
+                viewCtn.style.display = 'inline';
+              }
+            }
+          });
+          getterArr.push(viewGetter);
+        }
+      }
+
+      // 如果启动计数自增，批量发起自增请求
+      if (enableIncr) {
+        Promise.all(getterArr).then(() => {
+          incrArr.length > 0 && increment(Counter, incrArr);
+        })
+      }
+    }
+
+    var app_id = 'HqFsh1LCE27dz8hTC6c5S0fC-gzGzoHsz'
+    var app_key = 'xwj5VSA24fO1r9O5cOXuFGFS'
+    var server_url = 'https://b-test.hic.plus'
+
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${ api_server }/1.1${ url }`, {
+          method,
+          headers: {
+            'X-LC-Id': app_id,
+            'X-LC-Key': app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+
+      addCount(Counter);
+    }
+
+    var api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${ app_id.slice(0, 8).toLowerCase() }.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(resp => resp.json())
+        .then(({api_server}) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+
+
+  
+<script src="/css/js/instantchat.js"></script>
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "记一次用服务器转发 OneDrive 的尝试&nbsp;",
+      ],
+      cursorChar: "|",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+      icon: "§"
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#a5544c">
+  <meta name="description" content="趴窝">
+  <meta name="author" content="丁二 Butanediol">
+  <meta name="keywords" content="丁二">
+  <title>Windows 10 专业电竞战斗版虚拟机半日游（认真脸） - 丁丁の店</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/atom-one-dark.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+  
+<link rel="stylesheet" href="/css/dark.css">
+<link rel="stylesheet" href="/css/heimu.css">
+<link rel="stylesheet" href="/css/animation.css">
+<link rel="stylesheet" href="/fontawesome/css/all.css">
+<link rel="stylesheet" href="https://at.alicdn.com/t/font_1808290_xku9cl5tdk9.css">
+
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>丁丁の店</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" target="_blank" rel="noopener" href="https://travellings.now.sh/">
+                <i class="fas fa-plane-departure"></i>
+                开往
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-caret-square-down"></i>
+                更多
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" target="_blank" rel="noopener" href="https://cloud.butanediol.me">
+                    <i class="fas fa-hdd"></i>
+                    丁二仓库
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/static/pgp.asc">
+                    <i class="fas fa-key"></i>
+                    PGP
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/media/posts_img/win10esports.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-09-28 01:18">
+      2020年9月28日 凌晨
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.4k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      15
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <p>专业的装机师傅才会装的 Windows 10 专业电竞战斗版泄漏！</p>
+<a id="more"></a>
+
+<p>今天有一份 Windows 10 专业微电竞战斗版泄漏，年纪轻轻的我哪里见过这种场面，赶紧装了一个试试。</p>
+<p><img src="/media/article_img/win10esports/1.jpg" srcset="/img/loading.gif" alt="装机师傅箴言"></p>
+<script type="text/javascript" src="/css/js/linkcard.js"></script>
+<p><a target="_blank" rel="noopener" href="http://m.somode.com/win10/64/38373.html" name="/media/article_img/win10esports/link1.png" class="LinkCard">下载 Windows 10 专业电竞战斗版</a></p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>由于我用的 Ryzentosh，用不了 VMWare 或者 Parallel Desktop <del>which is #rubbish</del>，我只能用 Virtualbox <span class="heimu">开源拖拉机</span> 安装 Windows。</p>
+<p>下载了 ISO 文件之后，挂载发现这只是个打包文件，并不是系统镜像，系统镜像是个 Ghost 文件，这就是专业电竞战斗版的专业之处了。</p>
+<p><img src="/media/article_img/win10esports/2.png" srcset="/img/loading.gif" alt="ISO 文件"></p>
+<p>于是先在 Windows 上用微 PE 制作一个 PE ISO 镜像，安装到虚拟机中。</p>
+<p><img src="/media/article_img/win10esports/3.png" srcset="/img/loading.gif" alt="微 PE 虚拟机"></p>
+<p>装好之后，直接把 Windows 10 专业电竞战斗版 ISO 挂载到虚拟机中。</p>
+<p><img src="/media/article_img/win10esports/4.png" srcset="/img/loading.gif" alt="挂载 ISO"><br><img src="/media/article_img/win10esports/5.png" srcset="/img/loading.gif" alt="挂载成功"></p>
+<p>然后打开微 PE 自带的 DiskGenius 把硬盘格式化一下。</p>
+<p><img src="/media/article_img/win10esports/6.png" srcset="/img/loading.gif" alt="格式化硬盘"></p>
+<p>用桌面上的 Ghost 一键备份还原将挂载的 ISO 中的 gho 文件恢复到该分区中。</p>
+<p><img src="/media/article_img/win10esports/6.png" srcset="/img/loading.gif" alt="选择分区和文件"><br><img src="/media/article_img/win10esports/7.png" srcset="/img/loading.gif" alt="恢复中..."></p>
+<p>恢复完成后重启，记得把两个 CD-ROM 都弹出。</p>
+<p>这启动画面也太惊艳了吧，比普通 Windows 10 高到不知道哪里去了。</p>
+<p><img src="/media/article_img/win10esports/9.png" srcset="/img/loading.gif" alt="启动画面"></p>
+<p>启动过程中会安装</p>
+<ul>
+<li>Visual C++ 2005</li>
+<li>Visual C++ 2008</li>
+<li>Visual C++ 2010</li>
+<li>Visual C++ 2012</li>
+<li>Visual C++ 2013</li>
+<li>Visual C++ 2015-2019</li>
+<li>DirectX 9.0c</li>
+</ul>
+<p>真不愧是专业战斗电竞版，再也不用担心游戏打不开了。</p>
+<p><img src="/media/article_img/win10esports/10.png" srcset="/img/loading.gif" alt="自动安装"></p>
+<p>专业的电竞选手怎么能被 Windows 未激活的水印打扰，专业电竞战斗版自动激活 Windows，带来无与伦比的沉浸游戏体验。</p>
+<p><img src="/media/article_img/win10esports/11.png" srcset="/img/loading.gif" alt="KMS"></p>
+<p>安装完成后，系统会自动再次重启，然后就是激动人心的画面。</p>
+<p><img src="/media/article_img/win10esports/12.png" srcset="/img/loading.gif" alt="海内存知己，天涯若比邻"></p>
+<p>经过一段时间的坐和放宽之后，顺利进入了系统。</p>
+<h2 id="系统"><a href="#系统" class="headerlink" title="系统"></a>系统</h2><p><img src="/media/article_img/win10esports/13.png" srcset="/img/loading.gif" alt="进入系统"></p>
+<p>自带两个马家软件，没 QQ 开黑可不成啊，专业电竞选手需要与队友密切合作，因此微软与腾讯达成合作，在 Windows 10 专业电竞战斗版中内置了 QQ 和 QQ 浏览器。<span class="heimu"><del>什么？QQ 浏览器有啥用？</del></span></p>
+<p>系统放置几分钟不动，就会进入自动优化程序，自动优化会自动关闭任务管理器。</p>
+
+<video src='/media/article_video/win10esports/1.mp4' type='video/mp4' controls='controls' width='100%' height='100%'></video>
+
+
+<p>众所周知，任务管理器是非常消耗系统资源的程序，打开的瞬间，CPU 占用可以瞬间达到 100%。真是太贴心了。</p>
+<p>同时我们也可以看到，Windows 10 专业电竞战斗版内置了 Windows LTSC 版本。<br>所谓 LTSC，就是 LOL Tactic Supreme Souvenir，即 超级战略 LOL Supreme 联名纪念款。看来我们下载到的这个版本还不是一般的专业电竞战斗版。<br>至于企业版，电竞选手通常都有自己的俱乐部，因此需要购买企业版授权。</p>
+<p><img src="/media/article_img/win10esports/14.png" srcset="/img/loading.gif" alt="自动优化"></p>
+<p>优化的时候，自动安装了极速浏览器，真正的电竞选手都是追求极速的。</p>
+<p><img src="/media/article_img/win10esports/15.png" srcset="/img/loading.gif" alt="自动优化\*2"></p>
+<p>随后，自动优化又安装了 WPS，酷狗音乐和 360 安全浏览器。</p>
+<p>WPS 就是<em>我怕死</em>的缩写，提醒电竞选手要有危机意识。</p>
+<p>酷狗音乐自然不用说，网抑云那种打着打着哭出来<strong>像话吗？</strong>？当然是酷狗 True Music 才够劲。</p>
+<p>专业电竞选手注重安全，因此需要 360 安全浏览器。</p>
+<p>为什么要这么多浏览器？所谓专业，就是分工明确，不同浏览器做不同的事，这是 Windows 10 专业电竞战斗版的哲学。</p>
+<p><img src="/media/article_img/win10esports/16.png" srcset="/img/loading.gif" alt="自动优化\*3"></p>
+<p>自动优化程序还充分考虑了电竞选手的身心健康，准备了爱奇艺播放器，劳逸结合，效果更佳。</p>
+<p>并且，在优化结束后，我还发现已经安装了 2345 王牌输入法，为什么叫王牌自然不用多说，而这 2345 自然是眼里没有第一的意思，会当凌绝顶一览众山小啊。</p>
+<p><img src="/media/article_img/win10esports/17.png" srcset="/img/loading.gif" alt="自动优化\*4"></p>
+<h2 id="其他软件"><a href="#其他软件" class="headerlink" title="其他软件"></a>其他软件</h2><p>各种高级功能，看都看不过来，还有这内核版本号，都接近 100 了，一定很强大。</p>
+<p><img src="/media/article_img/win10esports/18.png" srcset="/img/loading.gif" alt="极速浏览器"></p>
+<p>我还下载了专业系统检测软件鲁大师跑了一个测试。</p>
+<p>要知道，这还是在虚拟机中，就能跑出我家十年前老游戏电脑的水平。</p>
+<p><img src="/media/article_img/win10esports/19.png" srcset="/img/loading.gif" alt="跑分"></p>
+<p>Windows 10 专业电竞战斗版配置了专业电竞战斗组策略，限制自动更新，保障电竞体验。<span class="heimu">我想给真·好评</span></p>
+<p><img src="/media/article_img/win10esports/20.png" srcset="/img/loading.gif" alt="更新设置"></p>
+<p>自带的压缩软件 WinRAR 也不是一般的版本。而是专为电竞优化的<strong>烈火修改版</strong>。微软大厂居然能为 2C 产品考虑的这么细致。</p>
+<p><img src="/media/article_img/win10esports/21.png" srcset="/img/loading.gif" alt="WinRAR"></p>
+<hr>
+<p>安装Windows10专业电竞战斗版是怎么回事呢？安装Windows10专业电竞战斗版相信大家都很熟悉，但是安装Windows10专业电竞战斗版是怎么回事呢？大家好，今天小编来带大家了解一下安装Windows10专业电竞战斗版。可能有人不理解，为什么安装会Windows10专业电竞战斗版呢？下面就让小编带大家一起了解吧。安装Windows10专业电竞战斗版，安装Windows10专业电竞战斗版其实就是安装Windows10专业电竞战斗版了。那么安装为什么会Windows10专业电竞战斗版，相信大家都很好奇是怎么回事。大家可能会感到很惊讶，安装怎么会Windows10专业电竞战斗版呢？但事实就是这样，小编也感到非常惊讶。那么这就是关于安装Windows10专业电竞战斗版的事情了，大家有没有觉得很神奇呢？感谢大家点进小编的文章。大家有什么关于安装Windows10专业电竞战斗版的想法和评论，欢迎在文章结尾下方留言。</p>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Windows/">Windows</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Virtualbox/">Virtualbox</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Ghost/">Ghost</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/10/13/Buta-Sticky-Notes/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Buta Sticky Notes</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2020/07/08/%E5%88%A0%E9%99%A4-MongoDB-%E5%92%8C-Linux-Journal-%E6%97%A5%E5%BF%97/">
+                        <span class="hidden-mobile">删除 MongoDB 和 Linux Journal 日志</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <div class="comments" id="comments">
+                
+                
+  <div id="vcomments"></div>
+  <script type="text/javascript">
+    function loadValine() {
+      addScript('https://cdn.staticfile.org/valine/1.4.14/Valine.min.js', function () {
+        new Valine({
+          el: "#vcomments",
+          app_id: "HqFsh1LCE27dz8hTC6c5S0fC-gzGzoHsz",
+          app_key: "xwj5VSA24fO1r9O5cOXuFGFS",
+          placeholder: "唠唠？",
+          path: window.location.pathname,
+          avatar: "retro",
+          meta: ["nick","mail","link"],
+          pageSize: "10",
+          lang: "zh-CN",
+          highlight: true,
+          recordIP: false,
+          serverURLs: "",
+        });
+      });
+    }
+    createObserver(loadValine, 'vcomments');
+  </script>
+  <noscript>Please enable JavaScript to view the <a target="_blank" href="https://valine.js.org" rel="nofollow noopener noopener">comments
+      powered by Valine.</a></noscript>
+
+
+              </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+  <div class="col-lg-7 mx-auto nopadding-md">
+    <div class="container custom post-content mx-auto">
+      <img src="/media/all_avatars.png" srcset="/img/loading.gif" class="rounded mx-auto d-block mt-5" style="width:150px; height:50px;">
+    </div>
+  </div>
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+    <div class="col-lg-7 mx-auto nopadding-md">
+      <div class="container custom mx-auto">
+        <center><a href="https://travellings.now.sh/" target="blank" title="开往 - 友链接力"><img class="travellings" src="/media/travellings.svg" srcset="/img/loading.gif" alt="开往 - 友链接力" width="160"></a></center>
+      </div>
+    </div>
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- LeanCloud 统计PV -->
+        <span id="leancloud-site-pv-container" style="display: none">
+            总访问量 
+            <span id="leancloud-site-pv"></span>
+             次
+          </span>
+      
+      
+        <!-- LeanCloud 统计UV -->
+        <span id="leancloud-site-uv-container" style="display: none">
+            总访客数 
+            <span id="leancloud-site-uv"></span>
+             人
+          </span>
+      
+
+    
+  </div>
+
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+  <script defer>
+  (function () {
+    // 查询存储的记录
+    function getRecord(Counter, target) {
+      return new Promise(function (resolve, reject) {
+        Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({target})))
+          .then(resp => resp.json())
+          .then(({results, code, error}) => {
+            if (code === 401) {
+              throw error;
+            }
+            if (results && results.length > 0) {
+              var record = results[0];
+              resolve(record);
+            } else {
+              Counter('post', '/classes/Counter', {target, time: 0})
+                .then(resp => resp.json())
+                .then((record, error) => {
+                  if (error) {
+                    throw error;
+                  }
+                  resolve(record);
+                }).catch(error => {
+                console.error('Failed to create', error);
+                reject(error);
+              });
+            }
+          }).catch((error) => {
+          console.error('LeanCloud Counter Error:', error);
+          reject(error);
+        });
+      })
+    }
+
+    // 发起自增请求
+    function increment(Counter, incrArr) {
+      return new Promise(function (resolve, reject) {
+        Counter('post', '/batch', {
+          "requests": incrArr
+        }).then((res) => {
+          res = res.json();
+          if (res.error) {
+            throw res.error;
+          }
+          resolve(res);
+        }).catch((error) => {
+          console.error('Failed to save visitor count', error);
+          reject(error);
+        });
+      });
+    }
+
+    // 构建自增请求体
+    function buildIncrement(objectId) {
+      return {
+        "method": "PUT",
+        "path": `/1.1/classes/Counter/${ objectId }`,
+        "body": {
+          "time": {
+            '__op': 'Increment',
+            'amount': 1
+          }
+        }
+      }
+    }
+
+    // 校验是否为有效的 UV
+    function validUV() {
+      var key = 'LeanCloud_UV_Flag';
+      var flag = localStorage.getItem(key);
+      if (flag) {
+        // 距离标记小于 24 小时则不计为 UV
+        if (new Date().getTime() - parseInt(flag) <= 86400000) {
+          return false;
+        }
+      }
+      localStorage.setItem(key, new Date().getTime().toString());
+      return true;
+    }
+
+    function addCount(Counter) {
+      var enableIncr = 'true' === 'true' && window.location.hostname !== 'localhost';
+      var getterArr = [];
+      var incrArr = [];
+
+      // 请求 PV 并自增
+      var pvCtn = document.querySelector('#leancloud-site-pv-container');
+      if (pvCtn || enableIncr) {
+        var pvGetter = getRecord(Counter, 'site-pv').then((record) => {
+          incrArr.push(buildIncrement(record.objectId))
+          var ele = document.querySelector('#leancloud-site-pv');
+          if (ele) {
+            ele.innerText = record.time + 1;
+            if (pvCtn) {
+              pvCtn.style.display = 'inline';
+            }
+          }
+        });
+        getterArr.push(pvGetter);
+      }
+
+      // 请求 UV 并自增
+      var uvCtn = document.querySelector('#leancloud-site-uv-container');
+      if (uvCtn || enableIncr) {
+        var uvGetter = getRecord(Counter, 'site-uv').then((record) => {
+          var vuv = validUV();
+          vuv && incrArr.push(buildIncrement(record.objectId))
+          var ele = document.querySelector('#leancloud-site-uv');
+          if (ele) {
+            ele.innerText = record.time + (vuv ? 1 : 0);
+            if (uvCtn) {
+              uvCtn.style.display = 'inline';
+            }
+          }
+        });
+        getterArr.push(uvGetter);
+      }
+
+      // 如果是文章，请求文章的浏览数，并自增
+      if ('true' === 'true') {
+        var viewCtn = document.querySelector('#leancloud-post-views-container');
+        if (viewCtn || enableIncr) {
+          var target = decodeURI('/2020/09/28/Windows-10-%E4%B8%93%E4%B8%9A%E7%94%B5%E7%AB%9E%E6%88%98%E6%96%97%E7%89%88%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%8D%8A%E6%97%A5%E6%B8%B8%EF%BC%88%E8%AE%A4%E7%9C%9F%E8%84%B8%EF%BC%89/');
+          var viewGetter = getRecord(Counter, target).then((record) => {
+            incrArr.push(buildIncrement(record.objectId))
+            if (viewCtn) {
+              var ele = document.querySelector('#leancloud-post-views');
+              if (ele) {
+                ele.innerText = (record.time || 0) + 1;
+                viewCtn.style.display = 'inline';
+              }
+            }
+          });
+          getterArr.push(viewGetter);
+        }
+      }
+
+      // 如果启动计数自增，批量发起自增请求
+      if (enableIncr) {
+        Promise.all(getterArr).then(() => {
+          incrArr.length > 0 && increment(Counter, incrArr);
+        })
+      }
+    }
+
+    var app_id = 'HqFsh1LCE27dz8hTC6c5S0fC-gzGzoHsz'
+    var app_key = 'xwj5VSA24fO1r9O5cOXuFGFS'
+    var server_url = 'https://b-test.hic.plus'
+
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${ api_server }/1.1${ url }`, {
+          method,
+          headers: {
+            'X-LC-Id': app_id,
+            'X-LC-Key': app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+
+      addCount(Counter);
+    }
+
+    var api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${ app_id.slice(0, 8).toLowerCase() }.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(resp => resp.json())
+        .then(({api_server}) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+
+
+  
+<script src="/css/js/instantchat.js"></script>
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "Windows 10 专业电竞战斗版虚拟机半日游（认真脸）&nbsp;",
+      ],
+      cursorChar: "|",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+      icon: "§"
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+</body>
+</html>

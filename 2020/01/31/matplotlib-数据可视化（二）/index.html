@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#a5544c">
+  <meta name="description" content="趴窝">
+  <meta name="author" content="丁二 Butanediol">
+  <meta name="keywords" content="丁二">
+  <title>Matplotlib 数据可视化（二） - 丁丁の店</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/atom-one-dark.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+  
+<link rel="stylesheet" href="/css/dark.css">
+<link rel="stylesheet" href="/css/heimu.css">
+<link rel="stylesheet" href="/css/animation.css">
+<link rel="stylesheet" href="/fontawesome/css/all.css">
+<link rel="stylesheet" href="https://at.alicdn.com/t/font_1808290_xku9cl5tdk9.css">
+
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>丁丁の店</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" target="_blank" rel="noopener" href="https://travellings.now.sh/">
+                <i class="fas fa-plane-departure"></i>
+                开往
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-caret-square-down"></i>
+                更多
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" target="_blank" rel="noopener" href="https://cloud.butanediol.me">
+                    <i class="fas fa-hdd"></i>
+                    丁二仓库
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/static/pgp.asc">
+                    <i class="fas fa-key"></i>
+                    PGP
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/media/posts_img/matplotlib_l2.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-01-31 19:19">
+      2020年1月31日 晚上
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.5k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      19
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <h1 id="Matplotlib-数据可视化（二）"><a href="#Matplotlib-数据可视化（二）" class="headerlink" title="Matplotlib 数据可视化（二）"></a>Matplotlib 数据可视化（二）</h1><h2 id="引入"><a href="#引入" class="headerlink" title="引入"></a>引入</h2><p>这一篇做的其实是上一篇的练习。</p>
+<p>想象有一个小人，每一回合随机移动一次，我们想记录下小人每次移动后的位置，并用 matplotlib 以散点图的形式绘制出来。<br>下面我们做的就是模拟这个过程。</p>
+<h2 id="生成数据"><a href="#生成数据" class="headerlink" title="生成数据"></a>生成数据</h2><p>要生成随机数据，先导入一个函数：</p>
+<div class="hljs"><pre><code class="hljs python"><span class="hljs-keyword">from</span> random <span class="hljs-keyword">import</span> choice</code></pre></div>
+<p>这里附上一段简单的介绍：</p>
+<blockquote>
+<p><code>random</code> 模块有大量的函数用来产生随机数和随机选择元素。 比如，要想从一个序列中随机的抽取一个元素，可以使用 <code>random.choice()</code></p>
+<div class="hljs"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-keyword">import</span> random
+<span class="hljs-meta">&gt;&gt;&gt; </span>values = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>]
+<span class="hljs-meta">&gt;&gt;&gt; </span>random.choice(values)
+<span class="hljs-number">2</span>
+<span class="hljs-meta">&gt;&gt;&gt; </span>random.choice(values)
+<span class="hljs-number">3</span></code></pre></div>
+<p><a target="_blank" rel="noopener" href="https://python3-cookbook.readthedocs.io/zh_CN/latest/c03/p11_pick_things_at_random.html">Python3 Cookbook 3.0.0 文档</a></p>
+</blockquote>
+<p>当然这里我们只导入了 <code>choice</code> 函数，直接使用就好了。<br>这里先写一个 <code>RandomWalk</code> 类</p>
+<p><strong><code>random_walk.py</code></strong></p>
+<div class="hljs"><pre><code class="hljs python">--snip--
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">RandomWalk</span>():</span>
+	<span class="hljs-string">&quot;&quot;&quot;一个生成随机漫步数据的类&quot;&quot;&quot;</span>
+
+	<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span>(<span class="hljs-params">self, num_points=<span class="hljs-number">5000</span></span>):</span>
+		<span class="hljs-string">&quot;&quot;&quot;初始化随机漫步的属性&quot;&quot;&quot;</span>
+		self.num_points = num_points
+
+		self.x_values = [<span class="hljs-number">0</span>]
+		self.y_values = [<span class="hljs-number">0</span>]
+
+	<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">fill_walk</span>(<span class="hljs-params">self</span>):</span>
+		<span class="hljs-string">&quot;&quot;&quot;计算随机漫步包含的所有点&quot;&quot;&quot;</span>
+
+		<span class="hljs-comment"># 不断漫步，直到列表达到指定的长度</span>
+		<span class="hljs-keyword">while</span> <span class="hljs-built_in">len</span>(self.x_values) &lt; self.num_points:
+			<span class="hljs-comment"># 决定前进方向以及沿这个方向前进的距离</span>
+			x_direction = choice([<span class="hljs-number">1</span>, <span class="hljs-number">-1</span>])
+			x_distance = choice([<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>])
+			x_step = x_direction * x_distance
+
+			y_direction = choice([<span class="hljs-number">1</span>, <span class="hljs-number">-1</span>])
+			y_distance = choice([<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>])
+			y_step = x_direction * y_distance
+
+			<span class="hljs-comment"># 拒绝原地踏步</span>
+			<span class="hljs-keyword">if</span> x_step == <span class="hljs-number">0</span> <span class="hljs-keyword">and</span> y_step == <span class="hljs-number">0</span>:
+				<span class="hljs-keyword">continue</span>
+
+			<span class="hljs-comment"># 计算下一个点的 x 和 y 值</span>
+			next_x = self.x_values[<span class="hljs-number">-1</span>] + x_step
+			next_y = self.y_values[<span class="hljs-number">-1</span>] + y_step
+
+			self.x_values.append(next_x)
+			self.y_values.append(next_y)</code></pre></div>
+<p>这个类接收一个参数 <code>num_points</code> 表示漫步/随机生成数据的数量。我们把它的默认值定为 5000。<br>然后先来看这个 <code>fill_walk()</code> 函数。</p>
+<h4 id="fill-walk-函数"><a href="#fill-walk-函数" class="headerlink" title="fill_walk() 函数"></a><code>fill_walk()</code> 函数</h4><p>首先这个循环很容易理解，只要 <code>x_values</code> 的长度没有到达预定的数量就一直生成数据，于是我们可以获得指定数量的随机数据。</p>
+<p>生成的数据包含两个数字，<code>x_step</code> 和 <code>y_step</code>，即漫步的纵横方向。先从 ±1 中随机挑选一个，指定了移动的方向是正方向还是负方向，然后再从 <code>distance</code> 中随机选一个数，指定了移动距离。两个数字相乘就是移动的量。</p>
+<p>但是有一种可能是，x 和 y 同时选中了 0，我们不想让它原地踏步，所以如果出现这种情况，就不写入数据，而是再随机一轮。</p>
+<p>但在这里我们要画出的并不是位置的变化量，而是位置本身，所以我们要计算出，这次移动之后，我们漫步到了什么位置。<br><code>next_x</code> 和 <code>next_y</code> 的值就是上一次 x 和 y 的位置，加上变化量。</p>
+<p>看到这里，<code>x_values</code> 和 <code>y_values</code> 的功能也就明了了，他们记录的是小人每次移动后的位置。<br>然后我们把这个移动的量分别存入 <code>x_values</code> 和 <code>y_values</code> 中，两个相同位置的 x 和 y 值一一对应，就是小人每次移动后的位置。</p>
+<p>因为我们想让小人从原点出发，所以这里我们初始化 <code>x_values</code> 和 <code>y_values</code> 中的第一个值为 0。</p>
+<h2 id="绘制图像"><a href="#绘制图像" class="headerlink" title="绘制图像"></a>绘制图像</h2><h3 id="基础图像"><a href="#基础图像" class="headerlink" title="基础图像"></a>基础图像</h3><p>首先导入需要的模块。<br>**<code>rw_visual.py</code>**</p>
+<div class="hljs"><pre><code class="hljs python"><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt
+
+<span class="hljs-keyword">from</span> random_walk <span class="hljs-keyword">import</span> RandomWalk</code></pre></div>
+
+<p><strong><code>rw_visual.py</code></strong></p>
+<div class="hljs"><pre><code class="hljs python">rw = RandomWalk()
+rw.fill_walk()
+
+plt.scatter(rw.x_values, rw.y_values, s=<span class="hljs-number">10</span>, c=<span class="hljs-string">&#x27;blue&#x27;</span>, edgecolor=<span class="hljs-string">&#x27;none&#x27;</span>)
+
+plt.show()</code></pre></div>
+<p>首先创建一个 <code>RandomWalk</code> 类的实例，并运行 <code>fill_walk()</code> 函数来生成数据。</p>
+<p>然后绘制散点图，x 和 y 的数据即 <code>RandomWalk</code> 中的 <code>x_values</code> 和 <code>y_values</code>。<br><img src="https://tva1.sinaimg.cn/large/006tNbRwly1gbfit0o8orj30zk0twtbu.jpg" srcset="/img/loading.gif" alt="我的效果图"></p>
+<h3 id="进阶图像"><a href="#进阶图像" class="headerlink" title="进阶图像"></a>进阶图像</h3><p>既然是随机漫步，我们就想知道开始的位置和结束的位置，以及行走的方向。</p>
+<p><strong><code>rw_visual.py</code></strong></p>
+<div class="hljs"><pre><code class="hljs python">rw = RandomWalk()
+rw.fill_walk()
+
+--snip--
+
+plt.figure(figsize=(<span class="hljs-number">10</span>, <span class="hljs-number">6</span>))
+
+point_numbers = <span class="hljs-built_in">list</span>(<span class="hljs-built_in">range</span>(rw.num_points))
+plt.scatter(rw.x_values, rw.y_values, s=<span class="hljs-number">10</span>, c=point_numbers, cmap=plt.cm.Blues,
+	edgecolor=<span class="hljs-string">&#x27;none&#x27;</span>)
+
+<span class="hljs-comment"># 突出起点和终点</span>
+plt.scatter(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, c=<span class="hljs-string">&#x27;green&#x27;</span>, edgecolor=<span class="hljs-string">&#x27;none&#x27;</span>, s=<span class="hljs-number">100</span>)
+plt.scatter(rw.x_values[<span class="hljs-number">-1</span>], rw.y_values[<span class="hljs-number">-1</span>], c=<span class="hljs-string">&#x27;red&#x27;</span>, edgecolor=<span class="hljs-string">&#x27;none&#x27;</span>, s=<span class="hljs-number">100</span>)
+
+--snip--
+plt.show()</code></pre></div>
+<p><code>plt.figure(figsize=(10, 6))</code> 设置了绘图窗口的尺寸，<code>figure()</code> 是用来指定图表的一些参数的，例如尺寸、分辨率、颜色，这里我们制定尺寸，所以需要给形参 <code>figsize</code> 一个<strong>元组</strong>，规定绘图窗口的尺寸，单位是<strong>英寸</strong>。</p>
+<p>这里 Python 默认你的屏幕分辨率是 80 PPI（像素/英寸），如果想设定的话，可以使用形参 <code>dpi</code>，如 <code>plt.figure(dpi=128, figsize(10, 6))</code>。<sup id="fnref:1" class="footnote-ref"><a href="#fn:1" rel="footnote"><span class="hint--top hint--rounded" aria-label="这个 DPI 的概念感觉不是很清楚，在这里应该就认为屏幕上的 Dots per inch 就是 Pixels per inch 了。
+">[1]</span></a></sup></p>
+<p>然后我们想按照漫步的顺序来给点上色，先走到的点颜色浅，后走到的点颜色深，于是我们创建一个列表，内容是 <code>[1,2,3,..., rw.numpoints]</code>，这个列表的长度刚好与漫步的次数相同。</p>
+<p>此外，我们还想突出起点和终点，于是使用了额外的两行，重新定义了起点和终点的属性。起点就是 <code>(rw.x_values[0], rw.y_values[0])</code> 点，也就是 <code>(0, 0)</code> 点，我们用绿色标出；终点就是最后一组数据，即 <code>(rw.x_values[-1], rw.y_values[-1])</code> 点，用红色标出。</p>
+<p><img src="https://tva1.sinaimg.cn/large/006tNbRwly1gbfjzmvyexj319l0u0dlw.jpg" srcset="/img/loading.gif" alt="我的效果图"></p>
+<p>除此之外还可以隐藏坐标轴：<br>**<code>rw_visual.py</code>**</p>
+<div class="hljs"><pre><code class="hljs python">plt.axes().get_xaxis().set_visible(<span class="hljs-literal">False</span>)
+plt.axes().get_yaxis().set_visible(<span class="hljs-literal">False</span>)</code></pre></div>
+<p>但是我这里会报两个 Warning:</p>
+<div class="hljs"><pre><code class="hljs bash">MatplotlibDeprecationWarning: Adding an axes using the same arguments as a previous axes currently reuses the earlier instance.  In a future version, a new instance will always be created and returned.  Meanwhile, this warning can be suppressed, and the future behavior ensured, by passing a unique label to each axes instance.
+  plt.axes().get_xaxis().set_visible(False)
+
+MatplotlibDeprecationWarning: Adding an axes using the same arguments as a previous axes currently reuses the earlier instance.  In a future version, a new instance will always be created and returned.  Meanwhile, this warning can be suppressed, and the future behavior ensured, by passing a unique label to each axes instance.
+  plt.axes().get_yaxis().set_visible(False)</code></pre></div>
+
+<p>意思似乎是，现在这个版本可以这样写，但以后可能会有问题，如果你不打算更新版本的话也没问题。<br><img src="https://tva1.sinaimg.cn/large/006tNbRwly1gbfka9ln6fj319l0u0jwu.jpg" srcset="/img/loading.gif" alt="我的效果图"></p>
+<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>这个 DPI 的概念感觉不是很清楚，在这里应该就认为屏幕上的 Dots per inch 就是 Pixels per inch 了。
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E5%86%99%E4%BB%A3%E7%A0%81/">写代码</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%B0%8F%E8%AF%BE%E5%A0%82/">小课堂</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/">数据可视化</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/02/07/%E8%B5%84%E6%BA%90%E5%88%86%E4%BA%AB-%E6%BC%AB%E7%94%BB-%E6%8E%A0%E5%A4%BA%E8%80%85-%E6%98%9F%E6%8E%A0%E8%80%85/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">【资源分享】【漫画】掠夺者|星掠者</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2020/01/22/matplotlib-%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96%EF%BC%88%E4%B8%80%EF%BC%89/">
+                        <span class="hidden-mobile">Matplotlib 数据可视化（一）</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <div class="comments" id="comments">
+                
+                
+  <div id="vcomments"></div>
+  <script type="text/javascript">
+    function loadValine() {
+      addScript('https://cdn.staticfile.org/valine/1.4.14/Valine.min.js', function () {
+        new Valine({
+          el: "#vcomments",
+          app_id: "HqFsh1LCE27dz8hTC6c5S0fC-gzGzoHsz",
+          app_key: "xwj5VSA24fO1r9O5cOXuFGFS",
+          placeholder: "唠唠？",
+          path: window.location.pathname,
+          avatar: "retro",
+          meta: ["nick","mail","link"],
+          pageSize: "10",
+          lang: "zh-CN",
+          highlight: true,
+          recordIP: false,
+          serverURLs: "",
+        });
+      });
+    }
+    createObserver(loadValine, 'vcomments');
+  </script>
+  <noscript>Please enable JavaScript to view the <a target="_blank" href="https://valine.js.org" rel="nofollow noopener noopener">comments
+      powered by Valine.</a></noscript>
+
+
+              </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+  <div class="col-lg-7 mx-auto nopadding-md">
+    <div class="container custom post-content mx-auto">
+      <img src="/media/all_avatars.png" srcset="/img/loading.gif" class="rounded mx-auto d-block mt-5" style="width:150px; height:50px;">
+    </div>
+  </div>
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+    <div class="col-lg-7 mx-auto nopadding-md">
+      <div class="container custom mx-auto">
+        <center><a href="https://travellings.now.sh/" target="blank" title="开往 - 友链接力"><img class="travellings" src="/media/travellings.svg" srcset="/img/loading.gif" alt="开往 - 友链接力" width="160"></a></center>
+      </div>
+    </div>
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- LeanCloud 统计PV -->
+        <span id="leancloud-site-pv-container" style="display: none">
+            总访问量 
+            <span id="leancloud-site-pv"></span>
+             次
+          </span>
+      
+      
+        <!-- LeanCloud 统计UV -->
+        <span id="leancloud-site-uv-container" style="display: none">
+            总访客数 
+            <span id="leancloud-site-uv"></span>
+             人
+          </span>
+      
+
+    
+  </div>
+
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+  <script defer>
+  (function () {
+    // 查询存储的记录
+    function getRecord(Counter, target) {
+      return new Promise(function (resolve, reject) {
+        Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({target})))
+          .then(resp => resp.json())
+          .then(({results, code, error}) => {
+            if (code === 401) {
+              throw error;
+            }
+            if (results && results.length > 0) {
+              var record = results[0];
+              resolve(record);
+            } else {
+              Counter('post', '/classes/Counter', {target, time: 0})
+                .then(resp => resp.json())
+                .then((record, error) => {
+                  if (error) {
+                    throw error;
+                  }
+                  resolve(record);
+                }).catch(error => {
+                console.error('Failed to create', error);
+                reject(error);
+              });
+            }
+          }).catch((error) => {
+          console.error('LeanCloud Counter Error:', error);
+          reject(error);
+        });
+      })
+    }
+
+    // 发起自增请求
+    function increment(Counter, incrArr) {
+      return new Promise(function (resolve, reject) {
+        Counter('post', '/batch', {
+          "requests": incrArr
+        }).then((res) => {
+          res = res.json();
+          if (res.error) {
+            throw res.error;
+          }
+          resolve(res);
+        }).catch((error) => {
+          console.error('Failed to save visitor count', error);
+          reject(error);
+        });
+      });
+    }
+
+    // 构建自增请求体
+    function buildIncrement(objectId) {
+      return {
+        "method": "PUT",
+        "path": `/1.1/classes/Counter/${ objectId }`,
+        "body": {
+          "time": {
+            '__op': 'Increment',
+            'amount': 1
+          }
+        }
+      }
+    }
+
+    // 校验是否为有效的 UV
+    function validUV() {
+      var key = 'LeanCloud_UV_Flag';
+      var flag = localStorage.getItem(key);
+      if (flag) {
+        // 距离标记小于 24 小时则不计为 UV
+        if (new Date().getTime() - parseInt(flag) <= 86400000) {
+          return false;
+        }
+      }
+      localStorage.setItem(key, new Date().getTime().toString());
+      return true;
+    }
+
+    function addCount(Counter) {
+      var enableIncr = 'true' === 'true' && window.location.hostname !== 'localhost';
+      var getterArr = [];
+      var incrArr = [];
+
+      // 请求 PV 并自增
+      var pvCtn = document.querySelector('#leancloud-site-pv-container');
+      if (pvCtn || enableIncr) {
+        var pvGetter = getRecord(Counter, 'site-pv').then((record) => {
+          incrArr.push(buildIncrement(record.objectId))
+          var ele = document.querySelector('#leancloud-site-pv');
+          if (ele) {
+            ele.innerText = record.time + 1;
+            if (pvCtn) {
+              pvCtn.style.display = 'inline';
+            }
+          }
+        });
+        getterArr.push(pvGetter);
+      }
+
+      // 请求 UV 并自增
+      var uvCtn = document.querySelector('#leancloud-site-uv-container');
+      if (uvCtn || enableIncr) {
+        var uvGetter = getRecord(Counter, 'site-uv').then((record) => {
+          var vuv = validUV();
+          vuv && incrArr.push(buildIncrement(record.objectId))
+          var ele = document.querySelector('#leancloud-site-uv');
+          if (ele) {
+            ele.innerText = record.time + (vuv ? 1 : 0);
+            if (uvCtn) {
+              uvCtn.style.display = 'inline';
+            }
+          }
+        });
+        getterArr.push(uvGetter);
+      }
+
+      // 如果是文章，请求文章的浏览数，并自增
+      if ('true' === 'true') {
+        var viewCtn = document.querySelector('#leancloud-post-views-container');
+        if (viewCtn || enableIncr) {
+          var target = decodeURI('/2020/01/31/matplotlib-%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96%EF%BC%88%E4%BA%8C%EF%BC%89/');
+          var viewGetter = getRecord(Counter, target).then((record) => {
+            incrArr.push(buildIncrement(record.objectId))
+            if (viewCtn) {
+              var ele = document.querySelector('#leancloud-post-views');
+              if (ele) {
+                ele.innerText = (record.time || 0) + 1;
+                viewCtn.style.display = 'inline';
+              }
+            }
+          });
+          getterArr.push(viewGetter);
+        }
+      }
+
+      // 如果启动计数自增，批量发起自增请求
+      if (enableIncr) {
+        Promise.all(getterArr).then(() => {
+          incrArr.length > 0 && increment(Counter, incrArr);
+        })
+      }
+    }
+
+    var app_id = 'HqFsh1LCE27dz8hTC6c5S0fC-gzGzoHsz'
+    var app_key = 'xwj5VSA24fO1r9O5cOXuFGFS'
+    var server_url = 'https://b-test.hic.plus'
+
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${ api_server }/1.1${ url }`, {
+          method,
+          headers: {
+            'X-LC-Id': app_id,
+            'X-LC-Key': app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+
+      addCount(Counter);
+    }
+
+    var api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${ app_id.slice(0, 8).toLowerCase() }.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(resp => resp.json())
+        .then(({api_server}) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+
+
+  
+<script src="/css/js/instantchat.js"></script>
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "Matplotlib 数据可视化（二）&nbsp;",
+      ],
+      cursorChar: "|",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+      icon: "§"
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+</body>
+</html>
