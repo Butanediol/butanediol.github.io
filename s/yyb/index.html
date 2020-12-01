@@ -1,0 +1,347 @@
+<!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<title></title><style type='text/css'>html {overflow-x: initial !important;}:root { --bg-color: #ffffff; --text-color: #333333; --select-text-bg-color: #B5D6FC; --select-text-font-color: auto; --monospace: "Lucida Console",Consolas,"Courier",monospace; }
+html { font-size: 14px; background-color: var(--bg-color); color: var(--text-color); font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+body { margin: 0px; padding: 0px; height: auto; bottom: 0px; top: 0px; left: 0px; right: 0px; font-size: 1rem; line-height: 1.42857143; overflow-x: hidden; background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; tab-size: 4; background-position: inherit inherit; background-repeat: inherit inherit; }
+iframe { margin: auto; }
+a.url { word-break: break-all; }
+a:active, a:hover { outline: 0px; }
+.in-text-selection, ::selection { text-shadow: none; background: var(--select-text-bg-color); color: var(--select-text-font-color); }
+#write { margin: 0px auto; height: auto; width: inherit; word-break: normal; word-wrap: break-word; position: relative; white-space: normal; overflow-x: visible; padding-top: 40px; }
+#write.first-line-indent p { text-indent: 2em; }
+#write.first-line-indent li p, #write.first-line-indent p * { text-indent: 0px; }
+#write.first-line-indent li { margin-left: 2em; }
+.for-image #write { padding-left: 8px; padding-right: 8px; }
+body.typora-export { padding-left: 30px; padding-right: 30px; }
+.typora-export .footnote-line, .typora-export li, .typora-export p { white-space: pre-wrap; }
+.typora-export .task-list-item input { pointer-events: none; }
+@media screen and (max-width: 500px) { 
+  body.typora-export { padding-left: 0px; padding-right: 0px; }
+  #write { padding-left: 20px; padding-right: 20px; }
+  .CodeMirror-sizer { margin-left: 0px !important; }
+  .CodeMirror-gutters { display: none !important; }
+}
+#write li > figure:last-child { margin-bottom: 0.5rem; }
+#write ol, #write ul { position: relative; }
+img { max-width: 100%; vertical-align: middle; image-orientation: from-image; }
+button, input, select, textarea { color: inherit; font-family: inherit; font-size: inherit; font-style: inherit; font-variant-caps: inherit; font-weight: inherit; font-stretch: inherit; line-height: inherit; }
+input[type="checkbox"], input[type="radio"] { line-height: normal; padding: 0px; }
+*, ::after, ::before { box-sizing: border-box; }
+#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p, #write pre { width: inherit; }
+#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p { position: relative; }
+p { line-height: inherit; }
+h1, h2, h3, h4, h5, h6 { break-after: avoid-page; break-inside: avoid; orphans: 4; }
+p { orphans: 4; }
+h1 { font-size: 2rem; }
+h2 { font-size: 1.8rem; }
+h3 { font-size: 1.6rem; }
+h4 { font-size: 1.4rem; }
+h5 { font-size: 1.2rem; }
+h6 { font-size: 1rem; }
+.md-math-block, .md-rawblock, h1, h2, h3, h4, h5, h6, p { margin-top: 1rem; margin-bottom: 1rem; }
+.hidden { display: none; }
+.md-blockmeta { color: rgb(204, 204, 204); font-weight: 700; font-style: italic; }
+a { cursor: pointer; }
+sup.md-footnote { padding: 2px 4px; background-color: rgba(238, 238, 238, 0.7); color: rgb(85, 85, 85); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; cursor: pointer; }
+sup.md-footnote a, sup.md-footnote a:hover { color: inherit; text-transform: inherit; text-decoration: inherit; }
+#write input[type="checkbox"] { cursor: pointer; width: inherit; height: inherit; }
+figure { overflow-x: auto; margin: 1.2em 0px; max-width: calc(100% + 16px); padding: 0px; }
+figure > table { margin: 0px; }
+tr { break-inside: avoid; break-after: auto; }
+thead { display: table-header-group; }
+table { border-collapse: collapse; border-spacing: 0px; width: 100%; overflow: auto; break-inside: auto; text-align: left; }
+table.md-table td { min-width: 32px; }
+.CodeMirror-gutters { border-right-width: 0px; background-color: inherit; }
+.CodeMirror-linenumber { }
+.CodeMirror { text-align: left; }
+.CodeMirror-placeholder { opacity: 0.3; }
+.CodeMirror pre { padding: 0px 4px; }
+.CodeMirror-lines { padding: 0px; }
+div.hr:focus { cursor: none; }
+#write pre { white-space: pre-wrap; }
+#write.fences-no-line-wrapping pre { white-space: pre; }
+#write pre.ty-contain-cm { white-space: normal; }
+.CodeMirror-gutters { margin-right: 4px; }
+.md-fences { font-size: 0.9rem; display: block; break-inside: avoid; text-align: left; overflow: visible; white-space: pre; background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; position: relative !important; background-position: inherit inherit; background-repeat: inherit inherit; }
+.md-diagram-panel { width: 100%; margin-top: 10px; text-align: center; padding-top: 0px; padding-bottom: 8px; overflow-x: auto; }
+#write .md-fences.mock-cm { white-space: pre-wrap; }
+.md-fences.md-fences-with-lineno { padding-left: 0px; }
+#write.fences-no-line-wrapping .md-fences.mock-cm { white-space: pre; overflow-x: auto; }
+.md-fences.mock-cm.md-fences-with-lineno { padding-left: 8px; }
+.CodeMirror-line, twitterwidget { break-inside: avoid; }
+.footnotes { opacity: 0.8; font-size: 0.9rem; margin-top: 1em; margin-bottom: 1em; }
+.footnotes + .footnotes { margin-top: 0px; }
+.md-reset { margin: 0px; padding: 0px; border: 0px; outline: 0px; vertical-align: top; text-decoration: none; text-shadow: none; float: none; position: static; width: auto; height: auto; white-space: nowrap; cursor: inherit; line-height: normal; font-weight: 400; text-align: left; box-sizing: content-box; direction: ltr; background-position: 0px 0px; background-repeat: initial initial; }
+li div { padding-top: 0px; }
+blockquote { margin: 1rem 0px; }
+li .mathjax-block, li p { margin: 0.5rem 0px; }
+li { margin: 0px; position: relative; }
+blockquote > :last-child { margin-bottom: 0px; }
+blockquote > :first-child, li > :first-child { margin-top: 0px; }
+.footnotes-area { color: rgb(136, 136, 136); margin-top: 0.714rem; padding-bottom: 0.143rem; white-space: normal; }
+#write .footnote-line { white-space: pre-wrap; }
+@media print { 
+  body, html { border: 1px solid transparent; height: 99%; break-after: avoid; break-before: avoid; font-variant-ligatures: no-common-ligatures; }
+  #write { margin-top: 0px; padding-top: 0px; border-color: transparent !important; }
+  .typora-export * { -webkit-print-color-adjust: exact; }
+  html.blink-to-pdf { font-size: 13px; }
+  .typora-export #write { break-after: avoid; }
+  .typora-export #write::after { height: 0px; }
+  .is-mac table { break-inside: avoid; }
+}
+.footnote-line { margin-top: 0.714em; font-size: 0.7em; }
+a img, img a { cursor: pointer; }
+pre.md-meta-block { font-size: 0.8rem; min-height: 0.8rem; white-space: pre-wrap; background-color: rgb(204, 204, 204); display: block; overflow-x: hidden; background-position: initial initial; background-repeat: initial initial; }
+p > .md-image:only-child:not(.md-img-error) img, p > img:only-child { display: block; margin: auto; }
+#write.first-line-indent p > .md-image:only-child:not(.md-img-error) img { left: -2em; position: relative; }
+p > .md-image:only-child { display: inline-block; width: 100%; }
+#write .MathJax_Display { margin: 0.8em 0px 0px; }
+.md-math-block { width: 100%; }
+.md-math-block:not(:empty)::after { display: none; }
+[contenteditable="true"]:active, [contenteditable="true"]:focus, [contenteditable="false"]:active, [contenteditable="false"]:focus { outline: 0px; box-shadow: none; }
+.md-task-list-item { position: relative; list-style-type: none; }
+.task-list-item.md-task-list-item { padding-left: 0px; }
+.md-task-list-item > input { position: absolute; top: 0px; left: 0px; margin-left: -1.2em; margin-top: calc(1em - 10px); border: none; }
+.math { font-size: 1rem; }
+.md-toc { min-height: 3.58rem; position: relative; font-size: 0.9rem; border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px; }
+.md-toc-content { position: relative; margin-left: 0px; }
+.md-toc-content::after, .md-toc::after { display: none; }
+.md-toc-item { display: block; color: rgb(65, 131, 196); }
+.md-toc-item a { text-decoration: none; }
+.md-toc-inner:hover { text-decoration: underline; }
+.md-toc-inner { display: inline-block; cursor: pointer; }
+.md-toc-h1 .md-toc-inner { margin-left: 0px; font-weight: 700; }
+.md-toc-h2 .md-toc-inner { margin-left: 2em; }
+.md-toc-h3 .md-toc-inner { margin-left: 4em; }
+.md-toc-h4 .md-toc-inner { margin-left: 6em; }
+.md-toc-h5 .md-toc-inner { margin-left: 8em; }
+.md-toc-h6 .md-toc-inner { margin-left: 10em; }
+@media screen and (max-width: 48em) { 
+  .md-toc-h3 .md-toc-inner { margin-left: 3.5em; }
+  .md-toc-h4 .md-toc-inner { margin-left: 5em; }
+  .md-toc-h5 .md-toc-inner { margin-left: 6.5em; }
+  .md-toc-h6 .md-toc-inner { margin-left: 8em; }
+}
+a.md-toc-inner { font-size: inherit; font-style: inherit; font-weight: inherit; line-height: inherit; }
+.footnote-line a:not(.reversefootnote) { color: inherit; }
+.md-attr { display: none; }
+.md-fn-count::after { content: "."; }
+code, pre, samp, tt { font-family: var(--monospace); }
+kbd { margin: 0px 0.1em; padding: 0.1em 0.6em; font-size: 0.8em; color: rgb(36, 39, 41); background-color: rgb(255, 255, 255); border: 1px solid rgb(173, 179, 185); border-top-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; border-bottom-left-radius: 3px; box-shadow: rgba(12, 13, 14, 0.2) 0px 1px 0px, rgb(255, 255, 255) 0px 0px 0px 2px inset; white-space: nowrap; vertical-align: middle; background-position: initial initial; background-repeat: initial initial; }
+.md-comment { color: rgb(162, 127, 3); opacity: 0.8; font-family: var(--monospace); }
+code { text-align: left; }
+a.md-print-anchor { white-space: pre !important; border: none !important; display: inline-block !important; position: absolute !important; width: 1px !important; right: 0px !important; outline: 0px !important; text-shadow: initial !important; background-position: 0px 0px !important; background-repeat: initial initial !important; }
+.md-inline-math .MathJax_SVG .noError { display: none !important; }
+.html-for-mac .inline-math-svg .MathJax_SVG { vertical-align: 0.2px; }
+.md-math-block .MathJax_SVG_Display { text-align: center; margin: 0px; position: relative; text-indent: 0px; max-width: none; max-height: none; min-height: 0px; min-width: 100%; width: auto; overflow-y: hidden; display: block !important; }
+.MathJax_SVG_Display, .md-inline-math .MathJax_SVG_Display { width: auto; margin: inherit; display: inline-block !important; }
+.MathJax_SVG .MJX-monospace { font-family: var(--monospace); }
+.MathJax_SVG .MJX-sans-serif { font-family: sans-serif; }
+.MathJax_SVG { display: inline; font-style: normal; font-weight: 400; line-height: normal; zoom: 90%; text-indent: 0px; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0px; min-height: 0px; border: 0px; padding: 0px; margin: 0px; }
+.MathJax_SVG * { transition: none; }
+.MathJax_SVG_Display svg { vertical-align: middle !important; margin-bottom: 0px !important; margin-top: 0px !important; }
+.os-windows.monocolor-emoji .md-emoji { font-family: "Segoe UI Symbol", sans-serif; }
+.md-diagram-panel > svg { max-width: 100%; }
+[lang="flow"] svg, [lang="mermaid"] svg { max-width: 100%; height: auto; }
+[lang="mermaid"] .node text { font-size: 1rem; }
+table tr th { border-bottom-width: 0px; }
+video { max-width: 100%; display: block; margin: 0px auto; }
+iframe { max-width: 100%; width: 100%; border: none; }
+.highlight td, .highlight tr { border: 0px; }
+svg[id^="mermaidChart"] { line-height: 1em; }
+mark { background-color: rgb(255, 255, 0); color: rgb(0, 0, 0); background-position: initial initial; background-repeat: initial initial; }
+.md-html-inline .md-plain, .md-html-inline strong, mark .md-inline-math, mark strong { color: inherit; }
+mark .md-meta { color: rgb(0, 0, 0); opacity: 0.3 !important; }
+@media print { 
+  .typora-export h1, .typora-export h2, .typora-export h3, .typora-export h4, .typora-export h5, .typora-export h6 { break-inside: avoid; }
+}
+
+
+:root {
+	--primary-color: #2875d9;
+}
+
+/*@font-face {
+	font-family: 'Computer Modern';
+	font-style: italic;
+	font-weight: bold;
+	src: url('file:///Users/Butanediol/Library/Application%20Support/abnerworks.Typora/themes/paper/cmunbi.ttf');
+}*/
+
+* {
+	box-sizing: border-box;
+}
+
+html, body, #write {
+	font-family: 'Computer Modern';
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: 'Computer Modern';
+}
+
+h1 {
+	font-size: 2rem;
+}
+
+h2 {
+	font-size: 1.8rem;
+}
+
+h3 {
+	font-size: 1.6rem;
+}
+
+h4 {
+	font-size: 1.4rem;
+}
+
+h5 {
+	font-size: 1.2rem;
+}
+
+h6 {
+	font-size: 1rem;
+}
+
+html {
+	font-size: 20px;
+}
+
+body, #write {
+	max-width: 95%;
+	text-align: justify;
+	display: block;
+	margin: auto;
+}
+
+p {
+	font-size: 1rem;
+}
+
+a {
+	color: var(--primary-color);
+}
+
+/* Stuff */
+
+sup.md-footnote {
+	background-color: transparent;
+	color: var(--primary-color);
+	padding: 1px;
+	margin: 0;
+}
+
+code, .md-fences, .sourceCode {
+	background: #f2f2f2;
+}
+
+.md-fences, pre.sourceCode {
+	font-size: .7em;
+	padding: .5rem;
+}
+
+.show-fences-line-number .md-fences {
+	padding-left: .5rem;
+}
+
+blockquote {
+	margin: 2rem .2rem;
+	padding: .3rem .5rem;
+	color: #6f6f6f;
+	border-left: .4rem solid gray;
+}
+
+blockquote p {
+	padding: .2rem 1.5rem;
+}
+
+mark {
+	background: yellow;
+}
+
+figure {
+	margin: .5rem auto;
+	max-width: 100%;
+	display: block;
+	margin: auto;
+}
+
+figcaption {
+	text-align: center;
+	margin: .5rem auto;
+}
+
+img {
+	max-width: 100%;
+	display: block;
+	margin: auto;
+}
+
+/* 
+    Print Mode and page breaks.
+    WkhtmlToPDF does not work on @print mode
+*/
+
+@media (max-width: 100%) {
+	img {
+		max-height: 8cm;
+	}
+	html {
+		font-size: 16px;
+	}
+	div[title="pb"], page-break {
+		display: block;
+		page-break-after: always;
+		break-after: page;
+	}
+	nav {
+		font-size: .9rem;
+		page-break-after: always;
+		page-break-before: always;
+	}
+	nav a {
+		color: black;
+	}
+	/* Move top-level headings to a new page on the right-hand side: */
+	h1, h2 {
+		page-break-before: right;
+		break-before: recto;
+	}
+	/* Override the previous ruleset for the very first heading: */
+	h1:first-of-type, section>h1:first-child {
+		page-break-before: avoid;
+		break-before: avoid;
+	}
+	/* Headings should not be the last paragraph on a page: */
+	h1, h2, h3, h4, h5, h6 {
+		page-break-after: avoid;
+	}
+	/* Consecutive headings with deepening level should not be split across pages: */
+	h1+h2, h2+h3, h3+h4, h4+h5, h5+h6 {
+		page-break-before: avoid;
+	}
+
+}
+
+@media print {
+    #write{
+        max-width: 100%;
+    }
+
+    @page {
+        size: A4;
+        margin-left: 0;
+        margin-right: 0;
+    }
+}
+
+
+</style>
+</head>
+<body class='typora-export'>
+<div id='write'  class=''><h1><a name="中文文案排版指北" class="md-header-anchor"></a><span>中文文案排版指北</span></h1><p><a href='https://crowdin.com/project/chinese-copywriting-guidelines'><img src="https://d322cqt584bo4o.cloudfront.net/chinese-copywriting-guidelines/localized.svg" referrerpolicy="no-referrer" alt="Crowdin"></a><span> </span><a href='https://greenkeeper.io/'><img src="https://badges.greenkeeper.io/sparanoid/chinese-copywriting-guidelines.svg" referrerpolicy="no-referrer" alt="Greenkeeper badge"></a><span> </span><a href='https://david-dm.org/sparanoid/chinese-copywriting-guidelines#info=devDependencies'><img src="https://david-dm.org/sparanoid/chinese-copywriting-guidelines/dev-status.svg" referrerpolicy="no-referrer" alt="devDependency Status"></a><span> </span><a href='https://sparanoid.com/note/chinese-copywriting-guidelines/'><img src="https://d349cztnlupsuf.cloudfront.net/amsf-badge.svg" referrerpolicy="no-referrer" alt="Built with Almace Scaffolding"></a></p><p><span>统一中文文案、排版的相关用法，降低团队成员之间的沟通成本，增强网站气质。</span></p><p><span>其他语言：</span></p><ul><li><a href='README.en-US.md'><span>英语</span></a></li><li><a href='README.md'><span>繁体中文</span></a></li><li><a href='README.zh-CN.md'><span>简体中文</span></a></li><li><a href='https://github.com/mzlogin/chinese-copywriting-guidelines'><span>简体中文</span></a><span>（外部链接）</span></li></ul><hr /><h2><a name="目录" class="md-header-anchor"></a><span>目录</span></h2><div class='md-toc' mdtype='toc'><p class="md-toc-content" role="list"><span role="listitem" class="md-toc-item md-toc-h1" data-ref="n286"><a class="md-toc-inner" href="#中文文案排版指北">中文文案排版指北</a></span><span role="listitem" class="md-toc-item md-toc-h2" data-ref="n301"><a class="md-toc-inner" href="#目录">目录</a></span><span role="listitem" class="md-toc-item md-toc-h2" data-ref="n306"><a class="md-toc-inner" href="#空格">空格</a></span><span role="listitem" class="md-toc-item md-toc-h3" data-ref="n309"><a class="md-toc-inner" href="#中英文之间需要增加空格">中英文之间需要增加空格</a></span><span role="listitem" class="md-toc-item md-toc-h3" data-ref="n321"><a class="md-toc-inner" href="#中文与数字之间需要增加空格">中文与数字之间需要增加空格</a></span><span role="listitem" class="md-toc-item md-toc-h3" data-ref="n329"><a class="md-toc-inner" href="#数字与单位之间需要增加空格">数字与单位之间需要增加空格</a></span><span role="listitem" class="md-toc-item md-toc-h3" data-ref="n345"><a class="md-toc-inner" href="#全角标点与其他字符之间不加空格">全角标点与其他字符之间不加空格</a></span><span role="listitem" class="md-toc-item md-toc-h3" data-ref="n353"><a class="md-toc-inner" href="#用-text-spacing-来挽救">用 <code>text-spacing</code> 来挽救？</a></span><span role="listitem" class="md-toc-item md-toc-h2" data-ref="n355"><a class="md-toc-inner" href="#标点符号">标点符号</a></span><span role="listitem" class="md-toc-item md-toc-h3" data-ref="n356"><a class="md-toc-inner" href="#不重复使用标点符号">不重复使用标点符号</a></span><span role="listitem" class="md-toc-item md-toc-h2" data-ref="n367"><a class="md-toc-inner" href="#全角和半角">全角和半角</a></span><span role="listitem" class="md-toc-item md-toc-h3" data-ref="n369"><a class="md-toc-inner" href="#使用全角中文标点">使用全角中文标点</a></span><span role="listitem" class="md-toc-item md-toc-h3" data-ref="n380"><a class="md-toc-inner" href="#数字使用半角字符">数字使用半角字符</a></span><span role="listitem" class="md-toc-item md-toc-h3" data-ref="n388"><a class="md-toc-inner" href="#遇到完整的英文整句特殊名词其内容使用半角标点">遇到完整的英文整句、特殊名词，其内容使用半角标点</a></span><span role="listitem" class="md-toc-item md-toc-h2" data-ref="n397"><a class="md-toc-inner" href="#名词">名词</a></span><span role="listitem" class="md-toc-item md-toc-h3" data-ref="n398"><a class="md-toc-inner" href="#专有名词使用正确的大小写">专有名词使用正确的大小写</a></span><span role="listitem" class="md-toc-item md-toc-h3" data-ref="n417"><a class="md-toc-inner" href="#不要使用不地道的缩写">不要使用不地道的缩写</a></span><span role="listitem" class="md-toc-item md-toc-h2" data-ref="n424"><a class="md-toc-inner" href="#争议">争议</a></span><span role="listitem" class="md-toc-item md-toc-h3" data-ref="n426"><a class="md-toc-inner" href="#链接之间增加空格">链接之间增加空格</a></span><span role="listitem" class="md-toc-item md-toc-h3" data-ref="n435"><a class="md-toc-inner" href="#简体中文使用直角引号">简体中文使用直角引号</a></span><span role="listitem" class="md-toc-item md-toc-h2" data-ref="n442"><a class="md-toc-inner" href="#工具">工具</a></span><span role="listitem" class="md-toc-item md-toc-h2" data-ref="n480"><a class="md-toc-inner" href="#谁在这样做">谁在这样做？</a></span><span role="listitem" class="md-toc-item md-toc-h2" data-ref="n534"><a class="md-toc-inner" href="#参考文献">参考文献</a></span></p></div><h2><a name="空格" class="md-header-anchor"></a><span>空格</span></h2><p><span>「有研究显示，打字的时候不喜欢在中文和英文之间加空格的人，感情路都走得很辛苦，有七成的比例会在 34 岁的时候跟自己不爱的人结婚，而其余三成的人最后只能把遗产留给自己的猫。毕竟爱情跟书写都需要适时地留白。</span></p><p><span>与大家共勉之。」——</span><a href='https://github.com/vinta/pangu.js'><span>vinta/paranoid-auto-spacing</span></a></p><h3><a name="中英文之间需要增加空格" class="md-header-anchor"></a><span>中英文之间需要增加空格</span></h3><p><span>正确：</span></p><blockquote><p><span>在 LeanCloud 上，数据存储是围绕 </span><code>AVObject</code><span> 进行的。</span></p></blockquote><p><span>错误：</span></p><blockquote><p><span>在LeanCloud上，数据存储是围绕</span><code>AVObject</code><span>进行的。</span></p><p><span>在 LeanCloud上，数据存储是围绕</span><code>AVObject</code><span> 进行的。</span></p></blockquote><p><span>完整的正确用法：</span></p><blockquote><p><span>在 LeanCloud 上，数据存储是围绕 </span><code>AVObject</code><span> 进行的。每个 </span><code>AVObject</code><span> 都包含了与 JSON 兼容的 key-value 对应的数据。数据是 schema-free 的，你不需要在每个 </span><code>AVObject</code><span> 上提前指定存在哪些键，只要直接设定对应的 key-value 即可。</span></p></blockquote><p><span>例外：「豆瓣FM」等产品名词，按照官方所定义的格式书写。</span></p><h3><a name="中文与数字之间需要增加空格" class="md-header-anchor"></a><span>中文与数字之间需要增加空格</span></h3><p><span>正确：</span></p><blockquote><p><span>今天出去买菜花了 5000 元。</span></p></blockquote><p><span>错误：</span></p><blockquote><p><span>今天出去买菜花了 5000元。</span></p><p><span>今天出去买菜花了5000元。</span></p></blockquote><h3><a name="数字与单位之间需要增加空格" class="md-header-anchor"></a><span>数字与单位之间需要增加空格</span></h3><p><span>正确：</span></p><blockquote><p><span>我家的光纤入屋宽带有 10 Gbps，SSD 一共有 20 TB</span></p></blockquote><p><span>错误：</span></p><blockquote><p><span>我家的光纤入屋宽带有 10Gbps，SSD 一共有 20TB</span></p></blockquote><p><span>例外：度 / 百分比与数字之间不需要增加空格：</span></p><p><span>正确：</span></p><blockquote><p><span>今天是 233° 的高温。</span></p><p><span>新 MacBook Pro 有 15% 的 CPU 性能提升。</span></p></blockquote><p><span>错误：</span></p><blockquote><p><span>今天是 233 ° 的高温。</span></p><p><span>新 MacBook Pro 有 15 % 的 CPU 性能提升。</span></p></blockquote><h3><a name="全角标点与其他字符之间不加空格" class="md-header-anchor"></a><span>全角标点与其他字符之间不加空格</span></h3><p><span>正确：</span></p><blockquote><p><span>刚刚买了一部 iPhone，好开心！</span></p></blockquote><p><span>错误：</span></p><blockquote><p><span>刚刚买了一部 iPhone ，好开心！</span></p><p><span>刚刚买了一部 iPhone， 好开心！</span></p></blockquote><h3><a name="用-text-spacing-来挽救" class="md-header-anchor"></a><span>用 </span><code>text-spacing</code><span> 来挽救？</span></h3><p><span>CSS Text Module Level 4 的 </span><a href='https://www.w3.org/TR/css-text-4/#text-spacing-property'><code>text-spacing</code></a><span> 和 Microsoft 的 </span><a href='https://msdn.microsoft.com/library/ms531164(v=vs.85).aspx'><code>-ms-text-autospace</code></a><span> 可以实现自动为中英文之间增加空白。不过目前并未普及，另外在其他应用场景，例如 macOS、iOS、Windows 等用户介面目前并不存在这个特性，所以请继续保持随手加空格的习惯。</span></p><h2><a name="标点符号" class="md-header-anchor"></a><span>标点符号</span></h2><h3><a name="不重复使用标点符号" class="md-header-anchor"></a><span>不重复使用标点符号</span></h3><p><span>正确：</span></p><blockquote><p><span>德国队竟然战胜了巴西队！</span></p><p><span>她竟然对你说「喵」？！</span></p></blockquote><p><span>错误：</span></p><blockquote><p><span>德国队竟然战胜了巴西队！！</span></p><p><span>德国队竟然战胜了巴西队！！！！！！！！</span></p><p><span>她竟然对你说「喵」？？！！</span></p><p><span>她竟然对你说「喵」？！？！？？！！</span></p></blockquote><h2><a name="全角和半角" class="md-header-anchor"></a><span>全角和半角</span></h2><p><span>不明白什么是全角（全形）与半角（半形）符号？请查看维基百科词条『</span><a href='https://zh.wikipedia.org/wiki/%E5%85%A8%E5%BD%A2%E5%92%8C%E5%8D%8A%E5%BD%A2'><span>全形和半形</span></a><span>』。</span></p><h3><a name="使用全角中文标点" class="md-header-anchor"></a><span>使用全角中文标点</span></h3><p><span>正确：</span></p><blockquote><p><span>嗨！你知道嘛？今天前台的小妹跟我说「喵」了哎！</span></p><p><span>核磁共振成像（NMRI）是什么原理都不知道？JFGI！</span></p></blockquote><p><span>错误：</span></p><blockquote><p><span>嗨! 你知道嘛? 今天前台的小妹跟我说 &quot;喵&quot; 了哎！</span></p><p><span>嗨!你知道嘛?今天前台的小妹跟我说&quot;喵&quot;了哎！</span></p><p><span>核磁共振成像 (NMRI) 是什么原理都不知道? JFGI!</span></p><p><span>核磁共振成像(NMRI)是什么原理都不知道?JFGI!</span></p></blockquote><h3><a name="数字使用半角字符" class="md-header-anchor"></a><span>数字使用半角字符</span></h3><p><span>正确：</span></p><blockquote><p><span>这个蛋糕只卖 1000 元。</span></p></blockquote><p><span>错误：</span></p><blockquote><p><span>这个蛋糕只卖 １０００ 元。</span></p></blockquote><p><span>例外：在设计稿、宣传海报中如出现极少量数字的情形时，为方便文字对齐，是可以使用全形数字的。</span></p><h3><a name="遇到完整的英文整句特殊名词其内容使用半角标点" class="md-header-anchor"></a><span>遇到完整的英文整句、特殊名词，其内容使用半角标点</span></h3><p><span>正确：</span></p><blockquote><p><span>贾伯斯那句话是怎么说的？「Stay hungry, stay foolish.」</span></p><p><span>推荐你阅读《Hackers &amp; Painters: Big Ideas from the Computer Age》，非常的有趣。</span></p></blockquote><p><span>错误：</span></p><blockquote><p><span>贾伯斯那句话是怎么说的？「Stay hungry，stay foolish。」</span></p><p><span>推荐你阅读《Hackers＆Painters：Big Ideas from the Computer Age》，非常的有趣。</span></p></blockquote><h2><a name="名词" class="md-header-anchor"></a><span>名词</span></h2><h3><a name="专有名词使用正确的大小写" class="md-header-anchor"></a><span>专有名词使用正确的大小写</span></h3><p><span>大小写相关用法原属于英文书写范畴，不属于本 wiki 讨论内容，在这里只对部分易错用法进行简述。</span></p><p><span>正确：</span></p><blockquote><p><span>使用 GitHub 登录</span></p><p><span>我们的客户有 GitHub、Foursquare、Microsoft Corporation、Google、Facebook, Inc.。</span></p></blockquote><p><span>错误：</span></p><blockquote><p><span>使用 github 登录</span></p><p><span>使用 GITHUB 登录</span></p><p><span>使用 Github 登录</span></p><p><span>使用 gitHub 登录</span></p><p><span>使用 gｲんĤЦ8 登录</span></p><p><span>我们的客户有 github、foursquare、microsoft corporation、google、facebook, inc.。</span></p><p><span>我们的客户有 GITHUB、FOURSQUARE、MICROSOFT CORPORATION、GOOGLE、FACEBOOK, INC.。</span></p><p><span>我们的客户有 Github、FourSquare、MicroSoft Corporation、Google、FaceBook, Inc.。</span></p><p><span>我们的客户有 gitHub、fourSquare、microSoft Corporation、google、faceBook, Inc.。</span></p><p><span>我们的客户有 gｲんĤЦ8、ｷouЯƧquﾑгє、๓เςг๏ร๏Ŧt ς๏гק๏гคtเ๏ภn、900913、ƒ4ᄃëв๏๏к, IПᄃ.。</span></p></blockquote><p><span>注意：当网页中需要配合整体视觉风格而出现全部大写／小写的情形，HTML 中请使用标淮的大小写规范进行书写；并通过 </span><code>text-transform: uppercase;</code><span>／</span><code>text-transform: lowercase;</code><span> 对表现形式进行定义。</span></p><h3><a name="不要使用不地道的缩写" class="md-header-anchor"></a><span>不要使用不地道的缩写</span></h3><p><span>正确：</span></p><blockquote><p><span>我们需要一位熟悉 JavaScript、HTML5，至少理解一种框架（如 Backbone.js、AngularJS、React 等）的前端开发者。</span></p></blockquote><p><span>错误：</span></p><blockquote><p><span>我们需要一位熟悉 Js、h5，至少理解一种框架（如 backbone、angular、RJS 等）的 FED。</span></p></blockquote><h2><a name="争议" class="md-header-anchor"></a><span>争议</span></h2><p><span>以下用法略带有个人色彩，即：无论是否遵循下述规则，从语法的角度来讲都是</span><strong><span>正确</span></strong><span>的。</span></p><h3><a name="链接之间增加空格" class="md-header-anchor"></a><span>链接之间增加空格</span></h3><p><span>用法：</span></p><blockquote><p><span>请 </span><a href='#'><span>提交一个 issue</span></a><span> 并分配给相关同事。</span></p><p><span>访问我们网站的最新动态，请 </span><a href='#'><span>点击这里</span></a><span> 进行订阅！</span></p></blockquote><p><span>对比用法：</span></p><blockquote><p><span>请</span><a href='#'><span>提交一个 issue</span></a><span>并分配给相关同事。</span></p><p><span>访问我们网站的最新动态，请</span><a href='#'><span>点击这里</span></a><span>进行订阅！</span></p></blockquote><h3><a name="简体中文使用直角引号" class="md-header-anchor"></a><span>简体中文使用直角引号</span></h3><p><span>用法：</span></p><blockquote><p><span>「老师，『有条不紊』的『紊』是什么意思？」</span></p></blockquote><p><span>对比用法：</span></p><blockquote><p><span>“老师，‘有条不紊’的‘紊’是什么意思？”</span></p></blockquote><h2><a name="工具" class="md-header-anchor"></a><span>工具</span></h2><figure><table><thead><tr><th><span>仓库</span></th><th><span>语言</span></th></tr></thead><tbody><tr><td><a href='https://github.com/vinta/paranoid-auto-spacing'><span>vinta/paranoid-auto-spacing</span></a></td><td><span>JavaScript</span></td></tr><tr><td><a href='https://github.com/huei90/pangu.node'><span>huei90/pangu.node</span></a></td><td><span>Node.js</span></td></tr><tr><td><a href='https://github.com/huacnlee/auto-correct'><span>huacnlee/auto-correct</span></a></td><td><span>Ruby</span></td></tr><tr><td><a href='https://github.com/sparanoid/space-lover'><span>sparanoid/space-lover</span></a></td><td><span>PHP (WordPress)</span></td></tr><tr><td><a href='https://github.com/NauxLiu/auto-correct'><span>nauxliu/auto-correct</span></a></td><td><span>PHP</span></td></tr><tr><td><a href='https://github.com/jxlwqq/chinese-typesetting'><span>jxlwqq/chinese-typesetting</span></a></td><td><span>PHP</span></td></tr><tr><td><a href='https://github.com/hotoo/pangu.vim'><span>hotoo/pangu.vim</span></a></td><td><span>Vim</span></td></tr><tr><td><a href='https://github.com/sparanoid/grunt-auto-spacing'><span>sparanoid/grunt-auto-spacing</span></a></td><td><span>Node.js (Grunt)</span></td></tr><tr><td><a href='https://github.com/hjiang/scripts/blob/master/add-space-between-latin-and-cjk'><span>hjiang/scripts/add-space-between-latin-and-cjk</span></a></td><td><span>Python</span></td></tr><tr><td><a href='https://github.com/hustcc/hint'><span>hustcc/hint</span></a></td><td><span>Python</span></td></tr><tr><td><a href='https://github.com/studygolang/autocorrect'><span>studygolang/autocorrect</span></a></td><td><span>Go</span></td></tr></tbody></table></figure><h2><a name="谁在这样做" class="md-header-anchor"></a><span>谁在这样做？</span></h2><figure><table><thead><tr><th><span>网站</span></th><th><span>文案</span></th><th><span>UGC</span></th></tr></thead><tbody><tr><td><a href='https://www.apple.com/cn/'><span>Apple 中国</span></a></td><td><span>是</span></td><td><span>N/A</span></td></tr><tr><td><a href='https://www.apple.com/hk/'><span>Apple 香港</span></a></td><td><span>是</span></td><td><span>N/A</span></td></tr><tr><td><a href='https://www.apple.com/tw/'><span>Apple 台湾</span></a></td><td><span>是</span></td><td><span>N/A</span></td></tr><tr><td><a href='https://www.microsoft.com/zh-cn/'><span>Microsoft 中国</span></a></td><td><span>是</span></td><td><span>N/A</span></td></tr><tr><td><a href='https://www.microsoft.com/zh-hk/'><span>Microsoft 香港</span></a></td><td><span>是</span></td><td><span>N/A</span></td></tr><tr><td><a href='https://www.microsoft.com/zh-tw/'><span>Microsoft 台湾</span></a></td><td><span>是</span></td><td><span>N/A</span></td></tr><tr><td><a href='https://leancloud.cn/'><span>LeanCloud</span></a></td><td><span>是</span></td><td><span>N/A</span></td></tr><tr><td><a href='https://www.v2ex.com/'><span>V2EX</span></a></td><td><span>是</span></td><td><span>是</span></td></tr><tr><td><a href='https://apple4us.com/'><span>Apple4us</span></a></td><td><span>是</span></td><td><span>N/A</span></td></tr><tr><td><a href='https://ruby-china.org/'><span>Ruby China</span></a></td><td><span>是</span></td><td><span>标题达成</span></td></tr><tr><td><a href='https://phphub.org/'><span>PHPHub</span></a></td><td><span>是</span></td><td><span>标题达成</span></td></tr><tr><td><a href='https://sspai.com/'><span>少数派</span></a></td><td><span>是</span></td><td><span>N/A</span></td></tr></tbody></table></figure><h2><a name="参考文献" class="md-header-anchor"></a><span>参考文献</span></h2><ul><li><a href='https://www.thoughtco.com/guidelines-for-using-capital-letters-1691724'><span>Guidelines for Using Capital Letters - ThoughtCo.</span></a></li><li><a href='https://en.wikipedia.org/wiki/Letter_case'><span>Letter case - Wikipedia</span></a></li><li><a href='https://en.oxforddictionaries.com/grammar/punctuation'><span>Punctuation - Oxford Dictionaries</span></a></li><li><a href='https://owl.english.purdue.edu/owl/section/1/6/'><span>Punctuation - The Purdue OWL</span></a></li><li><a href='https://www.wikihow.com/Use-English-Punctuation-Correctly'><span>How to Use English Punctuation Correctly - wikiHow</span></a></li><li><a href='https://zh.opensuse.org/index.php?title=Help:%E6%A0%BC%E5%BC%8F'><span>格式 - openSUSE</span></a></li><li><a href='https://zh.wikipedia.org/wiki/%E5%85%A8%E5%BD%A2%E5%92%8C%E5%8D%8A%E5%BD%A2'><span>全形和半形 - 维基百科</span></a></li><li><a href='https://zh.wikipedia.org/wiki/%E5%BC%95%E8%99%9F'><span>引号 - 维基百科</span></a></li><li><a href='https://zh.wikipedia.org/wiki/%E7%96%91%E5%95%8F%E9%A9%9A%E5%98%86%E8%99%9F'><span>疑问惊叹号 - 维基百科</span></a></li></ul></div>
+</body>
+</html>
