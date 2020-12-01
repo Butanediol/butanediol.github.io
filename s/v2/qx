@@ -1,1 +1,0 @@
-vmess = proxy.butanediol.me:443, method=chacha20-ietf-poly1305, password=1e8a9aa9-6a8b-4408-8f3d-1b91fa62fcc4, obfs=wss, obfs-host=proxy.butanediol.me, obfs-uri=/ru, tag=ButanediolRu, fast-open=true, udp-relay=true
