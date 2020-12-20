@@ -1,7 +1,7 @@
+
+
 <!DOCTYPE html>
-<html lang="zh-CN">
-
-
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
 
 
 
@@ -13,23 +13,23 @@
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
-  <meta name="theme-color" content="#a5544c">
+  <meta name="theme-color" content="#2f4154">
   <meta name="description" content="趴窝">
   <meta name="author" content="丁二 Butanediol">
   <meta name="keywords" content="丁二">
   <title>丁丁の店</title>
 
-  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
 
 
 <!-- 主题依赖的图标库，不要自行修改 -->
 
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
 
 
 
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
 
 
 <link  rel="stylesheet" href="/css/main.css" />
@@ -45,7 +45,12 @@
 
 
 
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"blog.butanediol.me","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"HqFsh1LCE27dz8hTC6c5S0fC-gzGzoHsz","app_key":"xwj5VSA24fO1r9O5cOXuFGFS","server_url":"https://b-test.hic.plus"},"tajs":null}};
+  </script>
   <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
 <meta name="generator" content="Hexo 5.2.0"></head>
 
 
@@ -164,7 +169,7 @@
                   
                   
                   
-                  <a class="dropdown-item" target="_blank" rel="noopener" href="https://cloud.butanediol.me">
+                  <a class="dropdown-item" target="_blank" rel="noopener" href="https://drive.butanediol.me">
                     <i class="fas fa-hdd"></i>
                     丁二仓库
                   </a>
@@ -183,8 +188,14 @@
         
         
           <li class="nav-item" id="search-btn">
-            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
-                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
           </li>
         
       </ul>
@@ -192,13 +203,13 @@
   </div>
 </nav>
 
-    <div class="view intro-2" id="background" parallax=true
+    <div class="banner intro-2" id="background" parallax=true
          style="background: url('https://butanediol.me/randpic') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-          <div class="container text-center white-text fadeInUp">
-            <span class="h2" id="subtitle">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="The people who are crazy enough to think that they can change the world, are the ones who do.">
               
             </span>
 
@@ -231,28 +242,36 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2020/03/30/%E6%84%8F%E5%A4%96%E6%89%BE%E5%88%B0%E4%B8%80%E4%B8%AA%E8%A7%A3%E5%86%B3-macOS-%E9%82%AE%E4%BB%B6%E4%B8%8D%E6%98%BE%E7%A4%BA%E6%8F%92%E4%BB%B6%E7%9A%84%E6%96%B9%E6%A1%88/" target="_blank">
+        <a href="/2020/03/30/%E6%84%8F%E5%A4%96%E6%89%BE%E5%88%B0%E4%B8%80%E4%B8%AA%E8%A7%A3%E5%86%B3-macOS-%E9%82%AE%E4%BB%B6%E4%B8%8D%E6%98%BE%E7%A4%BA%E6%8F%92%E4%BB%B6%E7%9A%84%E6%96%B9%E6%A1%88/" target="_self">
           <img src="/media/posts_img/c756481a7db7d504c0995dd42409bbed60f0d7_index.jpg" srcset="/img/loading.gif" alt="意外找到一个解决 macOS 邮件不显示插件的方案">
         </a>
       </div>
     
-    <div class="col-12 col-md-8 mx-auto index-info">
-      <a class="index-header" href="/2020/03/30/%E6%84%8F%E5%A4%96%E6%89%BE%E5%88%B0%E4%B8%80%E4%B8%AA%E8%A7%A3%E5%86%B3-macOS-%E9%82%AE%E4%BB%B6%E4%B8%8D%E6%98%BE%E7%A4%BA%E6%8F%92%E4%BB%B6%E7%9A%84%E6%96%B9%E6%A1%88/">意外找到一个解决 macOS 邮件不显示插件的方案</a>
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/03/30/%E6%84%8F%E5%A4%96%E6%89%BE%E5%88%B0%E4%B8%80%E4%B8%AA%E8%A7%A3%E5%86%B3-macOS-%E9%82%AE%E4%BB%B6%E4%B8%8D%E6%98%BE%E7%A4%BA%E6%8F%92%E4%BB%B6%E7%9A%84%E6%96%B9%E6%A1%88/">意外找到一个解决 macOS 邮件不显示插件的方案</a>
+      </h1>
 
-      <a href="/2020/03/30/%E6%84%8F%E5%A4%96%E6%89%BE%E5%88%B0%E4%B8%80%E4%B8%AA%E8%A7%A3%E5%86%B3-macOS-%E9%82%AE%E4%BB%B6%E4%B8%8D%E6%98%BE%E7%A4%BA%E6%8F%92%E4%BB%B6%E7%9A%84%E6%96%B9%E6%A1%88/" class="index-excerpt">
-        
-        
+      <p class="index-excerpt">
+        <a href="/2020/03/30/%E6%84%8F%E5%A4%96%E6%89%BE%E5%88%B0%E4%B8%80%E4%B8%AA%E8%A7%A3%E5%86%B3-macOS-%E9%82%AE%E4%BB%B6%E4%B8%8D%E6%98%BE%E7%A4%BA%E6%8F%92%E4%BB%B6%E7%9A%84%E6%96%B9%E6%A1%88/">
           
-        
-        <div>最近在寻找 Cydia Impactor 的替代品 用来装 Ehentai-Viewer 看本子，找到了 AltDeploy 这款软件。
+          
+            
+          
+          最近在寻找 Cydia Impactor 的替代品 用来装 Ehentai-Viewer 看本子，找到了 AltDeploy 这款软件。
 AltDeploy 与 Cydia Impactor 外观和使用上几乎一模一样，区别是 AltDeploy 需要借助 macOS 自带的 mail.app 来完成应用签名。
-按照正常的操作流程，在 AltDeploy 中点击安装插件之后，mail.app 的插件</div>
-      </a>
+按照正常的操作流程，在 AltDeploy 中点击安装插件之后，mail.app 的插件
+        </a>
+      </p>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-03-30
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-03-30 13:56" pubdate>
+              2020-03-30
+            </time>
           </div>
         
         
@@ -272,33 +291,41 @@ AltDeploy 与 Cydia Impactor 外观和使用上几乎一模一样，区别是 Al
           </div>
         
       </div>
-    </div>
+    </article>
   </div>
 
   <div class="row mx-auto index-card">
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2020/03/28/%E6%8A%98%E8%85%BE%E8%87%AA%E5%AE%9A%E4%B9%89-CSS/" target="_blank">
+        <a href="/2020/03/28/%E6%8A%98%E8%85%BE%E8%87%AA%E5%AE%9A%E4%B9%89-CSS/" target="_self">
           <img src="/media/posts_img/96412aa08d0b44e90ed3780da934c279c5bb6e_index.jpg" srcset="/img/loading.gif" alt="折腾一下自定义 CSS">
         </a>
       </div>
     
-    <div class="col-12 col-md-8 mx-auto index-info">
-      <a class="index-header" href="/2020/03/28/%E6%8A%98%E8%85%BE%E8%87%AA%E5%AE%9A%E4%B9%89-CSS/">折腾一下自定义 CSS</a>
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/03/28/%E6%8A%98%E8%85%BE%E8%87%AA%E5%AE%9A%E4%B9%89-CSS/">折腾一下自定义 CSS</a>
+      </h1>
 
-      <a href="/2020/03/28/%E6%8A%98%E8%85%BE%E8%87%AA%E5%AE%9A%E4%B9%89-CSS/" class="index-excerpt">
-        
-        
+      <p class="index-excerpt">
+        <a href="/2020/03/28/%E6%8A%98%E8%85%BE%E8%87%AA%E5%AE%9A%E4%B9%89-CSS/">
           
-        
-        <div>学 CSS 是不可能学的，这辈子都不可能学的，只能靠 Google 和 CV 维持一下生活这样子。</div>
-      </a>
+          
+            
+          
+          学 CSS 是不可能学的，这辈子都不可能学的，只能靠 Google 和 CV 维持一下生活这样子。
+        </a>
+      </p>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-03-28
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-03-28 17:36" pubdate>
+              2020-03-28
+            </time>
           </div>
         
         
@@ -324,40 +351,48 @@ AltDeploy 与 Cydia Impactor 外观和使用上几乎一模一样，区别是 Al
           </div>
         
       </div>
-    </div>
+    </article>
   </div>
 
   <div class="row mx-auto index-card">
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2020/03/10/%E5%92%B1%E7%9A%84-Google-%E4%BB%98%E6%AC%BE%E4%BF%A1%E6%81%AF%E8%A2%AB%E5%B0%81%E7%A6%81%E4%BA%86%EF%BC%81/" target="_blank">
+        <a href="/2020/03/10/%E5%92%B1%E7%9A%84-Google-%E4%BB%98%E6%AC%BE%E4%BF%A1%E6%81%AF%E8%A2%AB%E5%B0%81%E7%A6%81%E4%BA%86%EF%BC%81/" target="_self">
           <img src="/media/posts_img/ed36392110bd158631f1381600c98f59141c45_index.jpg" srcset="/img/loading.gif" alt="咱的 Google 付款信息被封禁了！">
         </a>
       </div>
     
-    <div class="col-12 col-md-8 mx-auto index-info">
-      <a class="index-header" href="/2020/03/10/%E5%92%B1%E7%9A%84-Google-%E4%BB%98%E6%AC%BE%E4%BF%A1%E6%81%AF%E8%A2%AB%E5%B0%81%E7%A6%81%E4%BA%86%EF%BC%81/">咱的 Google 付款信息被封禁了！</a>
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/03/10/%E5%92%B1%E7%9A%84-Google-%E4%BB%98%E6%AC%BE%E4%BF%A1%E6%81%AF%E8%A2%AB%E5%B0%81%E7%A6%81%E4%BA%86%EF%BC%81/">咱的 Google 付款信息被封禁了！</a>
+      </h1>
 
-      <a href="/2020/03/10/%E5%92%B1%E7%9A%84-Google-%E4%BB%98%E6%AC%BE%E4%BF%A1%E6%81%AF%E8%A2%AB%E5%B0%81%E7%A6%81%E4%BA%86%EF%BC%81/" class="index-excerpt">
-        
-        
+      <p class="index-excerpt">
+        <a href="/2020/03/10/%E5%92%B1%E7%9A%84-Google-%E4%BB%98%E6%AC%BE%E4%BF%A1%E6%81%AF%E8%A2%AB%E5%B0%81%E7%A6%81%E4%BA%86%EF%BC%81/">
           
-        
-        <div>什么情况！某天，咱收到了这样一封 Google 发来的邮件：
+          
+            
+          
+          什么情况！某天，咱收到了这样一封 Google 发来的邮件：
 
 ]考虑到可疑活动可能带来的风险, 我们已暂停您通过自己的帐号购买 Google 产品和服务的权限，以防止出现未经授权的扣款。
 如果您想恢复使用付款功能的权限，我们需要验证您是您最近通过 Google 所用付款方式的授权用户。
 请点击此处完成验证流程。您需要上传以下材料：
 
 付款方式的所有权证明，例如付款方式或银行对帐单的图片或扫描件
-</div>
-      </a>
+
+        </a>
+      </p>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-03-10
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-03-10 18:30" pubdate>
+              2020-03-10
+            </time>
           </div>
         
         
@@ -385,38 +420,46 @@ AltDeploy 与 Cydia Impactor 外观和使用上几乎一模一样，区别是 Al
           </div>
         
       </div>
-    </div>
+    </article>
   </div>
 
   <div class="row mx-auto index-card">
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2020/03/04/%E8%AE%B0%E4%B8%80%E6%AC%A1%E7%94%A8%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%BD%AC%E5%8F%91-OneDrive-%E7%9A%84%E5%B0%9D%E8%AF%95/" target="_blank">
+        <a href="/2020/03/04/%E8%AE%B0%E4%B8%80%E6%AC%A1%E7%94%A8%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%BD%AC%E5%8F%91-OneDrive-%E7%9A%84%E5%B0%9D%E8%AF%95/" target="_self">
           <img src="/media/posts_img/d5eed7edd3634a2992ecdeb7ae543fd0_index.jpg" srcset="/img/loading.gif" alt="记一次用服务器转发 OneDrive 的尝试">
         </a>
       </div>
     
-    <div class="col-12 col-md-8 mx-auto index-info">
-      <a class="index-header" href="/2020/03/04/%E8%AE%B0%E4%B8%80%E6%AC%A1%E7%94%A8%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%BD%AC%E5%8F%91-OneDrive-%E7%9A%84%E5%B0%9D%E8%AF%95/">记一次用服务器转发 OneDrive 的尝试</a>
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/03/04/%E8%AE%B0%E4%B8%80%E6%AC%A1%E7%94%A8%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%BD%AC%E5%8F%91-OneDrive-%E7%9A%84%E5%B0%9D%E8%AF%95/">记一次用服务器转发 OneDrive 的尝试</a>
+      </h1>
 
-      <a href="/2020/03/04/%E8%AE%B0%E4%B8%80%E6%AC%A1%E7%94%A8%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%BD%AC%E5%8F%91-OneDrive-%E7%9A%84%E5%B0%9D%E8%AF%95/" class="index-excerpt">
-        
-        
+      <p class="index-excerpt">
+        <a href="/2020/03/04/%E8%AE%B0%E4%B8%80%E6%AC%A1%E7%94%A8%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%BD%AC%E5%8F%91-OneDrive-%E7%9A%84%E5%B0%9D%E8%AF%95/">
           
-        
-        <div>
+          
+            
+          
+          
             经过求证，rclone 挂载并不能实现流量转发，只是让文件先下载到服务器，再从服务器发送到用户，无法解决延迟和服务器空间问题。如果想用流量转发的话可以不用继续看了，不过如果你只是想在服务器上使用 rclone，你也可以参考下面的方法（虽然在 rclone 的官方文档中也有给出）。
           
 
 
-            原理类似，但效果更好的解决办法可以查看 这</div>
-      </a>
+            原理类似，但效果更好的解决办法可以查看 这
+        </a>
+      </p>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-03-04
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-03-04 18:54" pubdate>
+              2020-03-04
+            </time>
           </div>
         
         
@@ -436,37 +479,45 @@ AltDeploy 与 Cydia Impactor 外观和使用上几乎一模一样，区别是 Al
           </div>
         
       </div>
-    </div>
+    </article>
   </div>
 
   <div class="row mx-auto index-card">
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2020/02/15/%E5%A6%82%E4%BD%95%E5%9C%A8-mixplorer-%E4%B8%AD%E4%BD%BF%E7%94%A8-onedrive/" target="_blank">
+        <a href="/2020/02/15/%E5%A6%82%E4%BD%95%E5%9C%A8-mixplorer-%E4%B8%AD%E4%BD%BF%E7%94%A8-onedrive/" target="_self">
           <img src="/media/posts_img/8c00e6b8913054472bba6e240ab48e4c5c78ab_index.jpg" srcset="/img/loading.gif" alt="如何在 Mixplorer 中使用 OneDrive？">
         </a>
       </div>
     
-    <div class="col-12 col-md-8 mx-auto index-info">
-      <a class="index-header" href="/2020/02/15/%E5%A6%82%E4%BD%95%E5%9C%A8-mixplorer-%E4%B8%AD%E4%BD%BF%E7%94%A8-onedrive/">如何在 Mixplorer 中使用 OneDrive？</a>
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/02/15/%E5%A6%82%E4%BD%95%E5%9C%A8-mixplorer-%E4%B8%AD%E4%BD%BF%E7%94%A8-onedrive/">如何在 Mixplorer 中使用 OneDrive？</a>
+      </h1>
 
-      <a href="/2020/02/15/%E5%A6%82%E4%BD%95%E5%9C%A8-mixplorer-%E4%B8%AD%E4%BD%BF%E7%94%A8-onedrive/" class="index-excerpt">
-        
-        
+      <p class="index-excerpt">
+        <a href="/2020/02/15/%E5%A6%82%E4%BD%95%E5%9C%A8-mixplorer-%E4%B8%AD%E4%BD%BF%E7%94%A8-onedrive/">
           
-        
-        <div>打开 Azure注册应用点击这里打开 Azure，登陆你的 OneDrive 账号。点击新注册。
+          
+            
+          
+          打开 Azure注册应用点击这里打开 Azure，登陆你的 OneDrive 账号。点击新注册。
 
 名称随意填写，这里我填写的是 Mixplorer，受支持的账户类型选择任何组织目录（任何 Azure AD 目录 - 多租户）中的账户和个人 Microsoft 账户（例如，Skype、Xbox），重定向 URI 填写 https://sharepoint.com。
 
-应用设置API 权限进入应用设</div>
-      </a>
+应用设置API 权限进入应用设
+        </a>
+      </p>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-02-15
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-02-15 21:51" pubdate>
+              2020-02-15
+            </time>
           </div>
         
         
@@ -490,38 +541,46 @@ AltDeploy 与 Cydia Impactor 外观和使用上几乎一模一样，区别是 Al
           </div>
         
       </div>
-    </div>
+    </article>
   </div>
 
   <div class="row mx-auto index-card">
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2020/02/10/hexo%E4%B8%ADmarkdown%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B0%8F%E9%97%AE%E9%A2%98/" target="_blank">
+        <a href="/2020/02/10/hexo%E4%B8%ADmarkdown%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B0%8F%E9%97%AE%E9%A2%98/" target="_self">
           <img src="/media/posts_img/edc115f77421e0b2735b3a491a1efe9b_index.jpg" srcset="/img/loading.gif" alt="Hexo 中 Markdown 的一些小问题">
         </a>
       </div>
     
-    <div class="col-12 col-md-8 mx-auto index-info">
-      <a class="index-header" href="/2020/02/10/hexo%E4%B8%ADmarkdown%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B0%8F%E9%97%AE%E9%A2%98/">Hexo 中 Markdown 的一些小问题</a>
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/02/10/hexo%E4%B8%ADmarkdown%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B0%8F%E9%97%AE%E9%A2%98/">Hexo 中 Markdown 的一些小问题</a>
+      </h1>
 
-      <a href="/2020/02/10/hexo%E4%B8%ADmarkdown%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B0%8F%E9%97%AE%E9%A2%98/" class="index-excerpt">
-        
-        
+      <p class="index-excerpt">
+        <a href="/2020/02/10/hexo%E4%B8%ADmarkdown%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B0%8F%E9%97%AE%E9%A2%98/">
           
-        
-        <div>更新：
+          
+            
+          
+          更新：
 结果发现这个并不是插件的问题。
 如果代码块的语言是「存在的」，就不会有这个问题。但因为我写的语言是 ‘Python3’（由于我在 Mac 里是这样区分 Python 2 和 3 的），但 「Python3」 并不是 Markdown 渲染器认可的语言，所以一直出问题。
 如果改为 「Python」 就能够正常渲染了。
 
-昨天写 Matplotlib 学习日记（一） 的时候，遇到了一点小问题。</div>
-      </a>
+昨天写 Matplotlib 学习日记（一） 的时候，遇到了一点小问题。
+        </a>
+      </p>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-02-10
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-02-10 10:13" pubdate>
+              2020-02-10
+            </time>
           </div>
         
         
@@ -536,44 +595,52 @@ AltDeploy 与 Cydia Impactor 外观和使用上几乎一模一样，区别是 Al
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E8%B8%A9%E5%9D%91/">踩坑</a>
-            
               <a href="/tags/Hexo/">Hexo</a>
+            
+              <a href="/tags/%E8%B8%A9%E5%9D%91/">踩坑</a>
             
               <a href="/tags/%E5%B0%8F%E8%AF%BE%E5%A0%82/">小课堂</a>
             
           </div>
         
       </div>
-    </div>
+    </article>
   </div>
 
   <div class="row mx-auto index-card">
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2020/02/09/matplotlib-%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0%EF%BC%88%E4%B8%80%EF%BC%89/" target="_blank">
+        <a href="/2020/02/09/matplotlib-%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0%EF%BC%88%E4%B8%80%EF%BC%89/" target="_self">
           <img src="/media/posts_img/matplotlib_d1_index.jpg" srcset="/img/loading.gif" alt="Matplotlib 学习日记（一）">
         </a>
       </div>
     
-    <div class="col-12 col-md-8 mx-auto index-info">
-      <a class="index-header" href="/2020/02/09/matplotlib-%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0%EF%BC%88%E4%B8%80%EF%BC%89/">Matplotlib 学习日记（一）</a>
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/02/09/matplotlib-%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0%EF%BC%88%E4%B8%80%EF%BC%89/">Matplotlib 学习日记（一）</a>
+      </h1>
 
-      <a href="/2020/02/09/matplotlib-%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0%EF%BC%88%E4%B8%80%EF%BC%89/" class="index-excerpt">
-        
-        
+      <p class="index-excerpt">
+        <a href="/2020/02/09/matplotlib-%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0%EF%BC%88%E4%B8%80%EF%BC%89/">
           
-        
-        <div>前言如果有看过我之前几篇 matplotlib 学习笔记的读者，会发现我们用的是 plt.scatter() plt.plot() 这些函数进行图像的生成，然后再用 plt.show() 来绘制图像。
+          
+            
+          
+          前言如果有看过我之前几篇 matplotlib 学习笔记的读者，会发现我们用的是 plt.scatter() plt.plot() 这些函数进行图像的生成，然后再用 plt.show() 来绘制图像。
 但是有且仅有一个地方出现了 plt.figure 这样的一个类，然后我们就再也没有动过这个叫 figure 的东西。
-对于我这样的 Python （或者说编程）初学者来说，这就相当于声明了一个变量后</div>
-      </a>
+对于我这样的 Python （或者说编程）初学者来说，这就相当于声明了一个变量后
+        </a>
+      </p>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-02-09
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-02-09 21:24" pubdate>
+              2020-02-09
+            </time>
           </div>
         
         
@@ -597,27 +664,31 @@ AltDeploy 与 Cydia Impactor 外观和使用上几乎一模一样，区别是 Al
           </div>
         
       </div>
-    </div>
+    </article>
   </div>
 
   <div class="row mx-auto index-card">
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2020/02/07/%E8%B5%84%E6%BA%90%E5%88%86%E4%BA%AB-%E6%BC%AB%E7%94%BB-%E6%8E%A0%E5%A4%BA%E8%80%85-%E6%98%9F%E6%8E%A0%E8%80%85/" target="_blank">
+        <a href="/2020/02/07/%E8%B5%84%E6%BA%90%E5%88%86%E4%BA%AB-%E6%BC%AB%E7%94%BB-%E6%8E%A0%E5%A4%BA%E8%80%85-%E6%98%9F%E6%8E%A0%E8%80%85/" target="_self">
           <img src="/media/posts_img/9520d1ccf974209c2ea53f1692515d160a8e60.jpg" srcset="/img/loading.gif" alt="【资源分享】【漫画】掠夺者|星掠者">
         </a>
       </div>
     
-    <div class="col-12 col-md-8 mx-auto index-info">
-      <a class="index-header" href="/2020/02/07/%E8%B5%84%E6%BA%90%E5%88%86%E4%BA%AB-%E6%BC%AB%E7%94%BB-%E6%8E%A0%E5%A4%BA%E8%80%85-%E6%98%9F%E6%8E%A0%E8%80%85/">【资源分享】【漫画】掠夺者|星掠者</a>
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/02/07/%E8%B5%84%E6%BA%90%E5%88%86%E4%BA%AB-%E6%BC%AB%E7%94%BB-%E6%8E%A0%E5%A4%BA%E8%80%85-%E6%98%9F%E6%8E%A0%E8%80%85/">【资源分享】【漫画】掠夺者|星掠者</a>
+      </h1>
 
-      <a href="/2020/02/07/%E8%B5%84%E6%BA%90%E5%88%86%E4%BA%AB-%E6%BC%AB%E7%94%BB-%E6%8E%A0%E5%A4%BA%E8%80%85-%E6%98%9F%E6%8E%A0%E8%80%85/" class="index-excerpt">
-        
-        
+      <p class="index-excerpt">
+        <a href="/2020/02/07/%E8%B5%84%E6%BA%90%E5%88%86%E4%BA%AB-%E6%BC%AB%E7%94%BB-%E6%8E%A0%E5%A4%BA%E8%80%85-%E6%98%9F%E6%8E%A0%E8%80%85/">
           
-        
-        <div>
+          
+            
+          
+          
             看了一下，这个漫画也挺崩的，不是好奇宝宝的话可以忽略了。
           
 
@@ -625,13 +696,17 @@ AltDeploy 与 Cydia Impactor 外观和使用上几乎一模一样，区别是 Al
 资源来自 Vol.moe博客同步至：001-050 话
 
 简介2020 年 1 月新番播出了星掠者的 TV 动画，说实话我还比较喜欢这个背景设定，但动画版过于贫穷，故事推进非常慢不说，清洁工作“避重就轻”，于是打算来看看漫画。
-并且一直以来都想找一个类似 DMHY 的漫画站，可惜并没有找到</div>
-      </a>
+并且一直以来都想找一个类似 DMHY 的漫画站，可惜并没有找到
+        </a>
+      </p>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-02-07
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-02-07 10:58" pubdate>
+              2020-02-07
+            </time>
           </div>
         
         
@@ -655,39 +730,47 @@ AltDeploy 与 Cydia Impactor 外观和使用上几乎一模一样，区别是 Al
           </div>
         
       </div>
-    </div>
+    </article>
   </div>
 
   <div class="row mx-auto index-card">
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2020/01/31/matplotlib-%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96%EF%BC%88%E4%BA%8C%EF%BC%89/" target="_blank">
+        <a href="/2020/01/31/matplotlib-%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96%EF%BC%88%E4%BA%8C%EF%BC%89/" target="_self">
           <img src="/media/posts_img/matplotlib_l2_index.jpg" srcset="/img/loading.gif" alt="Matplotlib 数据可视化（二）">
         </a>
       </div>
     
-    <div class="col-12 col-md-8 mx-auto index-info">
-      <a class="index-header" href="/2020/01/31/matplotlib-%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96%EF%BC%88%E4%BA%8C%EF%BC%89/">Matplotlib 数据可视化（二）</a>
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/01/31/matplotlib-%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96%EF%BC%88%E4%BA%8C%EF%BC%89/">Matplotlib 数据可视化（二）</a>
+      </h1>
 
-      <a href="/2020/01/31/matplotlib-%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96%EF%BC%88%E4%BA%8C%EF%BC%89/" class="index-excerpt">
-        
-        
+      <p class="index-excerpt">
+        <a href="/2020/01/31/matplotlib-%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96%EF%BC%88%E4%BA%8C%EF%BC%89/">
           
-        
-        <div>Matplotlib 数据可视化（二）引入这一篇做的其实是上一篇的练习。
+          
+            
+          
+          Matplotlib 数据可视化（二）引入这一篇做的其实是上一篇的练习。
 想象有一个小人，每一回合随机移动一次，我们想记录下小人每次移动后的位置，并用 matplotlib 以散点图的形式绘制出来。下面我们做的就是模拟这个过程。
 生成数据要生成随机数据，先导入一个函数：
-from random import choice
+1from random import choice
 这里附上一段简单的介绍：
 
-random 模块有大量的函数用来产生随机数和随</div>
-      </a>
+random 模块有大量的函数用来产生随机数和
+        </a>
+      </p>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-01-31
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-01-31 19:19" pubdate>
+              2020-01-31
+            </time>
           </div>
         
         
@@ -709,39 +792,47 @@ random 模块有大量的函数用来产生随机数和随</div>
           </div>
         
       </div>
-    </div>
+    </article>
   </div>
 
   <div class="row mx-auto index-card">
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2020/01/22/matplotlib-%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96%EF%BC%88%E4%B8%80%EF%BC%89/" target="_blank">
+        <a href="/2020/01/22/matplotlib-%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96%EF%BC%88%E4%B8%80%EF%BC%89/" target="_self">
           <img src="/media/posts_img/matplotlib_l1_index.jpg" srcset="/img/loading.gif" alt="Matplotlib 数据可视化（一）">
         </a>
       </div>
     
-    <div class="col-12 col-md-8 mx-auto index-info">
-      <a class="index-header" href="/2020/01/22/matplotlib-%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96%EF%BC%88%E4%B8%80%EF%BC%89/">Matplotlib 数据可视化（一）</a>
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/01/22/matplotlib-%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96%EF%BC%88%E4%B8%80%EF%BC%89/">Matplotlib 数据可视化（一）</a>
+      </h1>
 
-      <a href="/2020/01/22/matplotlib-%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96%EF%BC%88%E4%B8%80%EF%BC%89/" class="index-excerpt">
-        
-        
+      <p class="index-excerpt">
+        <a href="/2020/01/22/matplotlib-%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96%EF%BC%88%E4%B8%80%EF%BC%89/">
           
-        
-        <div>Matplotlib 数据可视化（一）由于 macOS 中用 Homebrew 安装的 pygame 似乎有点小问题，Python 的学习就先跳过 pygame 啦，直接到数据可视化。
+          
+            
+          
+          Matplotlib 数据可视化（一）由于 macOS 中用 Homebrew 安装的 pygame 似乎有点小问题，Python 的学习就先跳过 pygame 啦，直接到数据可视化。
 学一个第三方库需要了解许多这个模块的函数，这里把容易记的、不容易记得统统记一下。
 折线图本章惯例，先导入模块。
-import matplotlib.pyplot as plt
+1import matplotlib.pyplot as plt
 
 先来看看基本用法。
-x_values</div>
-      </a>
+1234567
+        </a>
+      </p>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-01-22
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-01-22 16:00" pubdate>
+              2020-01-22
+            </time>
           </div>
         
         
@@ -763,7 +854,7 @@ x_values</div>
           </div>
         
       </div>
-    </div>
+    </article>
   </div>
 
 
@@ -788,16 +879,15 @@ x_values</div>
         </div>
       </div>
     
-  </main>
 
-  
-    <a id="scroll-top-button" href="#" role="button">
-      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
-    </a>
-  
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
 
-  
-    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
      aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
     <div class="modal-content">
@@ -818,27 +908,22 @@ x_values</div>
     </div>
   </div>
 </div>
-  
-
-  
-
-  
-    <div class="col-lg-7 mx-auto nopadding-md">
-      <div class="container custom mx-auto">
-        <center><a href="https://travellings.now.sh/" target="blank" title="开往 - 友链接力"><img class="travellings" src="/media/travellings.svg" srcset="/img/loading.gif" alt="开往 - 友链接力" width="160"></a></center>
-      </div>
-    </div>
-  
-
-  <footer class="mt-5">
-  <div class="text-center py-3">
-    <div>
-      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
-      <i class="iconfont icon-love"></i>
-      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
-        <span>Fluid</span></a>
-    </div>
     
+
+    
+      <div class="col-lg-7 mx-auto nopadding-md">
+        <div class="container custom mx-auto">
+          <center><a href="https://travellings.now.sh/" target="blank" title="开往 - 友链接力"><img class="travellings" src="/media/travellings.svg" srcset="/img/loading.gif" alt="开往 - 友链接力" width="160"></a></center>
+        </div>
+      </div>
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
   <div class="statistics">
     
     
@@ -865,17 +950,33 @@ x_values</div>
   </div>
 
 
-    
+  
 
-    
-  </div>
+  
 </footer>
 
 <!-- SCRIPTS -->
-<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
-<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
 <script  src="/js/debouncer.js" ></script>
-<script  src="/js/main.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
 
 <!-- Plugins -->
 
@@ -886,189 +987,72 @@ x_values</div>
 
 
 
-  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
-  <script  src="/js/clipboard-use.js" ></script>
+  
 
 
 
-  <script defer>
-  (function () {
-    // 查询存储的记录
-    function getRecord(Counter, target) {
-      return new Promise(function (resolve, reject) {
-        Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({target})))
-          .then(resp => resp.json())
-          .then(({results, code, error}) => {
-            if (code === 401) {
-              throw error;
-            }
-            if (results && results.length > 0) {
-              var record = results[0];
-              resolve(record);
-            } else {
-              Counter('post', '/classes/Counter', {target, time: 0})
-                .then(resp => resp.json())
-                .then((record, error) => {
-                  if (error) {
-                    throw error;
-                  }
-                  resolve(record);
-                }).catch(error => {
-                console.error('Failed to create', error);
-                reject(error);
-              });
-            }
-          }).catch((error) => {
-          console.error('LeanCloud Counter Error:', error);
-          reject(error);
-        });
-      })
-    }
 
-    // 发起自增请求
-    function increment(Counter, incrArr) {
-      return new Promise(function (resolve, reject) {
-        Counter('post', '/batch', {
-          "requests": incrArr
-        }).then((res) => {
-          res = res.json();
-          if (res.error) {
-            throw res.error;
-          }
-          resolve(res);
-        }).catch((error) => {
-          console.error('Failed to save visitor count', error);
-          reject(error);
-        });
-      });
-    }
 
-    // 构建自增请求体
-    function buildIncrement(objectId) {
-      return {
-        "method": "PUT",
-        "path": `/1.1/classes/Counter/${ objectId }`,
-        "body": {
-          "time": {
-            '__op': 'Increment',
-            'amount': 1
-          }
-        }
+
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
       }
-    }
+    })()
+  </script>
 
-    // 校验是否为有效的 UV
-    function validUV() {
-      var key = 'LeanCloud_UV_Flag';
-      var flag = localStorage.getItem(key);
-      if (flag) {
-        // 距离标记小于 24 小时则不计为 UV
-        if (new Date().getTime() - parseInt(flag) <= 86400000) {
-          return false;
-        }
-      }
-      localStorage.setItem(key, new Date().getTime().toString());
-      return true;
-    }
 
-    function addCount(Counter) {
-      var enableIncr = 'true' === 'true' && window.location.hostname !== 'localhost';
-      var getterArr = [];
-      var incrArr = [];
 
-      // 请求 PV 并自增
-      var pvCtn = document.querySelector('#leancloud-site-pv-container');
-      if (pvCtn || enableIncr) {
-        var pvGetter = getRecord(Counter, 'site-pv').then((record) => {
-          incrArr.push(buildIncrement(record.objectId))
-          var ele = document.querySelector('#leancloud-site-pv');
-          if (ele) {
-            ele.innerText = record.time + 1;
-            if (pvCtn) {
-              pvCtn.style.display = 'inline';
-            }
-          }
-        });
-        getterArr.push(pvGetter);
-      }
 
-      // 请求 UV 并自增
-      var uvCtn = document.querySelector('#leancloud-site-uv-container');
-      if (uvCtn || enableIncr) {
-        var uvGetter = getRecord(Counter, 'site-uv').then((record) => {
-          var vuv = validUV();
-          vuv && incrArr.push(buildIncrement(record.objectId))
-          var ele = document.querySelector('#leancloud-site-uv');
-          if (ele) {
-            ele.innerText = record.time + (vuv ? 1 : 0);
-            if (uvCtn) {
-              uvCtn.style.display = 'inline';
-            }
-          }
-        });
-        getterArr.push(uvGetter);
-      }
 
-      // 如果是文章，请求文章的浏览数，并自增
-      if ('false' === 'true') {
-        var viewCtn = document.querySelector('#leancloud-post-views-container');
-        if (viewCtn || enableIncr) {
-          var target = decodeURI('/page/2/index.html');
-          var viewGetter = getRecord(Counter, target).then((record) => {
-            incrArr.push(buildIncrement(record.objectId))
-            if (viewCtn) {
-              var ele = document.querySelector('#leancloud-post-views');
-              if (ele) {
-                ele.innerText = (record.time || 0) + 1;
-                viewCtn.style.display = 'inline';
-              }
-            }
-          });
-          getterArr.push(viewGetter);
-        }
-      }
 
-      // 如果启动计数自增，批量发起自增请求
-      if (enableIncr) {
-        Promise.all(getterArr).then(() => {
-          incrArr.length > 0 && increment(Counter, incrArr);
-        })
-      }
-    }
 
-    var app_id = 'HqFsh1LCE27dz8hTC6c5S0fC-gzGzoHsz'
-    var app_key = 'xwj5VSA24fO1r9O5cOXuFGFS'
-    var server_url = 'https://b-test.hic.plus'
 
-    function fetchData(api_server) {
-      var Counter = (method, url, data) => {
-        return fetch(`${ api_server }/1.1${ url }`, {
-          method,
-          headers: {
-            'X-LC-Id': app_id,
-            'X-LC-Key': app_key,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data)
-        });
-      };
 
-      addCount(Counter);
-    }
 
-    var api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${ app_id.slice(0, 8).toLowerCase() }.api.lncldglobal.com`;
 
-    if (api_server) {
-      fetchData(api_server);
-    } else {
-      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
-        .then(resp => resp.json())
-        .then(({api_server}) => {
-          fetchData('https://' + api_server);
-        });
-    }
-  })();
-</script>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
 
 
 
@@ -1078,72 +1062,8 @@ x_values</div>
 
 
 
-
-
-
-  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
-  <script>
-    var typed = new Typed('#subtitle', {
-      strings: [
-        '  ',
-        "The people who are crazy enough to think that they can change the world, are the ones who do.&nbsp;",
-      ],
-      cursorChar: "|",
-      typeSpeed: 70,
-      loop: false,
-    });
-    typed.stop();
-    $(document).ready(function () {
-      $(".typed-cursor").addClass("h2");
-      typed.start();
-    });
-  </script>
-
-
-
-
-
-  <script  src="/js/local-search.js" ></script>
-  <script>
-    var path = "/local-search.xml";
-    var inputArea = document.querySelector("#local-search-input");
-    inputArea.onclick = function () {
-      searchFunc(path, 'local-search-input', 'local-search-result');
-      this.onclick = null
-    }
-  </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
 
 
 

@@ -1,7 +1,7 @@
+
+
 <!DOCTYPE html>
-<html lang="zh-CN">
-
-
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
 
 
 
@@ -13,32 +13,39 @@
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
-  <meta name="theme-color" content="#a5544c">
+  <meta name="theme-color" content="#2f4154">
   <meta name="description" content="趴窝">
   <meta name="author" content="丁二 Butanediol">
   <meta name="keywords" content="丁二">
   <title>提升国内 Apple Music 体验的代理规则 - 丁丁の店</title>
 
-  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
 
-  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
   <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
 
   
-    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/atom-one-dark.min.css" />
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/atom-one-dark.min.css" />
+    
   
 
   
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
 
 
 <!-- 主题依赖的图标库，不要自行修改 -->
 
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
 
 
 
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
 
 
 <link  rel="stylesheet" href="/css/main.css" />
@@ -54,7 +61,12 @@
 
 
 
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"blog.butanediol.me","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"HqFsh1LCE27dz8hTC6c5S0fC-gzGzoHsz","app_key":"xwj5VSA24fO1r9O5cOXuFGFS","server_url":"https://b-test.hic.plus"},"tajs":null}};
+  </script>
   <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
 <meta name="generator" content="Hexo 5.2.0"></head>
 
 
@@ -173,7 +185,7 @@
                   
                   
                   
-                  <a class="dropdown-item" target="_blank" rel="noopener" href="https://cloud.butanediol.me">
+                  <a class="dropdown-item" target="_blank" rel="noopener" href="https://drive.butanediol.me">
                     <i class="fas fa-hdd"></i>
                     丁二仓库
                   </a>
@@ -192,8 +204,14 @@
         
         
           <li class="nav-item" id="search-btn">
-            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
-                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
           </li>
         
       </ul>
@@ -201,32 +219,35 @@
   </div>
 </nav>
 
-    <div class="view intro-2" id="background" parallax=true
+    <div class="banner intro-2" id="background" parallax=true
          style="background: url('/media/posts_img/apple_music.jpg') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-          <div class="container text-center white-text fadeInUp">
-            <span class="h2" id="subtitle">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="提升国内 Apple Music 体验的代理规则">
               
             </span>
 
             
-              
-  <div class="mt-3 post-meta">
-    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-    <time datetime="2020-05-07 10:39">
-      2020年5月7日 上午
-    </time>
-  </div>
-
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-05-07 10:39" pubdate>
+        2020年5月7日 上午
+      </time>
+    </span>
+  
+</div>
 
 <div class="mt-1">
   
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      581 字
+      570 字
     </span>
   
 
@@ -242,6 +263,14 @@
   
 
   
+  
+    
+      <!-- LeanCloud 统计文章PV -->
+      <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="leancloud-page-views"></span> 次
+      </span>
+    
   
 </div>
 
@@ -264,9 +293,17 @@
     <div class="col-lg-8 nopadding-md">
       <div class="container nopadding-md" id="board-ctn">
         <div class="py-5" id="board">
-          <div class="post-content mx-auto" id="post">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">提升国内 Apple Music 体验的代理规则</h1>
             
-            <article class="markdown-body">
+              <p class="note note-info">
+                
+                  本文最后更新于：7 个月前
+                
+              </p>
+            
+            <div class="markdown-body">
               <p>国内访问 Apple Music 内容基本没什么大问题，但是对与自己上传的内容，访问性就很差。</p>
 <a id="more"></a>
 
@@ -378,34 +415,9 @@
 </tr>
 </tbody></table>
 <h2 id="分流策略"><a href="#分流策略" class="headerlink" title="分流策略"></a>分流策略</h2><p>你可以直接使用下面的分流策略。</p>
-<h3 id="Clash"><a href="#Clash" class="headerlink" title="Clash"></a>Clash</h3><div class="hljs"><pre><code class="hljs yaml"><span class="hljs-attr">Rule:</span>
-<span class="hljs-bullet">-</span> <span class="hljs-string">DOMAIN-SUFFIX,blobstore.apple.com,Proxy</span>
-<span class="hljs-bullet">-</span> <span class="hljs-string">DOMAIN-SUFFIX,itsliveradio.apple.com,Proxy</span>
-<span class="hljs-bullet">-</span> <span class="hljs-string">DOMAIN-SUFFIX,aodp-ssl.apple.com,Proxy</span>
-<span class="hljs-bullet">-</span> <span class="hljs-string">DOMAIN-SUFFIX,video-ssl.itunes.apple.com,Proxy</span>
-<span class="hljs-bullet">-</span> <span class="hljs-string">DOMAIN-SUFFIX,mvod.itunes.apple.com,Proxy</span>
-<span class="hljs-bullet">-</span> <span class="hljs-string">DOMAIN-SUFFIX,hls-amt.itunes.apple.com,Proxy</span>
-<span class="hljs-bullet">-</span> <span class="hljs-string">DOMAIN-SUFFIX,audio-ssl.itunes.apple.com,Proxy</span>
-<span class="hljs-bullet">-</span> <span class="hljs-string">DOMAIN-SUFFIX,streamingaudio.itunes.apple.com,Proxy</span>
-<span class="hljs-bullet">-</span> <span class="hljs-string">DOMAIN-SUFFIX,amazonaws.com,Proxy</span>
-<span class="hljs-bullet">-</span> <span class="hljs-string">DOMAIN-SUFFIX,audio.itunes.apple.com,Proxy</span>
+<h3 id="Clash"><a href="#Clash" class="headerlink" title="Clash"></a>Clash</h3><figure class="highlight yaml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs yaml"><span class="hljs-attr">Rule:</span><br><span class="hljs-bullet">-</span> <span class="hljs-string">DOMAIN-SUFFIX,blobstore.apple.com,Proxy</span><br><span class="hljs-bullet">-</span> <span class="hljs-string">DOMAIN-SUFFIX,itsliveradio.apple.com,Proxy</span><br><span class="hljs-bullet">-</span> <span class="hljs-string">DOMAIN-SUFFIX,aodp-ssl.apple.com,Proxy</span><br><span class="hljs-bullet">-</span> <span class="hljs-string">DOMAIN-SUFFIX,video-ssl.itunes.apple.com,Proxy</span><br><span class="hljs-bullet">-</span> <span class="hljs-string">DOMAIN-SUFFIX,mvod.itunes.apple.com,Proxy</span><br><span class="hljs-bullet">-</span> <span class="hljs-string">DOMAIN-SUFFIX,hls-amt.itunes.apple.com,Proxy</span><br><span class="hljs-bullet">-</span> <span class="hljs-string">DOMAIN-SUFFIX,audio-ssl.itunes.apple.com,Proxy</span><br><span class="hljs-bullet">-</span> <span class="hljs-string">DOMAIN-SUFFIX,streamingaudio.itunes.apple.com,Proxy</span><br><span class="hljs-bullet">-</span> <span class="hljs-string">DOMAIN-SUFFIX,amazonaws.com,Proxy</span><br><span class="hljs-bullet">-</span> <span class="hljs-string">DOMAIN-SUFFIX,audio.itunes.apple.com,Proxy</span><br><br><span class="hljs-bullet">-</span> <span class="hljs-string">DOMAIN-SUFFIX,xp.apple.com,DIRECT</span><br><span class="hljs-bullet">-</span> <span class="hljs-string">DOMAIN-SUFFIX,guzzoni.apple.com,DIRECT</span><br></code></pre></div></td></tr></table></figure>
 
-<span class="hljs-bullet">-</span> <span class="hljs-string">DOMAIN-SUFFIX,xp.apple.com,DIRECT</span>
-<span class="hljs-bullet">-</span> <span class="hljs-string">DOMAIN-SUFFIX,guzzoni.apple.com,DIRECT</span></code></pre></div>
-
-<h3 id="Quantumult"><a href="#Quantumult" class="headerlink" title="Quantumult"></a>Quantumult</h3><div class="hljs"><pre><code class="hljs conf">host-suffix,blobstore.apple.com,proxy
-host-suffix,itsliveradio.apple.com,proxy
-host-suffix,aodp-ssl.apple.com,proxy
-host-suffix,video-ssl.itunes.apple.com,proxy
-host-suffix,mvod.itunes.apple.com,proxy
-host-suffix,hls-amt.itunes.apple.com,proxy
-host-suffix,audio-ssl.itunes.apple.com,proxy
-host-suffix,streamingaudio.itunes.apple.com,proxy
-host-suffix,amazonaws.com,proxy
-host-suffix,audio.itunes.apple.com,proxy
-
-host-suffix, xp.apple.com, direct
-host-suffix, guzzoni.apple.com, direct</code></pre></div>
+<h3 id="Quantumult"><a href="#Quantumult" class="headerlink" title="Quantumult"></a>Quantumult</h3><figure class="highlight plain"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs conf">host-suffix,blobstore.apple.com,proxy<br>host-suffix,itsliveradio.apple.com,proxy<br>host-suffix,aodp-ssl.apple.com,proxy<br>host-suffix,video-ssl.itunes.apple.com,proxy<br>host-suffix,mvod.itunes.apple.com,proxy<br>host-suffix,hls-amt.itunes.apple.com,proxy<br>host-suffix,audio-ssl.itunes.apple.com,proxy<br>host-suffix,streamingaudio.itunes.apple.com,proxy<br>host-suffix,amazonaws.com,proxy<br>host-suffix,audio.itunes.apple.com,proxy<br><br>host-suffix, xp.apple.com, direct<br>host-suffix, guzzoni.apple.com, direct<br></code></pre></div></td></tr></table></figure>
 
 
 
@@ -417,7 +429,7 @@ host-suffix, guzzoni.apple.com, direct</code></pre></div>
 
 <section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>这里的域名是 <code>pXX-buy.itunes.apple.com</code>，其中的 <code>XX</code> 是从 1 到 100 的数字。
 <a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
-            </article>
+            </div>
             <hr>
             <div>
               <div class="post-metas mb-3">
@@ -447,11 +459,11 @@ host-suffix, guzzoni.apple.com, direct</code></pre></div>
                 
               </div>
               
-                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
               
               
                 <div class="post-prevnext row">
-                  <div class="post-prev col-6">
+                  <article class="post-prev col-6">
                     
                     
                       <a href="/2020/05/17/%E5%88%86%E4%BA%AB%E4%B8%80%E4%B8%AA-Sublime-Text-%E7%9A%84-Quantumult-X-%E8%AF%AD%E6%B3%95%E9%AB%98%E4%BA%AE/">
@@ -460,8 +472,8 @@ host-suffix, guzzoni.apple.com, direct</code></pre></div>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
-                  </div>
-                  <div class="post-next col-6">
+                  </article>
+                  <article class="post-next col-6">
                     
                     
                       <a href="/2020/05/05/%E7%94%A8-Cloudflare-workders-%E5%92%8C%E4%B8%80%E5%8F%B0-VPS-%E8%A7%A3%E5%86%B3-OneDrive-%E4%B8%8B%E8%BD%BD%E9%97%AE%E9%A2%98/">
@@ -470,25 +482,25 @@ host-suffix, guzzoni.apple.com, direct</code></pre></div>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
                     
-                  </div>
+                  </article>
                 </div>
               
             </div>
 
             
               <!-- Comments -->
-              <div class="comments" id="comments">
+              <article class="comments" id="comments">
                 
                 
   <div id="vcomments"></div>
   <script type="text/javascript">
-    function loadValine() {
-      addScript('https://cdn.staticfile.org/valine/1.4.14/Valine.min.js', function () {
+    Fluid.utils.waitElementVisible('vcomments', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', function () {
         new Valine({
           el: "#vcomments",
           app_id: "HqFsh1LCE27dz8hTC6c5S0fC-gzGzoHsz",
           app_key: "xwj5VSA24fO1r9O5cOXuFGFS",
-          placeholder: "唠唠？",
+          placeholder: "咕噜咕噜",
           path: window.location.pathname,
           avatar: "retro",
           meta: ["nick","mail","link"],
@@ -499,16 +511,16 @@ host-suffix, guzzoni.apple.com, direct</code></pre></div>
           serverURLs: "",
         });
       });
-    }
-    createObserver(loadValine, 'vcomments');
+    });
   </script>
-  <noscript>Please enable JavaScript to view the <a target="_blank" href="https://valine.js.org" rel="nofollow noopener noopener">comments
-      powered by Valine.</a></noscript>
+  <noscript>Please enable JavaScript to view the
+    <a target="_blank" href="https://valine.js.org" rel="nofollow noopener noopener">comments powered by Valine.</a>
+  </noscript>
 
 
-              </div>
+              </article>
             
-          </div>
+          </article>
         </div>
       </div>
     </div>
@@ -516,7 +528,7 @@ host-suffix, guzzoni.apple.com, direct</code></pre></div>
       <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
         <div id="toc">
   <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
-  <div id="tocbot"></div>
+  <div class="toc-body" id="toc-body"></div>
 </div>
 
       </div>
@@ -526,24 +538,17 @@ host-suffix, guzzoni.apple.com, direct</code></pre></div>
 
 <!-- Custom -->
 
-  <div class="col-lg-7 mx-auto nopadding-md">
-    <div class="container custom post-content mx-auto">
-      <img src="/media/all_avatars.png" srcset="/img/loading.gif" class="rounded mx-auto d-block mt-5" style="width:150px; height:50px;">
-    </div>
-  </div>
-
 
     
-  </main>
 
-  
-    <a id="scroll-top-button" href="#" role="button">
-      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
-    </a>
-  
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
 
-  
-    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
      aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
     <div class="modal-content">
@@ -564,27 +569,22 @@ host-suffix, guzzoni.apple.com, direct</code></pre></div>
     </div>
   </div>
 </div>
-  
-
-  
-
-  
-    <div class="col-lg-7 mx-auto nopadding-md">
-      <div class="container custom mx-auto">
-        <center><a href="https://travellings.now.sh/" target="blank" title="开往 - 友链接力"><img class="travellings" src="/media/travellings.svg" srcset="/img/loading.gif" alt="开往 - 友链接力" width="160"></a></center>
-      </div>
-    </div>
-  
-
-  <footer class="mt-5">
-  <div class="text-center py-3">
-    <div>
-      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
-      <i class="iconfont icon-love"></i>
-      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
-        <span>Fluid</span></a>
-    </div>
     
+
+    
+      <div class="col-lg-7 mx-auto nopadding-md">
+        <div class="container custom mx-auto">
+          <center><a href="https://travellings.now.sh/" target="blank" title="开往 - 友链接力"><img class="travellings" src="/media/travellings.svg" srcset="/img/loading.gif" alt="开往 - 友链接力" width="160"></a></center>
+        </div>
+      </div>
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
   <div class="statistics">
     
     
@@ -611,17 +611,33 @@ host-suffix, guzzoni.apple.com, direct</code></pre></div>
   </div>
 
 
-    
+  
 
-    
-  </div>
+  
 </footer>
 
 <!-- SCRIPTS -->
-<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
-<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
 <script  src="/js/debouncer.js" ></script>
-<script  src="/js/main.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
 
 <!-- Plugins -->
 
@@ -632,189 +648,78 @@ host-suffix, guzzoni.apple.com, direct</code></pre></div>
 
 
 
-  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
-  <script  src="/js/clipboard-use.js" ></script>
+  
 
 
 
-  <script defer>
-  (function () {
-    // 查询存储的记录
-    function getRecord(Counter, target) {
-      return new Promise(function (resolve, reject) {
-        Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({target})))
-          .then(resp => resp.json())
-          .then(({results, code, error}) => {
-            if (code === 401) {
-              throw error;
-            }
-            if (results && results.length > 0) {
-              var record = results[0];
-              resolve(record);
-            } else {
-              Counter('post', '/classes/Counter', {target, time: 0})
-                .then(resp => resp.json())
-                .then((record, error) => {
-                  if (error) {
-                    throw error;
-                  }
-                  resolve(record);
-                }).catch(error => {
-                console.error('Failed to create', error);
-                reject(error);
-              });
-            }
-          }).catch((error) => {
-          console.error('LeanCloud Counter Error:', error);
-          reject(error);
-        });
-      })
-    }
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
 
-    // 发起自增请求
-    function increment(Counter, incrArr) {
-      return new Promise(function (resolve, reject) {
-        Counter('post', '/batch', {
-          "requests": incrArr
-        }).then((res) => {
-          res = res.json();
-          if (res.error) {
-            throw res.error;
-          }
-          resolve(res);
-        }).catch((error) => {
-          console.error('Failed to save visitor count', error);
-          reject(error);
-        });
-      });
-    }
 
-    // 构建自增请求体
-    function buildIncrement(objectId) {
-      return {
-        "method": "PUT",
-        "path": `/1.1/classes/Counter/${ objectId }`,
-        "body": {
-          "time": {
-            '__op': 'Increment',
-            'amount': 1
-          }
-        }
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
       }
-    }
+    })()
+  </script>
 
-    // 校验是否为有效的 UV
-    function validUV() {
-      var key = 'LeanCloud_UV_Flag';
-      var flag = localStorage.getItem(key);
-      if (flag) {
-        // 距离标记小于 24 小时则不计为 UV
-        if (new Date().getTime() - parseInt(flag) <= 86400000) {
-          return false;
-        }
-      }
-      localStorage.setItem(key, new Date().getTime().toString());
-      return true;
-    }
 
-    function addCount(Counter) {
-      var enableIncr = 'true' === 'true' && window.location.hostname !== 'localhost';
-      var getterArr = [];
-      var incrArr = [];
 
-      // 请求 PV 并自增
-      var pvCtn = document.querySelector('#leancloud-site-pv-container');
-      if (pvCtn || enableIncr) {
-        var pvGetter = getRecord(Counter, 'site-pv').then((record) => {
-          incrArr.push(buildIncrement(record.objectId))
-          var ele = document.querySelector('#leancloud-site-pv');
-          if (ele) {
-            ele.innerText = record.time + 1;
-            if (pvCtn) {
-              pvCtn.style.display = 'inline';
-            }
-          }
-        });
-        getterArr.push(pvGetter);
-      }
 
-      // 请求 UV 并自增
-      var uvCtn = document.querySelector('#leancloud-site-uv-container');
-      if (uvCtn || enableIncr) {
-        var uvGetter = getRecord(Counter, 'site-uv').then((record) => {
-          var vuv = validUV();
-          vuv && incrArr.push(buildIncrement(record.objectId))
-          var ele = document.querySelector('#leancloud-site-uv');
-          if (ele) {
-            ele.innerText = record.time + (vuv ? 1 : 0);
-            if (uvCtn) {
-              uvCtn.style.display = 'inline';
-            }
-          }
-        });
-        getterArr.push(uvGetter);
-      }
 
-      // 如果是文章，请求文章的浏览数，并自增
-      if ('true' === 'true') {
-        var viewCtn = document.querySelector('#leancloud-post-views-container');
-        if (viewCtn || enableIncr) {
-          var target = decodeURI('/2020/05/07/%E6%8F%90%E5%8D%87%E5%9B%BD%E5%86%85-Apple-Music-%E4%BD%93%E9%AA%8C%E7%9A%84%E4%BB%A3%E7%90%86%E8%A7%84%E5%88%99/');
-          var viewGetter = getRecord(Counter, target).then((record) => {
-            incrArr.push(buildIncrement(record.objectId))
-            if (viewCtn) {
-              var ele = document.querySelector('#leancloud-post-views');
-              if (ele) {
-                ele.innerText = (record.time || 0) + 1;
-                viewCtn.style.display = 'inline';
-              }
-            }
-          });
-          getterArr.push(viewGetter);
-        }
-      }
 
-      // 如果启动计数自增，批量发起自增请求
-      if (enableIncr) {
-        Promise.all(getterArr).then(() => {
-          incrArr.length > 0 && increment(Counter, incrArr);
-        })
-      }
-    }
 
-    var app_id = 'HqFsh1LCE27dz8hTC6c5S0fC-gzGzoHsz'
-    var app_key = 'xwj5VSA24fO1r9O5cOXuFGFS'
-    var server_url = 'https://b-test.hic.plus'
 
-    function fetchData(api_server) {
-      var Counter = (method, url, data) => {
-        return fetch(`${ api_server }/1.1${ url }`, {
-          method,
-          headers: {
-            'X-LC-Id': app_id,
-            'X-LC-Key': app_key,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data)
-        });
-      };
 
-      addCount(Counter);
-    }
 
-    var api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${ app_id.slice(0, 8).toLowerCase() }.api.lncldglobal.com`;
 
-    if (api_server) {
-      fetchData(api_server);
-    } else {
-      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
-        .then(resp => resp.json())
-        .then(({api_server}) => {
-          fetchData('https://' + api_server);
-        });
-    }
-  })();
-</script>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
 
 
 
@@ -824,128 +729,8 @@ host-suffix, guzzoni.apple.com, direct</code></pre></div>
 
 
 
-
-  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
-  <script>
-    $(document).ready(function () {
-      var boardCtn = $('#board-ctn');
-      var boardTop = boardCtn.offset().top;
-
-      tocbot.init({
-        tocSelector: '#tocbot',
-        contentSelector: 'article.markdown-body',
-        headingSelector: 'h1,h2,h3,h4,h5,h6',
-        linkClass: 'tocbot-link',
-        activeLinkClass: 'tocbot-active-link',
-        listClass: 'tocbot-list',
-        isCollapsedClass: 'tocbot-is-collapsed',
-        collapsibleClass: 'tocbot-is-collapsible',
-        collapseDepth: 0,
-        scrollSmooth: true,
-        headingsOffset: -boardTop
-      });
-      if ($('.toc-list-item').length > 0) {
-        $('#toc').css('visibility', 'visible');
-      }
-    });
-  </script>
-
-
-
-  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
-  <script>
-    var typed = new Typed('#subtitle', {
-      strings: [
-        '  ',
-        "提升国内 Apple Music 体验的代理规则&nbsp;",
-      ],
-      cursorChar: "|",
-      typeSpeed: 70,
-      loop: false,
-    });
-    typed.stop();
-    $(document).ready(function () {
-      $(".typed-cursor").addClass("h2");
-      typed.start();
-    });
-  </script>
-
-
-
-  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
-  <script>
-    anchors.options = {
-      placement: "right",
-      visible: "hover",
-      
-      icon: "§"
-      
-    };
-    var el = "h1,h2,h3,h4,h5,h6".split(",");
-    var res = [];
-    for (item of el) {
-      res.push(".markdown-body > " + item)
-    }
-    anchors.add(res.join(", "))
-  </script>
-
-
-
-  <script  src="/js/local-search.js" ></script>
-  <script>
-    var path = "/local-search.xml";
-    var inputArea = document.querySelector("#local-search-input");
-    inputArea.onclick = function () {
-      searchFunc(path, 'local-search-input', 'local-search-result');
-      this.onclick = null
-    }
-  </script>
-
-
-
-  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
-  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
-
-  <script>
-    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
-      function () {
-        var element = document.createElement('a');
-        $(element).attr('data-fancybox', 'images');
-        $(element).attr('href', $(this).attr('src'));
-        $(this).wrap(element);
-      }
-    );
-  </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
 
 
 
