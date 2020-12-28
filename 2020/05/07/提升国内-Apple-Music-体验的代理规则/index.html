@@ -247,7 +247,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      570 字
+      693 字
     </span>
   
 
@@ -257,7 +257,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      8
+      10
        分钟
     </span>
   
@@ -299,13 +299,22 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：7 个月前
+                  本文最后更新于：几秒前
                 
               </p>
             
             <div class="markdown-body">
               <p>国内访问 Apple Music 内容基本没什么大问题，但是对与自己上传的内容，访问性就很差。</p>
 <a id="more"></a>
+
+<div class="note note-success">
+            <p>2020-12-28 更新</p>
+          </div>
+
+<p><code>amp-api.music.apple.com</code> 猜测是搜索相关，我学校这边的垃圾网络访问性很差，所以加到代理列表里了。</p>
+<p>还有 <code>amp-api-edge.music.apple.com</code>，有个 <code>edge</code> 估计是边缘 CDN，不太需要代理。</p>
+<p>附上一段 clash 的脚本代理规则</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python">Apple_Special = [<span class="hljs-string">&#x27;aod.itunes.apple.com&#x27;</span>, <span class="hljs-string">&#x27;mvod.itunes.apple.com&#x27;</span>, <span class="hljs-string">&#x27;music.apple.com&#x27;</span>, <span class="hljs-string">&#x27;amp-api.music.apple.com&#x27;</span>]<br><span class="hljs-keyword">if</span>(metadata[<span class="hljs-string">&#x27;host&#x27;</span>] <span class="hljs-keyword">in</span> Apple_Special):<br>	ctx.log(<span class="hljs-string">&quot;[Apple Music] &quot;</span> + metadata[<span class="hljs-string">&#x27;host&#x27;</span>])<br>	<span class="hljs-keyword">return</span> <span class="hljs-string">&quot;Apple&quot;</span><br></code></pre></div></td></tr></table></figure>
 
 <h2 id="域名列表"><a href="#域名列表" class="headerlink" title="域名列表"></a>域名列表</h2><h3 id="已知功能"><a href="#已知功能" class="headerlink" title="已知功能"></a>已知功能</h3><p>这里是确定功能的域名。</p>
 <table>
@@ -725,7 +734,7 @@
 
 
   
-<script src="/css/js/instantchat.js"></script>
+<script src="/js/instantchat.js"></script>
 
 
 
