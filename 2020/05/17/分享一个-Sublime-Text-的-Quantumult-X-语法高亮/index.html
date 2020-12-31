@@ -62,11 +62,11 @@
 
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
-    var CONFIG = {"hostname":"blog.butanediol.me","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"HqFsh1LCE27dz8hTC6c5S0fC-gzGzoHsz","app_key":"xwj5VSA24fO1r9O5cOXuFGFS","server_url":"https://b-test.hic.plus"},"tajs":null}};
+    var CONFIG = {"hostname":"blog.butanediol.me","root":"/","version":"1.8.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":200}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"HqFsh1LCE27dz8hTC6c5S0fC-gzGzoHsz","app_key":"xwj5VSA24fO1r9O5cOXuFGFS","server_url":"https://b-test.hic.plus"}}};
   </script>
   <script  src="/js/utils.js" ></script>
   <script  src="/js/color-schema.js" ></script>
-<meta name="generator" content="Hexo 5.2.0"></head>
+<meta name="generator" content="Hexo 5.3.0"></head>
 
 
 <body>
@@ -218,7 +218,7 @@
   </div>
 </nav>
 
-    <div class="banner intro-2" id="background" parallax=true
+    <div class="banner" id="banner" parallax=true
          style="background: url('/media/posts_img/6fc40dd62e7dc2f97042e31d7e8bfeb5.jpg') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
@@ -286,11 +286,11 @@
     
       
 
-<div class="container-fluid">
-  <div class="row">
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
     <div class="d-none d-lg-block col-lg-2"></div>
-    <div class="col-lg-8 nopadding-md">
-      <div class="container nopadding-md" id="board-ctn">
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
@@ -308,7 +308,6 @@
 
 <p>下面是代码：</p>
 <figure class="highlight yaml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs yaml"><span class="hljs-string">%YAML</span> <span class="hljs-number">1.2</span><br><span class="hljs-meta">---</span><br><span class="hljs-attr">name:</span> <span class="hljs-string">Quantumult</span> <span class="hljs-string">Conf</span><br><span class="hljs-attr">file_extensions:</span> [<span class="hljs-string">conf</span>]<br><span class="hljs-attr">scope:</span> <span class="hljs-string">source.c</span><br><br><span class="hljs-attr">contexts:</span><br>  <span class="hljs-attr">main:</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-attr">match:</span> <span class="hljs-string">&#x27;([\w|-]+(|\s)+(?=([\=][\-]?)))&#x27;</span><br>      <span class="hljs-attr">scope:</span> <span class="hljs-string">keyword.other</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-attr">match:</span> <span class="hljs-string">&#x27;^\[.+\]&#x27;</span><br>      <span class="hljs-attr">scope:</span> <span class="hljs-string">entity.name.section</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-attr">match:</span> <span class="hljs-string">&#x27;\\/|\^|\?&#x27;</span><br>      <span class="hljs-attr">scope:</span> <span class="hljs-string">entity.name</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-attr">match:</span> <span class="hljs-string">&#x27;((https|http)?:\/\/)[^(\s)|(,)]+&#x27;</span><br>      <span class="hljs-attr">scope:</span> <span class="hljs-string">constant.character.escape</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-attr">match:</span> <span class="hljs-string">&#x27;(\#|;)(.+|$)&#x27;</span><br>      <span class="hljs-attr">scope:</span> <span class="hljs-string">comment.number-sign</span><br></code></pre></div></td></tr></table></figure>
-
 <h2 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h2><p>在 <code>/Users/butanediol/Library/Application Support/Sublime Text 3/Packages/User</code><sup id="fnref:1" class="footnote-ref"><a href="#fn:1" rel="footnote"><span class="hint--top hint--rounded" aria-label="这是 macOS 的位置，Windows 或者 Linux 的在其他地方。点击设置中的 Browse Packages...，在打开的文件夹中双击进入 User 文件夹。
 ">[1]</span></a></sup> 中新建一个 <code>Quantumult.sublime-syntax</code> 文件。</p>
 <p>将上面的代码复制进去。</p>
@@ -344,7 +343,7 @@
                 <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
               
               
-                <div class="post-prevnext row">
+                <div class="post-prevnext">
                   <article class="post-prev col-6">
                     
                     
@@ -454,7 +453,7 @@
     
 
     
-      <div class="col-lg-7 mx-auto nopadding-md">
+      <div class="col-lg-7 mx-auto nopadding-x-md">
         <div class="container custom mx-auto">
           <center><a href="https://travellings.now.sh/" target="blank" title="开往 - 友链接力"><img class="travellings" src="/media/travellings.svg" srcset="/img/loading.gif" alt="开往 - 友链接力" width="160"></a></center>
         </div>
@@ -506,9 +505,6 @@
   <script>
     NProgress.configure({"showSpinner":false,"trickleSpeed":200})
     NProgress.start()
-    document.addEventListener('DOMContentLoaded', function() {
-      window.NProgress && window.NProgress.inc();
-    })
     window.addEventListener('load', function() {
       NProgress.done();
     })

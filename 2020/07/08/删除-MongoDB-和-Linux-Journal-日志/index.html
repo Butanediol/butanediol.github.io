@@ -62,11 +62,11 @@
 
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
-    var CONFIG = {"hostname":"blog.butanediol.me","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"HqFsh1LCE27dz8hTC6c5S0fC-gzGzoHsz","app_key":"xwj5VSA24fO1r9O5cOXuFGFS","server_url":"https://b-test.hic.plus"},"tajs":null}};
+    var CONFIG = {"hostname":"blog.butanediol.me","root":"/","version":"1.8.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":200}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"HqFsh1LCE27dz8hTC6c5S0fC-gzGzoHsz","app_key":"xwj5VSA24fO1r9O5cOXuFGFS","server_url":"https://b-test.hic.plus"}}};
   </script>
   <script  src="/js/utils.js" ></script>
   <script  src="/js/color-schema.js" ></script>
-<meta name="generator" content="Hexo 5.2.0"></head>
+<meta name="generator" content="Hexo 5.3.0"></head>
 
 
 <body>
@@ -218,7 +218,7 @@
   </div>
 </nav>
 
-    <div class="banner intro-2" id="background" parallax=true
+    <div class="banner" id="banner" parallax=true
          style="background: url('/media/posts_img/clean_log.jpg') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
@@ -286,11 +286,11 @@
     
       
 
-<div class="container-fluid">
-  <div class="row">
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
     <div class="d-none d-lg-block col-lg-2"></div>
-    <div class="col-lg-8 nopadding-md">
-      <div class="container nopadding-md" id="board-ctn">
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
@@ -312,26 +312,20 @@
 <p>要安全删除这个文件，首先要切割日志（<code>logrotate</code>）。</p>
 <h3 id="切割日志"><a href="#切割日志" class="headerlink" title="切割日志"></a>切割日志</h3><p>先进入 mongo 命令行：</p>
 <figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">mongo<br></code></pre></div></td></tr></table></figure>
-
 <p>然后用下面的命令切割日志：</p>
 <figure class="highlight plain"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs mongo">&gt; use admin<br>&gt; db.adminCommand( &#123; logRotate: 1 &#125; )<br></code></pre></div></td></tr></table></figure>
-
 <p>如果输出是这样的：</p>
 <figure class="highlight plain"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs mongo">&#123; &quot;ok&quot; : 1 &#125;<br></code></pre></div></td></tr></table></figure>
-
 <p>就切割成功了。</p>
 <h3 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h3><p>去到 <code>/var/log/mongodb</code> 下，删除 <code>mongod.log.xxxx-xx-xxxxx-xx-xx</code> 文件即可。</p>
 <h2 id="Journal-日志"><a href="#Journal-日志" class="headerlink" title="Journal 日志"></a>Journal 日志</h2><p>Journal 日志服务生成的日志文件在 <code>/var/log/journal</code> 文件夹下。</p>
 <p>但可以通过 <code>journalctl --disk-usage</code> 命令直接查看日志大小。</p>
 <p>比如：</p>
 <figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">journalctl --disk-usage<br><span class="hljs-comment"># Archived and active journals take up 16.0M in the file system.</span><br></code></pre></div></td></tr></table></figure>
-
 <h3 id="删除-1"><a href="#删除-1" class="headerlink" title="删除"></a>删除</h3><p>可以先直接删除日志文件：</p>
 <figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">ls /var/<span class="hljs-built_in">log</span>/journal/<br><span class="hljs-comment"># e49796b61b294856bb739446b8ba124d</span><br><br>sudo rm -rf /var/<span class="hljs-built_in">log</span>/journal/e49796b61b294856bb739446b8ba124d/<br></code></pre></div></td></tr></table></figure>
-
 <h3 id="自动维护文件大小"><a href="#自动维护文件大小" class="headerlink" title="自动维护文件大小"></a>自动维护文件大小</h3><h4 id="按时间"><a href="#按时间" class="headerlink" title="按时间"></a>按时间</h4><p>保留最近两周的日志：</p>
 <figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">journalctl --vacuum-time=2w<br></code></pre></div></td></tr></table></figure>
-
 <h4 id="按大小"><a href="#按大小" class="headerlink" title="按大小"></a>按大小</h4><p>保留 <code>128 MB</code> 大小的日志：</p>
 <figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">journalctl --vacuum-size=128M<br></code></pre></div></td></tr></table></figure>
             </div>
@@ -358,7 +352,7 @@
                 <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
               
               
-                <div class="post-prevnext row">
+                <div class="post-prevnext">
                   <article class="post-prev col-6">
                     
                     
@@ -468,7 +462,7 @@
     
 
     
-      <div class="col-lg-7 mx-auto nopadding-md">
+      <div class="col-lg-7 mx-auto nopadding-x-md">
         <div class="container custom mx-auto">
           <center><a href="https://travellings.now.sh/" target="blank" title="开往 - 友链接力"><img class="travellings" src="/media/travellings.svg" srcset="/img/loading.gif" alt="开往 - 友链接力" width="160"></a></center>
         </div>
@@ -520,9 +514,6 @@
   <script>
     NProgress.configure({"showSpinner":false,"trickleSpeed":200})
     NProgress.start()
-    document.addEventListener('DOMContentLoaded', function() {
-      window.NProgress && window.NProgress.inc();
-    })
     window.addEventListener('load', function() {
       NProgress.done();
     })

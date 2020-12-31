@@ -62,11 +62,11 @@
 
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
-    var CONFIG = {"hostname":"blog.butanediol.me","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"HqFsh1LCE27dz8hTC6c5S0fC-gzGzoHsz","app_key":"xwj5VSA24fO1r9O5cOXuFGFS","server_url":"https://b-test.hic.plus"},"tajs":null}};
+    var CONFIG = {"hostname":"blog.butanediol.me","root":"/","version":"1.8.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":200}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"HqFsh1LCE27dz8hTC6c5S0fC-gzGzoHsz","app_key":"xwj5VSA24fO1r9O5cOXuFGFS","server_url":"https://b-test.hic.plus"}}};
   </script>
   <script  src="/js/utils.js" ></script>
   <script  src="/js/color-schema.js" ></script>
-<meta name="generator" content="Hexo 5.2.0"></head>
+<meta name="generator" content="Hexo 5.3.0"></head>
 
 
 <body>
@@ -218,7 +218,7 @@
   </div>
 </nav>
 
-    <div class="banner intro-2" id="background" parallax=true
+    <div class="banner" id="banner" parallax=true
          style="background: url('/media/posts_img/c756481a7db7d504c0995dd42409bbed60f0d7.jpg') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
@@ -286,11 +286,11 @@
     
       
 
-<div class="container-fluid">
-  <div class="row">
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
     <div class="d-none d-lg-block col-lg-2"></div>
-    <div class="col-lg-8 nopadding-md">
-      <div class="container nopadding-md" id="board-ctn">
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
@@ -314,7 +314,6 @@
 <h3 id="确保你的安装过程没有出错"><a href="#确保你的安装过程没有出错" class="headerlink" title="确保你的安装过程没有出错"></a>确保你的安装过程没有出错</h3><p>你可以通过在终端中启动 AltDeploy 并安装插件，查看日志并确保安装过程没有报错。</p>
 <p>方法如下：</p>
 <figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">sudo AltDeploy.app/AltDeploy.app/Contents/MacOS/AltDeploy<br></code></pre></div></td></tr></table></figure>
-
 <h3 id="确保你已经自行尝试了许多解决方案"><a href="#确保你已经自行尝试了许多解决方案" class="headerlink" title="确保你已经自行尝试了许多解决方案"></a>确保你已经自行尝试了许多解决方案</h3><p>如果没有，点击<a target="_blank" rel="noopener" href="https://www.google.com/search?sxsrf=ALeKk00dhujs6vBf58OazJ8kyZCb9TXXsg:1585549594198&q=mac+mail+app+extensions+not+shown&spell=1">这里</a>。</p>
 <h2 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h2><p>在开始之前，根据咱的解决经验，如果你曾经操作过 macOS 的 SIP，可以考虑先查看下面的第二条。</p>
 <p>如果你不知道 SIP 是什么，那么你大概率没有操作过，按照下面的顺序阅读即可。</p>
@@ -323,10 +322,8 @@
 <p>这个问题<strong>多半</strong>是由于手动或使用迁移助手更新系统，<code>~/Library/Containers/com.apple.mail/Data/Library/Mail</code> 文件夹被创建成了一个真实的文件夹，而不是一个符号链接。</p>
 <p>通过下面两个方法来检查这个问题：</p>
 <h4 id="检查问题"><a href="#检查问题" class="headerlink" title="检查问题"></a>检查问题</h4><h5 id="用终端命令检查"><a href="#用终端命令检查" class="headerlink" title="用终端命令检查"></a>用终端命令检查</h5><figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">ls -lad ~/Library/Containers/com.apple.mail/Data/Library/Mail<br></code></pre></div></td></tr></table></figure>
-
 <p>正常的话会返回</p>
 <figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">/Users/Username/Library/Containers/com.apple.mail/Data/Library/Mail -&gt; ../../../../Mail<br></code></pre></div></td></tr></table></figure>
-
 <p>看不懂就用下面的方法</p>
 <h5 id="在图形界面中检查"><a href="#在图形界面中检查" class="headerlink" title="在图形界面中检查"></a>在图形界面中检查</h5><p>打开 finder.app，按下 <kbd style="border:1px solid gray;font-size:1.2em;box-shadow:1px 0 1px 0 #eee, 0 2px 0 2px #ccc, 0 2px 0 3px #444;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;margin:2px 3px;padding:1px 5px;">Command⌘</kbd> + <kbd style="border:1px solid gray;font-size:1.2em;box-shadow:1px 0 1px 0 #eee, 0 2px 0 2px #ccc, 0 2px 0 3px #444;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;margin:2px 3px;padding:1px 5px;">Shift⇧</kbd> + <kbd style="border:1px solid gray;font-size:1.2em;box-shadow:1px 0 1px 0 #eee, 0 2px 0 2px #ccc, 0 2px 0 3px #444;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;margin:2px 3px;padding:1px 5px;">G</kbd>， </p>
 <p>输入 <code>~/Library/Containers/com.apple.mail/Data/Library</code> 并回车。</p>
@@ -355,7 +352,6 @@
 <p>等待恢复模式加载完毕后，点击实用工具，选择终端。</p>
 <p>在终端中输入：</p>
 <figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">csrutil <span class="hljs-built_in">disable</span><br></code></pre></div></td></tr></table></figure>
-
 <p>然后重新启动电脑。</p>
 <h5 id="删除-DataVaults"><a href="#删除-DataVaults" class="headerlink" title="删除 DataVaults"></a>删除 DataVaults</h5><p>打开 finder.app，按下 <kbd style="border:1px solid gray;font-size:1.2em;box-shadow:1px 0 1px 0 #eee, 0 2px 0 2px #ccc, 0 2px 0 3px #444;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;margin:2px 3px;padding:1px 5px;">Command⌘</kbd> + <kbd style="border:1px solid gray;font-size:1.2em;box-shadow:1px 0 1px 0 #eee, 0 2px 0 2px #ccc, 0 2px 0 3px #444;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;margin:2px 3px;padding:1px 5px;">Shift⇧</kbd> + <kbd style="border:1px solid gray;font-size:1.2em;box-shadow:1px 0 1px 0 #eee, 0 2px 0 2px #ccc, 0 2px 0 3px #444;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;margin:2px 3px;padding:1px 5px;">G</kbd>， 输入</p>
 <p><code>~/Library/Containers/com.apple.mail/Data/</code> 并回车。</p>
@@ -365,7 +361,6 @@
 <p>等待恢复模式加载完毕后，点击实用工具，选择终端。</p>
 <p>在终端中输入：</p>
 <figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">csrutil <span class="hljs-built_in">enable</span><br></code></pre></div></td></tr></table></figure>
-
 <p>然后重新启动电脑。</p>
 <hr>
 <p>到这一步，咱的问题就已经解决了，但是如果你没有找到 DataVaults 文件夹，看看下面的步骤。</p>
@@ -404,7 +399,7 @@
                 <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
               
               
-                <div class="post-prevnext row">
+                <div class="post-prevnext">
                   <article class="post-prev col-6">
                     
                     
@@ -514,7 +509,7 @@
     
 
     
-      <div class="col-lg-7 mx-auto nopadding-md">
+      <div class="col-lg-7 mx-auto nopadding-x-md">
         <div class="container custom mx-auto">
           <center><a href="https://travellings.now.sh/" target="blank" title="开往 - 友链接力"><img class="travellings" src="/media/travellings.svg" srcset="/img/loading.gif" alt="开往 - 友链接力" width="160"></a></center>
         </div>
@@ -566,9 +561,6 @@
   <script>
     NProgress.configure({"showSpinner":false,"trickleSpeed":200})
     NProgress.start()
-    document.addEventListener('DOMContentLoaded', function() {
-      window.NProgress && window.NProgress.inc();
-    })
     window.addEventListener('load', function() {
       NProgress.done();
     })
