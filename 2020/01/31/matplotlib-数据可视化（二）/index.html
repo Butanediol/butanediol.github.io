@@ -8,7 +8,7 @@
 <head>
   <meta charset="UTF-8">
   <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
-  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
   <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -16,7 +16,8 @@
   <meta name="theme-color" content="#ffffff">
   <meta name="description" content="趴窝">
   <meta name="author" content="丁二 Butanediol">
-  <meta name="keywords" content="丁二">
+  <meta name="keywords" content="Python,Matplotlib,数据,可视化,数据可视化,丁丁の店,丁丁">
+  
   <title>Matplotlib 数据可视化（二） - 丁丁の店</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
@@ -62,11 +63,11 @@
 
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
-    var CONFIG = {"hostname":"blog.butanediol.me","root":"/","version":"1.8.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":false,"height_px":3,"color":"#29d","options":{"showSpinner":true,"trickleSpeed":200}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"HqFsh1LCE27dz8hTC6c5S0fC-gzGzoHsz","app_key":"xwj5VSA24fO1r9O5cOXuFGFS","server_url":"https://b-test.hic.plus"}}};
+    var CONFIG = {"hostname":"blog.butanediol.me","root":"/","version":"1.8.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":false,"height_px":3,"color":"#29d","options":{"showSpinner":true,"trickleSpeed":200}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"HqFsh1LCE27dz8hTC6c5S0fC-gzGzoHsz","app_key":"xwj5VSA24fO1r9O5cOXuFGFS","server_url":"https://b-test.hic.plus"}}};
   </script>
   <script  src="/js/utils.js" ></script>
   <script  src="/js/color-schema.js" ></script>
-<meta name="generator" content="Hexo 5.3.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 
 
 <body>
@@ -325,10 +326,11 @@
 <p>因为我们想让小人从原点出发，所以这里我们初始化 <code>x_values</code> 和 <code>y_values</code> 中的第一个值为 0。</p>
 <h2 id="绘制图像"><a href="#绘制图像" class="headerlink" title="绘制图像"></a>绘制图像</h2><h3 id="基础图像"><a href="#基础图像" class="headerlink" title="基础图像"></a>基础图像</h3><p>首先导入需要的模块。<br><strong><code>rw_visual.py</code></strong></p>
 <figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br><br><span class="hljs-keyword">from</span> random_walk <span class="hljs-keyword">import</span> RandomWalk<br></code></pre></div></td></tr></table></figure>
+
 <p><strong><code>rw_visual.py</code></strong></p>
 <figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python">rw = RandomWalk()<br>rw.fill_walk()<br><br>plt.scatter(rw.x_values, rw.y_values, s=<span class="hljs-number">10</span>, c=<span class="hljs-string">&#x27;blue&#x27;</span>, edgecolor=<span class="hljs-string">&#x27;none&#x27;</span>)<br><br>plt.show()<br></code></pre></div></td></tr></table></figure>
 <p>首先创建一个 <code>RandomWalk</code> 类的实例，并运行 <code>fill_walk()</code> 函数来生成数据。</p>
-<p>然后绘制散点图，x 和 y 的数据即 <code>RandomWalk</code> 中的 <code>x_values</code> 和 <code>y_values</code>。<br><img src="https://tva1.sinaimg.cn/large/006tNbRwly1gbfit0o8orj30zk0twtbu.jpg" srcset="/img/loading.gif" alt="我的效果图"></p>
+<p>然后绘制散点图，x 和 y 的数据即 <code>RandomWalk</code> 中的 <code>x_values</code> 和 <code>y_values</code>。<br><img src="https://tva1.sinaimg.cn/large/006tNbRwly1gbfit0o8orj30zk0twtbu.jpg" srcset="/img/loading.gif" lazyload alt="我的效果图"></p>
 <h3 id="进阶图像"><a href="#进阶图像" class="headerlink" title="进阶图像"></a>进阶图像</h3><p>既然是随机漫步，我们就想知道开始的位置和结束的位置，以及行走的方向。</p>
 <p><strong><code>rw_visual.py</code></strong></p>
 <figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python">rw = RandomWalk()<br>rw.fill_walk()<br><br>--snip--<br><br>plt.figure(figsize=(<span class="hljs-number">10</span>, <span class="hljs-number">6</span>))<br><br>point_numbers = <span class="hljs-built_in">list</span>(<span class="hljs-built_in">range</span>(rw.num_points))<br>plt.scatter(rw.x_values, rw.y_values, s=<span class="hljs-number">10</span>, c=point_numbers, cmap=plt.cm.Blues,<br>	edgecolor=<span class="hljs-string">&#x27;none&#x27;</span>)<br><br><span class="hljs-comment"># 突出起点和终点</span><br>plt.scatter(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, c=<span class="hljs-string">&#x27;green&#x27;</span>, edgecolor=<span class="hljs-string">&#x27;none&#x27;</span>, s=<span class="hljs-number">100</span>)<br>plt.scatter(rw.x_values[-<span class="hljs-number">1</span>], rw.y_values[-<span class="hljs-number">1</span>], c=<span class="hljs-string">&#x27;red&#x27;</span>, edgecolor=<span class="hljs-string">&#x27;none&#x27;</span>, s=<span class="hljs-number">100</span>)<br><br>--snip--<br>plt.show()<br></code></pre></div></td></tr></table></figure>
@@ -337,12 +339,13 @@
 ">[1]</span></a></sup></p>
 <p>然后我们想按照漫步的顺序来给点上色，先走到的点颜色浅，后走到的点颜色深，于是我们创建一个列表，内容是 <code>[1,2,3,..., rw.numpoints]</code>，这个列表的长度刚好与漫步的次数相同。</p>
 <p>此外，我们还想突出起点和终点，于是使用了额外的两行，重新定义了起点和终点的属性。起点就是 <code>(rw.x_values[0], rw.y_values[0])</code> 点，也就是 <code>(0, 0)</code> 点，我们用绿色标出；终点就是最后一组数据，即 <code>(rw.x_values[-1], rw.y_values[-1])</code> 点，用红色标出。</p>
-<p><img src="https://tva1.sinaimg.cn/large/006tNbRwly1gbfjzmvyexj319l0u0dlw.jpg" srcset="/img/loading.gif" alt="我的效果图"></p>
+<p><img src="https://tva1.sinaimg.cn/large/006tNbRwly1gbfjzmvyexj319l0u0dlw.jpg" srcset="/img/loading.gif" lazyload alt="我的效果图"></p>
 <p>除此之外还可以隐藏坐标轴：<br><strong><code>rw_visual.py</code></strong></p>
 <figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python">plt.axes().get_xaxis().set_visible(<span class="hljs-literal">False</span>)<br>plt.axes().get_yaxis().set_visible(<span class="hljs-literal">False</span>)<br></code></pre></div></td></tr></table></figure>
 <p>但是我这里会报两个 Warning:</p>
 <figure class="highlight bash"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash">MatplotlibDeprecationWarning: Adding an axes using the same arguments as a previous axes currently reuses the earlier instance.  In a future version, a new instance will always be created and returned.  Meanwhile, this warning can be suppressed, and the future behavior ensured, by passing a unique label to each axes instance.<br>  plt.axes().get_xaxis().set_visible(False)<br><br>MatplotlibDeprecationWarning: Adding an axes using the same arguments as a previous axes currently reuses the earlier instance.  In a future version, a new instance will always be created and returned.  Meanwhile, this warning can be suppressed, and the future behavior ensured, by passing a unique label to each axes instance.<br>  plt.axes().get_yaxis().set_visible(False)<br></code></pre></div></td></tr></table></figure>
-<p>意思似乎是，现在这个版本可以这样写，但以后可能会有问题，如果你不打算更新版本的话也没问题。<br><img src="https://tva1.sinaimg.cn/large/006tNbRwly1gbfka9ln6fj319l0u0jwu.jpg" srcset="/img/loading.gif" alt="我的效果图"></p>
+
+<p>意思似乎是，现在这个版本可以这样写，但以后可能会有问题，如果你不打算更新版本的话也没问题。<br><img src="https://tva1.sinaimg.cn/large/006tNbRwly1gbfka9ln6fj319l0u0jwu.jpg" srcset="/img/loading.gif" lazyload alt="我的效果图"></p>
 <section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>这个 DPI 的概念感觉不是很清楚，在这里应该就认为屏幕上的 Dots per inch 就是 Pixels per inch 了。
 <a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
             </div>
@@ -369,7 +372,11 @@
                 
               </div>
               
-                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
               
               
                 <div class="post-prevnext">
@@ -399,12 +406,14 @@
 
             
               <!-- Comments -->
-              <article class="comments" id="comments">
+              <article class="comments" id="comments" lazyload>
+                
+                  
                 
                 
   <div id="vcomments"></div>
   <script type="text/javascript">
-    Fluid.utils.waitElementVisible('vcomments', function() {
+    Fluid.utils.lazyComments('vcomments', function() {
       Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', function () {
         new Valine({
           el: "#vcomments",
@@ -520,8 +529,9 @@
   
 </footer>
 
-<!-- SCRIPTS -->
 
+  <!-- SCRIPTS -->
+  
 
 <script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
 <script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
@@ -533,7 +543,7 @@
 
 
   
-    <script  src="/js/lazyload.js" ></script>
+    <script  src="/js/img-lazyload.js" ></script>
   
 
 
@@ -580,11 +590,12 @@
   <script>
     (function () {
       var path = "/local-search.xml";
-      var inputArea = document.querySelector("#local-search-input");
-      inputArea.onclick = function () {
+      $('#local-search-input').on('click', function() {
         searchFunc(path, 'local-search-input', 'local-search-result');
-        this.onclick = null
-      }
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
     })()
   </script>
 
@@ -622,7 +633,6 @@
 
 <!-- 主题的启动项 保持在最底部 -->
 <script  src="/js/boot.js" ></script>
-
 
 
 </body>

@@ -8,7 +8,7 @@
 <head>
   <meta charset="UTF-8">
   <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
-  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
   <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -16,7 +16,8 @@
   <meta name="theme-color" content="#ffffff">
   <meta name="description" content="趴窝">
   <meta name="author" content="Butanediol 丁二">
-  <meta name="keywords" content="丁二">
+  <meta name="keywords" content="onedrive,business,mixplorer,azure,office,a1,e3,for">
+  
   <title>如何在 Mixplorer 中使用 OneDrive？ - 丁丁の店</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
@@ -62,11 +63,11 @@
 
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
-    var CONFIG = {"hostname":"blog.butanediol.me","root":"/","version":"1.8.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":false,"height_px":3,"color":"#29d","options":{"showSpinner":true,"trickleSpeed":200}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"HqFsh1LCE27dz8hTC6c5S0fC-gzGzoHsz","app_key":"xwj5VSA24fO1r9O5cOXuFGFS","server_url":"https://b-test.hic.plus"}}};
+    var CONFIG = {"hostname":"blog.butanediol.me","root":"/","version":"1.8.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":false,"height_px":3,"color":"#29d","options":{"showSpinner":true,"trickleSpeed":200}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"HqFsh1LCE27dz8hTC6c5S0fC-gzGzoHsz","app_key":"xwj5VSA24fO1r9O5cOXuFGFS","server_url":"https://b-test.hic.plus"}}};
   </script>
   <script  src="/js/utils.js" ></script>
   <script  src="/js/color-schema.js" ></script>
-<meta name="generator" content="Hexo 5.3.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 
 
 <body>
@@ -304,39 +305,39 @@
             
             <div class="markdown-body">
               <h2 id="打开-Azure"><a href="#打开-Azure" class="headerlink" title="打开 Azure"></a>打开 Azure</h2><h3 id="注册应用"><a href="#注册应用" class="headerlink" title="注册应用"></a>注册应用</h3><p><a target="_blank" rel="noopener" href="https://portal.azure.com/?l=zh-hans.zh-cn#blade/Microsoft_AAD_RegisteredApps/ApplicationsListBlade">点击这里</a>打开 Azure，登陆你的 OneDrive 账号。点击<strong>新注册</strong>。</p>
-<p><img src="https://tva1.sinaimg.cn/large/0082zybpgy1gbxecuych5j30zm0f040w.jpg" srcset="/img/loading.gif"></p>
+<p><img src="https://tva1.sinaimg.cn/large/0082zybpgy1gbxecuych5j30zm0f040w.jpg" srcset="/img/loading.gif" lazyload></p>
 <p>名称随意填写，这里我填写的是 Mixplorer，受支持的账户类型选择<strong>任何组织目录（任何 Azure AD 目录 - 多租户）中的账户和个人 Microsoft 账户（例如，Skype、Xbox）</strong>，重定向 URI 填写 <code>https://sharepoint.com</code>。</p>
-<p><img src="https://tva1.sinaimg.cn/large/0082zybpgy1gbxedi2oj4j315k0u0791.jpg" srcset="/img/loading.gif"></p>
+<p><img src="https://tva1.sinaimg.cn/large/0082zybpgy1gbxedi2oj4j315k0u0791.jpg" srcset="/img/loading.gif" lazyload></p>
 <h3 id="应用设置"><a href="#应用设置" class="headerlink" title="应用设置"></a>应用设置</h3><h4 id="API-权限"><a href="#API-权限" class="headerlink" title="API 权限"></a>API 权限</h4><p>进入应用设置后，先点击左边的 <strong>API 权限</strong>，点击<strong>添加权限</strong>，选择<strong>常用 Microsoft API</strong> 中的 <strong>Microsoft Graph</strong>，然后选择<strong>委托的权限</strong>。</p>
-<p><img src="https://tva1.sinaimg.cn/large/0082zybpgy1gbxeiauusaj31ik0pmq7l.jpg" srcset="/img/loading.gif"></p>
+<p><img src="https://tva1.sinaimg.cn/large/0082zybpgy1gbxeiauusaj31ik0pmq7l.jpg" srcset="/img/loading.gif" lazyload></p>
 <p>在选择权限中搜索 <code>file</code>，然后选择 <code>Files.ReadWrite</code> 和 <code>Files.ReadWriteAll</code> 两项。添加权限。</p>
-<p><img src="https://tva1.sinaimg.cn/large/0082zybpgy1gbxejcl4klj30po10m0w0.jpg" srcset="/img/loading.gif"></p>
+<p><img src="https://tva1.sinaimg.cn/large/0082zybpgy1gbxejcl4klj30po10m0w0.jpg" srcset="/img/loading.gif" lazyload></p>
 <h3 id="证书和密码"><a href="#证书和密码" class="headerlink" title="证书和密码"></a>证书和密码</h3><p>在左边的管理中选择<strong>证书和密码</strong>，点击<strong>新客户端密码</strong>，说明随意填写，截止期限选择<strong>1 年内</strong><sup id="fnref:1" class="footnote-ref"><a href="#fn:1" rel="footnote"><span class="hint--top hint--rounded" aria-label="也可以选择 2 年内或从不，我不进行测试了
 ">[1]</span></a></sup>。</p>
-<p><img src="https://tva1.sinaimg.cn/large/0082zybpgy1gbxeny9zptj30ys0laacj.jpg" srcset="/img/loading.gif"></p>
+<p><img src="https://tva1.sinaimg.cn/large/0082zybpgy1gbxeny9zptj30ys0laacj.jpg" srcset="/img/loading.gif" lazyload></p>
 <p>然后点击<strong>添加</strong>。</p>
 <p>你将会看到一个<strong>值</strong>，<strong>请务必</strong>将其复制下来，保存好！</p>
 <h4 id="应用-ID"><a href="#应用-ID" class="headerlink" title="应用 ID"></a>应用 ID</h4><p>现在返回<strong>概述</strong>，将<strong>应用程序（客户端）ID</strong> 保存下来。</p>
-<p><img src="https://tva1.sinaimg.cn/large/0082zybpgy1gbxfzbxx46j313s0bijt9.jpg" srcset="/img/loading.gif"></p>
+<p><img src="https://tva1.sinaimg.cn/large/0082zybpgy1gbxfzbxx46j313s0bijt9.jpg" srcset="/img/loading.gif" lazyload></p>
 <h2 id="打开-Mixplorer"><a href="#打开-Mixplorer" class="headerlink" title="打开 Mixplorer"></a>打开 Mixplorer</h2><p>点击左上角的汉堡菜单，再点击菜单右上角的列表。点击 <strong>Add storage</strong>。</p>
-<p><img src="https://tva1.sinaimg.cn/large/0082zybpgy1gbxeuck3ndj30oe18m42i.jpg" srcset="/img/loading.gif"></p>
+<p><img src="https://tva1.sinaimg.cn/large/0082zybpgy1gbxeuck3ndj30oe18m42i.jpg" srcset="/img/loading.gif" lazyload></p>
 <p>选择 <strong>OneDrive</strong>。</p>
-<p><img src="https://tva1.sinaimg.cn/large/0082zybpgy1gbxew3d56zj30oe18mgto.jpg" srcset="/img/loading.gif"></p>
+<p><img src="https://tva1.sinaimg.cn/large/0082zybpgy1gbxew3d56zj30oe18mgto.jpg" srcset="/img/loading.gif" lazyload></p>
 <p>Display name 可以随意填写</p>
 <p>在 <strong>client_id</strong> 的等号后填写<strong>应用程序 ID</strong>，<strong>client_secret</strong> 的等号后填写密钥，也就是之前说到的<strong>值</strong>，最后，<strong>redirect_uri</strong> 的等号后填写 <code>https://sharepoint.com</code>。</p>
-<p><img src="https://tva1.sinaimg.cn/large/0082zybpgy1gbxfzprey6j30oe18mgvf.jpg" srcset="/img/loading.gif"></p>
+<p><img src="https://tva1.sinaimg.cn/large/0082zybpgy1gbxfzprey6j30oe18mgvf.jpg" srcset="/img/loading.gif" lazyload></p>
 <p>然后点击保存。</p>
 <p>之后会出现一个九宫格，这是一个可选的密码，我不需要，直接点击下一步。你也可以绘制一个九宫格密码，增强安全性。</p>
 <p>之后，等待加载完成，会弹出 Office 的登陆界面，这里登陆你刚刚用于注册 Azure 的账户，即你的 OneDrive 账户。</p>
 <p>完成登陆后，Mixplorer 会自动获取 token，然后就可以正常使用你的 OneDrive 了。</p>
-<p><img src="https://tva1.sinaimg.cn/large/0082zybpgy1gbxf3gmdh4j30oe18mjz9.jpg" srcset="/img/loading.gif"></p>
+<p><img src="https://tva1.sinaimg.cn/large/0082zybpgy1gbxf3gmdh4j30oe18mjz9.jpg" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>注，你的 OneDrive 文件应该储存在 Files 文件夹中，而非 Mixplorer 中的根目录。</p>
 </blockquote>
 <h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>随意选择一个文件点击，在打开方式窗口中，你可以选择<strong>保存在临时文件夹</strong> 或 <strong>获取直链</strong>，这里我选择<strong>获取直链</strong>。然后使用 ADM 下载。</p>
-<p><img src="https://tva1.sinaimg.cn/large/0082zybpgy1gbxf5w26yjj30oe18mgsf.jpg" srcset="/img/loading.gif"></p>
+<p><img src="https://tva1.sinaimg.cn/large/0082zybpgy1gbxf5w26yjj30oe18mgsf.jpg" srcset="/img/loading.gif" lazyload></p>
 <p>这个方法是不支持断点续传的，所以 AMD 可能会报一个错误，忽略即可。</p>
-<p><img src="https://tva1.sinaimg.cn/large/0082zybpgy1gbxf76yv7qj30oe18mjwu.jpg" srcset="/img/loading.gif"></p>
+<p><img src="https://tva1.sinaimg.cn/large/0082zybpgy1gbxf76yv7qj30oe18mjwu.jpg" srcset="/img/loading.gif" lazyload></p>
 <p>我的梯子开的是<strong>绕过中国大陆和局域网</strong>模式，所以这里走了代理，我的宽带是 100 M 广电网，属于墙中墙类型，因此这个速度还算不错了，如果不走代理的话我这里的速度可能只有 200 KiB/s 左右。裸连速度与你的 ISP、带宽、OneDrive 服务位置等因素相关，我这里只作为参考。</p>
 <h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>我这个方法适用于 OneDrive for Business，对于个人版本的 OneDrive 我没有进行测试，但应该可用。希望有进行测试的朋友可以把你的结果和经验分享到评论区中。</p>
 <section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>也可以选择 <strong>2 年内</strong>或<strong>从不</strong>，我不进行测试了
@@ -367,7 +368,11 @@
                 
               </div>
               
-                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
               
               
                 <div class="post-prevnext">
@@ -397,12 +402,14 @@
 
             
               <!-- Comments -->
-              <article class="comments" id="comments">
+              <article class="comments" id="comments" lazyload>
+                
+                  
                 
                 
   <div id="vcomments"></div>
   <script type="text/javascript">
-    Fluid.utils.waitElementVisible('vcomments', function() {
+    Fluid.utils.lazyComments('vcomments', function() {
       Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', function () {
         new Valine({
           el: "#vcomments",
@@ -518,8 +525,9 @@
   
 </footer>
 
-<!-- SCRIPTS -->
 
+  <!-- SCRIPTS -->
+  
 
 <script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
 <script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
@@ -531,7 +539,7 @@
 
 
   
-    <script  src="/js/lazyload.js" ></script>
+    <script  src="/js/img-lazyload.js" ></script>
   
 
 
@@ -578,11 +586,12 @@
   <script>
     (function () {
       var path = "/local-search.xml";
-      var inputArea = document.querySelector("#local-search-input");
-      inputArea.onclick = function () {
+      $('#local-search-input').on('click', function() {
         searchFunc(path, 'local-search-input', 'local-search-result');
-        this.onclick = null
-      }
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
     })()
   </script>
 
@@ -620,7 +629,6 @@
 
 <!-- 主题的启动项 保持在最底部 -->
 <script  src="/js/boot.js" ></script>
-
 
 
 </body>

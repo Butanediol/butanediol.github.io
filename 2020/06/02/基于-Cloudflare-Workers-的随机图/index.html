@@ -8,15 +8,16 @@
 <head>
   <meta charset="UTF-8">
   <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
-  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
   <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
   <meta name="theme-color" content="#ffffff">
-  <meta name="description" content="趴窝">
+  <meta name="description" content="一个私人的随机图服务。">
   <meta name="author" content="丁二 Butanediol">
   <meta name="keywords" content="丁二">
+  
   <title>基于 Cloudflare Workers 的随机图 - 丁丁の店</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
@@ -62,11 +63,11 @@
 
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
-    var CONFIG = {"hostname":"blog.butanediol.me","root":"/","version":"1.8.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":false,"height_px":3,"color":"#29d","options":{"showSpinner":true,"trickleSpeed":200}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"HqFsh1LCE27dz8hTC6c5S0fC-gzGzoHsz","app_key":"xwj5VSA24fO1r9O5cOXuFGFS","server_url":"https://b-test.hic.plus"}}};
+    var CONFIG = {"hostname":"blog.butanediol.me","root":"/","version":"1.8.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":false,"height_px":3,"color":"#29d","options":{"showSpinner":true,"trickleSpeed":200}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"HqFsh1LCE27dz8hTC6c5S0fC-gzGzoHsz","app_key":"xwj5VSA24fO1r9O5cOXuFGFS","server_url":"https://b-test.hic.plus"}}};
   </script>
   <script  src="/js/utils.js" ></script>
   <script  src="/js/color-schema.js" ></script>
-<meta name="generator" content="Hexo 5.3.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 
 
 <body>
@@ -304,9 +305,9 @@
             
             <div class="markdown-body">
               <p>一个私人的随机图服务。</p>
-<a id="more"></a>
+<span id="more"></span>
 
-<p><img src="https://picture.butanediol.workers.dev/" srcset="/img/loading.gif" alt="一个样例图片"></p>
+<p><img src="https://picture.butanediol.workers.dev/" srcset="/img/loading.gif" lazyload alt="一个样例图片"></p>
 <p>随机图的轮子其实网上有不少了，但基本都需要一台服务器，或者用别人提供的服务。</p>
 <p>但其实托管图片获取直链还是比较简单的，所以想着用 Cloudflare Workers 在直链中随机选一个，来搭建一个私人的随机图片服务。</p>
 <h2 id="你需要"><a href="#你需要" class="headerlink" title="你需要"></a>你需要</h2><ul>
@@ -318,6 +319,7 @@
 <p>总之，只需要一个直链，方法很多，自己灵活选择。</p>
 <h2 id="部署-Workers"><a href="#部署-Workers" class="headerlink" title="部署 Workers"></a>部署 Workers</h2><p>方法不多说，网上一大堆，下面直接贴代码。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs javascript">addEventListener(<span class="hljs-string">&#x27;fetch&#x27;</span>, <span class="hljs-function"><span class="hljs-params">event</span> =&gt;</span> &#123;<br>    event.respondWith(handleRequest(event.request))<br>&#125;)<br><br><span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handleRequest</span>(<span class="hljs-params">request</span>) </span>&#123;<br><br>	<span class="hljs-keyword">var</span> background_urls = [<br>	<span class="hljs-string">&#x27;https://w.wallhaven.cc/full/ey/wallhaven-eymzjk.jpg&#x27;</span>,<br>	<span class="hljs-string">&#x27;https://w.wallhaven.cc/full/j8/wallhaven-j8rk95.png&#x27;</span><br>	]<br>	<span class="hljs-keyword">var</span> index = <span class="hljs-built_in">Math</span>.floor((<span class="hljs-built_in">Math</span>.random()*background_urls.length));<br>	res = <span class="hljs-keyword">await</span> fetch(background_urls[index])<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Response(res.body, &#123;<br>        headers: &#123; <span class="hljs-string">&#x27;content-type&#x27;</span>: <span class="hljs-string">&#x27;image/jpeg&#x27;</span> &#125;,<br>    &#125;)<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
 <p><code>background_urls</code> 是一个保存直链的数组，将所有你想随机的图片加入进去即可。</p>
 <div class="note note-info">
             <p>P.S. 没有学过 Javascript，临时拼凑而成，希望有大佬可以优化地更好。</p>
@@ -350,7 +352,11 @@
                 
               </div>
               
-                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
               
               
                 <div class="post-prevnext">
@@ -380,12 +386,14 @@
 
             
               <!-- Comments -->
-              <article class="comments" id="comments">
+              <article class="comments" id="comments" lazyload>
+                
+                  
                 
                 
   <div id="vcomments"></div>
   <script type="text/javascript">
-    Fluid.utils.waitElementVisible('vcomments', function() {
+    Fluid.utils.lazyComments('vcomments', function() {
       Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', function () {
         new Valine({
           el: "#vcomments",
@@ -501,8 +509,9 @@
   
 </footer>
 
-<!-- SCRIPTS -->
 
+  <!-- SCRIPTS -->
+  
 
 <script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
 <script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
@@ -514,7 +523,7 @@
 
 
   
-    <script  src="/js/lazyload.js" ></script>
+    <script  src="/js/img-lazyload.js" ></script>
   
 
 
@@ -561,11 +570,12 @@
   <script>
     (function () {
       var path = "/local-search.xml";
-      var inputArea = document.querySelector("#local-search-input");
-      inputArea.onclick = function () {
+      $('#local-search-input').on('click', function() {
         searchFunc(path, 'local-search-input', 'local-search-result');
-        this.onclick = null
-      }
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
     })()
   </script>
 
@@ -603,7 +613,6 @@
 
 <!-- 主题的启动项 保持在最底部 -->
 <script  src="/js/boot.js" ></script>
-
 
 
 </body>

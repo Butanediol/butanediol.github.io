@@ -8,15 +8,16 @@
 <head>
   <meta charset="UTF-8">
   <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
-  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
   <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
   <meta name="theme-color" content="#ffffff">
-  <meta name="description" content="趴窝">
+  <meta name="description" content="哪个男孩不想要一个大容量不限速网盘呢？但是百度云是不可能百度云的，这辈子都不可能百度云的，只能白嫖 OneDrive 维持一下生活这样子。">
   <meta name="author" content="丁二 Butanediol">
   <meta name="keywords" content="丁二">
+  
   <title>用 Cloudflare workers 和一台 VPS 解决 OneDrive 下载问题 - 丁丁の店</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
@@ -62,11 +63,11 @@
 
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
-    var CONFIG = {"hostname":"blog.butanediol.me","root":"/","version":"1.8.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":false,"height_px":3,"color":"#29d","options":{"showSpinner":true,"trickleSpeed":200}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"HqFsh1LCE27dz8hTC6c5S0fC-gzGzoHsz","app_key":"xwj5VSA24fO1r9O5cOXuFGFS","server_url":"https://b-test.hic.plus"}}};
+    var CONFIG = {"hostname":"blog.butanediol.me","root":"/","version":"1.8.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":false,"height_px":3,"color":"#29d","options":{"showSpinner":true,"trickleSpeed":200}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"HqFsh1LCE27dz8hTC6c5S0fC-gzGzoHsz","app_key":"xwj5VSA24fO1r9O5cOXuFGFS","server_url":"https://b-test.hic.plus"}}};
   </script>
   <script  src="/js/utils.js" ></script>
   <script  src="/js/color-schema.js" ></script>
-<meta name="generator" content="Hexo 5.3.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 
 
 <body>
@@ -304,7 +305,7 @@
             
             <div class="markdown-body">
               <p>哪个男孩不想要一个大容量不限速网盘呢？但是百度云是不可能百度云的，这辈子都不可能百度云的，只能白嫖 OneDrive 维持一下生活这样子。</p>
-<a id="more"></a>
+<span id="more"></span>
 
 <div class="note note-info">
             <p>为了使用这个方法，你需要有一个域名，一台可以顺畅访问 OneDrive 的 VPS（只对带宽有要求，对性能、硬盘大小几乎无要求），和一颗能折腾的心。</p>
@@ -320,8 +321,8 @@
 <blockquote>
 <p>实测，打包下载时的链接虽然写的是 <code>eastasia1-mediap.svc.ms</code>，似乎是东亚服务器，但仍然被解析到美国。</p>
 <figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">❯ nslookup eastasia1-mediap.svc.ms<br>Server:		223.6.6.6<br>Address:	223.6.6.6<span class="hljs-comment">#53</span><br><br>Non-authoritative answer:<br>eastasia1-mediap.svc.ms	canonical name = svc-ms.spo-0008.spo-msedge.net.<br>svc-ms.spo-0008.spo-msedge.net	canonical name = spo-0008.spo-msedge.net.<br>Name:	spo-0008.spo-msedge.net<br>Address: 13.107.136.13<br><br>❯ curl cip.cc/13.107.136.13<br>IP	: 13.107.136.13<br>地址	: 美国  美国<br><br>数据二	: 美国 | Microsoft公司<br><br>数据三	: 美国华盛顿雷德蒙德 | 微软<br><br>URL	: http://www.cip.cc/13.107.136.13<br></code></pre></div></td></tr></table></figure>
-<p>最近看到了许多用 Cloudflare workers 的骚操作，比如网页套娃科学上网、免代理 Google drive 等。</p>
 </blockquote>
+<p>最近看到了许多用 Cloudflare workers 的骚操作，比如网页套娃科学上网、免代理 Google drive 等。</p>
 <p>刚好 OneDrive 也有 Fodi，同样可以做到。</p>
 <h1 id="部署-Fodi"><a href="#部署-Fodi" class="headerlink" title="部署 Fodi"></a>部署 Fodi</h1><p>关于 Fodi 的部署，官方已经讲的很明白了，直接贴上官方链接好了。</p>
 <p><a class='btn' target="_blank" rel="noopener" href="https://github.com/vcheckzen/FODI" title="Fast OneDrive Index，OneDrive 秒级列表程序"> GitHub </a> <a class='btn' target="_blank" rel="noopener" href="https://logi.im/back-end/fodi-on-cloudflare.html" title="在 Cloudflare 部署 Fodi 后端"> LOGI 的博客 </a></p>
@@ -357,6 +358,7 @@
 <h2 id="反向代理-1"><a href="#反向代理-1" class="headerlink" title="反向代理"></a>反向代理</h2><p>咱使用的是 Caddy，这样可以不用费心整 SSL，当然你也可以用 Nginx。</p>
 <figure class="highlight plain"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs caddy">https:&#x2F;&#x2F;d.yourdomain.com &#123;<br> gzip<br> tls mail@example.com<br> proxy &#x2F; https:&#x2F;&#x2F;xxx-my.sharepoint.com<br>&#125;<br><br>http:&#x2F;&#x2F;d.yourdomain.com &#123;<br> redir https:&#x2F;&#x2F;d.yourdomain.com<br>&#125;<br></code></pre></div></td></tr></table></figure>
 
+
 <div class="note note-warning">
             <p><code>d.yourdomain.com</code> 换成你 VPS 的域名。</p><p><code>mail@example.com</code> 换成你的邮箱</p><p><code>https://xxx-my.sharepoint.com</code> 只是一个参考，如果你的也是这个形式，那么就把 xxx 换成你自己的，当然也有可能你使用了自定义域名，总之，哪个能访问到你的 OneDrive 就用哪个。</p>
           </div>
@@ -364,11 +366,14 @@
 <p>配置好之后，你登录 <code>d.yourdomain.com</code> 应该会打开 OneDrive 的登陆页面（已经登陆的话就直接进入 OneDrive 了）。</p>
 <h1 id="再次配置-Workers"><a href="#再次配置-Workers" class="headerlink" title="再次配置 Workers"></a>再次配置 Workers</h1><p>在第 9 行和第 10 行（或者说定义完 TOKEN 的下一行）插入：</p>
 <figure class="highlight js"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs js"><span class="hljs-keyword">const</span> ORIGIN_URL = <span class="hljs-string">&quot;https://xxx-my.sharepoint.com&quot;</span><br><span class="hljs-keyword">const</span> PROXY_URL = <span class="hljs-string">&quot;https://d.yourdomain.com&quot;</span><br></code></pre></div></td></tr></table></figure>
+
 <p>在倒数几行，你应该能看到这样的代码：</p>
 <figure class="highlight js"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs js"><span class="hljs-keyword">if</span> (encrypted) &#123;<br>  <span class="hljs-keyword">return</span> <span class="hljs-built_in">JSON</span>.stringify(&#123; <span class="hljs-attr">parent</span>: parent, <span class="hljs-attr">files</span>: [], <span class="hljs-attr">encrypted</span>: <span class="hljs-literal">true</span> &#125;)<br>&#125; <span class="hljs-keyword">else</span> &#123;<br>  <span class="hljs-keyword">return</span> <span class="hljs-built_in">JSON</span>.stringify(&#123; <span class="hljs-attr">parent</span>: parent, <span class="hljs-attr">files</span>: files &#125;)<br>&#125;<br></code></pre></div></td></tr></table></figure>
 
+
 <p>在第二个 return 行的最后面加上 <code>.replace(RegExp(ORIGIN_URL,&quot;g&quot;),PROXY_URL)</code>，最终效果：</p>
 <figure class="highlight js"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs js"><span class="hljs-keyword">if</span> (encrypted) &#123;<br>  <span class="hljs-keyword">return</span> <span class="hljs-built_in">JSON</span>.stringify(&#123; <span class="hljs-attr">parent</span>: parent, <span class="hljs-attr">files</span>: [], <span class="hljs-attr">encrypted</span>: <span class="hljs-literal">true</span> &#125;)<br>&#125; <span class="hljs-keyword">else</span> &#123;<br>  <span class="hljs-keyword">return</span> <span class="hljs-built_in">JSON</span>.stringify(&#123; <span class="hljs-attr">parent</span>: parent, <span class="hljs-attr">files</span>: files &#125;).replace(<span class="hljs-built_in">RegExp</span>(ORIGIN_URL,<span class="hljs-string">&quot;g&quot;</span>),PROXY_URL)<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
 <p>保存并部署。</p>
 <h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><p>打开你的 Fodi，关闭你的代理，随便找个文件点击下载。</p>
 <p>你的下载地址应该已经是 <code>d.yourdomain.com</code> 了。</p>
@@ -403,7 +408,11 @@
                 
               </div>
               
-                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
               
               
                 <div class="post-prevnext">
@@ -433,12 +442,14 @@
 
             
               <!-- Comments -->
-              <article class="comments" id="comments">
+              <article class="comments" id="comments" lazyload>
+                
+                  
                 
                 
   <div id="vcomments"></div>
   <script type="text/javascript">
-    Fluid.utils.waitElementVisible('vcomments', function() {
+    Fluid.utils.lazyComments('vcomments', function() {
       Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', function () {
         new Valine({
           el: "#vcomments",
@@ -554,8 +565,9 @@
   
 </footer>
 
-<!-- SCRIPTS -->
 
+  <!-- SCRIPTS -->
+  
 
 <script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
 <script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
@@ -567,7 +579,7 @@
 
 
   
-    <script  src="/js/lazyload.js" ></script>
+    <script  src="/js/img-lazyload.js" ></script>
   
 
 
@@ -614,11 +626,12 @@
   <script>
     (function () {
       var path = "/local-search.xml";
-      var inputArea = document.querySelector("#local-search-input");
-      inputArea.onclick = function () {
+      $('#local-search-input').on('click', function() {
         searchFunc(path, 'local-search-input', 'local-search-result');
-        this.onclick = null
-      }
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
     })()
   </script>
 
@@ -656,7 +669,6 @@
 
 <!-- 主题的启动项 保持在最底部 -->
 <script  src="/js/boot.js" ></script>
-
 
 
 </body>
