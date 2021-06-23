@@ -164,7 +164,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" target="_blank" rel="noopener" href="https://travellings.now.sh/">
+              <a class="nav-link" target="_blank" rel="noopener" href="https://travellings.link/">
                 <i class="fas fa-plane-departure"></i>
                 开往
               </a>
@@ -299,7 +299,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：10 个月前
+                  本文最后更新于：1 年前
                 
               </p>
             
@@ -308,7 +308,7 @@
 <p>建好了之后，看着只有一篇 Hello World 的主页，不禁感到一阵空虚，但想一次写好几篇文章的确不太现实，所以我打算先把之前写过的一些小文章重新排版一下，转移到 hexo 博客来。<del>充一下门面</del></p>
 <p>所以，虽然说这篇<del>由 Hello World 改成的</del>开博感言是博客里的第一篇文章，但在时间线中可以看到还有更早的文章出现。鉴于你现在阅读的这篇感言并不怎么重要，<del>而且隔一段时间之后再来看说不定会很羞耻，</del>就让它埋没在其他的文章中吧。</p>
 <p>顺便，由于对 hexo 和这个主题的使用还不是很熟练，为了方便之后的编辑，我把一些相关的代码片段备注在下方，这样在编辑的时候就不需要询问 Google 和查阅主题的文档了。</p>
-<h2 id="代码片段"><a href="#代码片段" class="headerlink" title="代码片段"></a>代码片段</h2><h3 id="Hexo"><a href="#Hexo" class="headerlink" title="Hexo"></a>Hexo</h3><figure class="highlight bash"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash">hexo clean <span class="hljs-comment"># 清除 hexo 缓存</span><br>hexo g <span class="hljs-comment"># 等价于 hexo generate</span><br>hexo d <span class="hljs-comment"># 等价于 hexo deploy</span><br>hexo g -d <span class="hljs-comment"># 等价于上面两条命令</span><br>hexo new [post_name] <span class="hljs-comment"># 新建一篇 post</span><br>hexo new page [page_name] <span class="hljs-comment"># 新建一个 page</span><br></code></pre></div></td></tr></table></figure>
+<h2 id="代码片段"><a href="#代码片段" class="headerlink" title="代码片段"></a>代码片段</h2><h3 id="Hexo"><a href="#Hexo" class="headerlink" title="Hexo"></a>Hexo</h3><figure class="highlight bash"><table><tr><td class="gutter hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash">hexo clean <span class="hljs-comment"># 清除 hexo 缓存</span><br>hexo g <span class="hljs-comment"># 等价于 hexo generate</span><br>hexo d <span class="hljs-comment"># 等价于 hexo deploy</span><br>hexo g -d <span class="hljs-comment"># 等价于上面两条命令</span><br>hexo new [post_name] <span class="hljs-comment"># 新建一篇 post</span><br>hexo new page [page_name] <span class="hljs-comment"># 新建一个 page</span><br></code></pre></div></td></tr></table></figure>
 
 <h3 id="Matery-主题"><a href="#Matery-主题" class="headerlink" title="Matery 主题"></a>Matery 主题</h3><h4 id="Front-matter-选项"><a href="#Front-matter-选项" class="headerlink" title="Front-matter 选项"></a>Front-matter 选项</h4><table>
 <thead>
@@ -404,31 +404,31 @@
 </ol>
 </blockquote>
 <h2 id="插件推荐"><a href="#插件推荐" class="headerlink" title="插件推荐"></a>插件推荐</h2><h3 id="hexo-permalink-pinyin"><a href="#hexo-permalink-pinyin" class="headerlink" title="hexo-permalink-pinyin"></a>hexo-permalink-pinyin</h3><h4 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h4><p>将博客永久链接中的中文编码替换为拼音。</p>
-<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><figure class="highlight bash"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash">npm install hexo-permalink-pinyin --save<br></code></pre></div></td></tr></table></figure>
+<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><figure class="highlight bash"><table><tr><td class="gutter hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash">npm install hexo-permalink-pinyin --save<br></code></pre></div></td></tr></table></figure>
 
 <h4 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h4><p>在博客设置 <code>_config.yml</code> 中：</p>
-<figure class="highlight yml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs yml"><span class="hljs-attr">permalink_pinyin:</span><br>	<span class="hljs-attr">enable:</span> <span class="hljs-literal">true</span><br>	<span class="hljs-attr">seperator:</span> <span class="hljs-string">&#x27;-&#x27;</span><br></code></pre></div></td></tr></table></figure>
+<figure class="highlight yml"><table><tr><td class="gutter hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs yml"><span class="hljs-attr">permalink_pinyin:</span><br>	<span class="hljs-attr">enable:</span> <span class="hljs-literal">true</span><br>	<span class="hljs-attr">seperator:</span> <span class="hljs-string">&#x27;-&#x27;</span><br></code></pre></div></td></tr></table></figure>
 
 <blockquote>
 <p><code>enbable</code> 启用开关<br><code>seperator</code> 分隔符，默认为<code>-</code></p>
 </blockquote>
 <h3 id="hexo-reference"><a href="#hexo-reference" class="headerlink" title="hexo-reference"></a>hexo-reference</h3><h4 id="描述-1"><a href="#描述-1" class="headerlink" title="描述"></a>描述</h4><p>为 Hexo 的 Markdown 渲染器添加脚注功能。</p>
-<h4 id="安装-1"><a href="#安装-1" class="headerlink" title="安装"></a>安装</h4><figure class="highlight bash"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash">npm install hexo-reference --save<br></code></pre></div></td></tr></table></figure>
+<h4 id="安装-1"><a href="#安装-1" class="headerlink" title="安装"></a>安装</h4><figure class="highlight bash"><table><tr><td class="gutter hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash">npm install hexo-reference --save<br></code></pre></div></td></tr></table></figure>
 
 <p>无需额外配置</p>
 <h3 id="hexo-filter-flowchart"><a href="#hexo-filter-flowchart" class="headerlink" title="hexo-filter-flowchart"></a>hexo-filter-flowchart</h3><h4 id="描述-2"><a href="#描述-2" class="headerlink" title="描述"></a>描述</h4><p>为 Hexo 的 Markdown 渲染器添加流程图功能。</p>
-<h4 id="安装-2"><a href="#安装-2" class="headerlink" title="安装"></a>安装</h4><figure class="highlight bash"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash">npm install hexo-filter-flowchart --save<br></code></pre></div></td></tr></table></figure>
+<h4 id="安装-2"><a href="#安装-2" class="headerlink" title="安装"></a>安装</h4><figure class="highlight bash"><table><tr><td class="gutter hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash">npm install hexo-filter-flowchart --save<br></code></pre></div></td></tr></table></figure>
 
 <p>无需额外配置</p>
 <p>例子：</p>
-<figure class="highlight plain"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs flow">st&#x3D;&gt;start: 闹钟响起<br>op&#x3D;&gt;operation: 与床板分离<br>cond&#x3D;&gt;condition: 分离成功?<br>e&#x3D;&gt;end: 快乐的一天<br><br>st-&gt;op-&gt;cond<br>cond(yes)-&gt;e<br>cond(no)-&gt;op<br></code></pre></div></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs flow">st&#x3D;&gt;start: 闹钟响起<br>op&#x3D;&gt;operation: 与床板分离<br>cond&#x3D;&gt;condition: 分离成功?<br>e&#x3D;&gt;end: 快乐的一天<br><br>st-&gt;op-&gt;cond<br>cond(yes)-&gt;e<br>cond(no)-&gt;op<br></code></pre></div></td></tr></table></figure>
 
 <h3 id="hexo-tag-kbd"><a href="#hexo-tag-kbd" class="headerlink" title="hexo-tag-kbd"></a>hexo-tag-kbd</h3><h4 id="描述-3"><a href="#描述-3" class="headerlink" title="描述"></a>描述</h4><p>为 Hexo 的 Markdown 渲染器添加 keyboard 渲染功能。</p>
-<h4 id="安装-3"><a href="#安装-3" class="headerlink" title="安装"></a>安装</h4><figure class="highlight bash"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash">npm install hexo-tag-kbd@latest --save<br></code></pre></div></td></tr></table></figure>
+<h4 id="安装-3"><a href="#安装-3" class="headerlink" title="安装"></a>安装</h4><figure class="highlight bash"><table><tr><td class="gutter hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash">npm install hexo-tag-kbd@latest --save<br></code></pre></div></td></tr></table></figure>
 
 <p>无需额外配置</p>
 <p>例子：</p>
-<figure class="highlight markdown"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs markdown">Press &#123;% kbd Command%&#125; + &#123;% kbd Q%&#125; to quit.<br></code></pre></div></td></tr></table></figure>
+<figure class="highlight markdown"><table><tr><td class="gutter hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs markdown">Press &#123;% kbd Command%&#125; + &#123;% kbd Q%&#125; to quit.<br></code></pre></div></td></tr></table></figure>
 
 <p>Press <kbd style="border:1px solid gray;font-size:1.2em;box-shadow:1px 0 1px 0 #eee, 0 2px 0 2px #ccc, 0 2px 0 3px #444;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;margin:2px 3px;padding:1px 5px;">Command⌘</kbd> + <kbd style="border:1px solid gray;font-size:1.2em;box-shadow:1px 0 1px 0 #eee, 0 2px 0 2px #ccc, 0 2px 0 3px #444;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;margin:2px 3px;padding:1px 5px;">Q</kbd> to quit.</p>
 <div class="note note-primary">

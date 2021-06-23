@@ -164,7 +164,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" target="_blank" rel="noopener" href="https://travellings.now.sh/">
+              <a class="nav-link" target="_blank" rel="noopener" href="https://travellings.link/">
                 <i class="fas fa-plane-departure"></i>
                 开往
               </a>
@@ -299,7 +299,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：8 个月前
+                  本文最后更新于：1 年前
                 
               </p>
             
@@ -312,29 +312,29 @@
 <p><img src="/media/article_img/clean_log/1.jpg" srcset="/img/loading.gif" lazyload alt="MongoDB 日志文件"></p>
 <p>要安全删除这个文件，首先要切割日志（<code>logrotate</code>）。</p>
 <h3 id="切割日志"><a href="#切割日志" class="headerlink" title="切割日志"></a>切割日志</h3><p>先进入 mongo 命令行：</p>
-<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">mongo<br></code></pre></div></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">mongo<br></code></pre></div></td></tr></table></figure>
 
 <p>然后用下面的命令切割日志：</p>
-<figure class="highlight plain"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs mongo">&gt; use admin<br>&gt; db.adminCommand( &#123; logRotate: 1 &#125; )<br></code></pre></div></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs mongo">&gt; use admin<br>&gt; db.adminCommand( &#123; logRotate: 1 &#125; )<br></code></pre></div></td></tr></table></figure>
 
 <p>如果输出是这样的：</p>
-<figure class="highlight plain"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs mongo">&#123; &quot;ok&quot; : 1 &#125;<br></code></pre></div></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs mongo">&#123; &quot;ok&quot; : 1 &#125;<br></code></pre></div></td></tr></table></figure>
 
 <p>就切割成功了。</p>
 <h3 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h3><p>去到 <code>/var/log/mongodb</code> 下，删除 <code>mongod.log.xxxx-xx-xxxxx-xx-xx</code> 文件即可。</p>
 <h2 id="Journal-日志"><a href="#Journal-日志" class="headerlink" title="Journal 日志"></a>Journal 日志</h2><p>Journal 日志服务生成的日志文件在 <code>/var/log/journal</code> 文件夹下。</p>
 <p>但可以通过 <code>journalctl --disk-usage</code> 命令直接查看日志大小。</p>
 <p>比如：</p>
-<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">journalctl --disk-usage<br><span class="hljs-comment"># Archived and active journals take up 16.0M in the file system.</span><br></code></pre></div></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">journalctl --disk-usage<br><span class="hljs-comment"># Archived and active journals take up 16.0M in the file system.</span><br></code></pre></div></td></tr></table></figure>
 
 <h3 id="删除-1"><a href="#删除-1" class="headerlink" title="删除"></a>删除</h3><p>可以先直接删除日志文件：</p>
-<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">ls /var/<span class="hljs-built_in">log</span>/journal/<br><span class="hljs-comment"># e49796b61b294856bb739446b8ba124d</span><br><br>sudo rm -rf /var/<span class="hljs-built_in">log</span>/journal/e49796b61b294856bb739446b8ba124d/<br></code></pre></div></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">ls /var/<span class="hljs-built_in">log</span>/journal/<br><span class="hljs-comment"># e49796b61b294856bb739446b8ba124d</span><br><br>sudo rm -rf /var/<span class="hljs-built_in">log</span>/journal/e49796b61b294856bb739446b8ba124d/<br></code></pre></div></td></tr></table></figure>
 
 <h3 id="自动维护文件大小"><a href="#自动维护文件大小" class="headerlink" title="自动维护文件大小"></a>自动维护文件大小</h3><h4 id="按时间"><a href="#按时间" class="headerlink" title="按时间"></a>按时间</h4><p>保留最近两周的日志：</p>
-<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">journalctl --vacuum-time=2w<br></code></pre></div></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">journalctl --vacuum-time=2w<br></code></pre></div></td></tr></table></figure>
 
 <h4 id="按大小"><a href="#按大小" class="headerlink" title="按大小"></a>按大小</h4><p>保留 <code>128 MB</code> 大小的日志：</p>
-<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">journalctl --vacuum-size=128M<br></code></pre></div></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">journalctl --vacuum-size=128M<br></code></pre></div></td></tr></table></figure>
             </div>
             <hr>
             <div>

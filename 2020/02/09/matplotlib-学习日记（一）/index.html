@@ -164,7 +164,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" target="_blank" rel="noopener" href="https://travellings.now.sh/">
+              <a class="nav-link" target="_blank" rel="noopener" href="https://travellings.link/">
                 <i class="fas fa-plane-departure"></i>
                 开往
               </a>
@@ -299,7 +299,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：9 个月前
+                  本文最后更新于：1 年前
                 
               </p>
             
@@ -310,7 +310,7 @@
 <p>下面是我的一些理解。</p>
 <h2 id="从文档中来"><a href="#从文档中来" class="headerlink" title="从文档中来"></a>从文档中来</h2><h3 id="plt-figure-是个什么东西？"><a href="#plt-figure-是个什么东西？" class="headerlink" title="plt.figure 是个什么东西？"></a>plt.figure 是个什么东西？</h3><p>当然，如果没有指定别名的话，这个东西叫 <code>matplotlib.pyplot.figure</code>。</p>
 <p>先来粘贴一段<a target="_blank" rel="noopener" href="http://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.figure.html">官方文档</a>中的说明：</p>
-<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python">matplotlib.pyplot.figure(num=<span class="hljs-literal">None</span>, figsize=<span class="hljs-literal">None</span>, dpi=<span class="hljs-literal">None</span>, facecolor=<span class="hljs-literal">None</span>, <br>	edgecolor=None, frameon=True, FigureClass=&lt;class &#x27;matplotlib.figure.Figure&#x27;&gt;, <br>	clear=<span class="hljs-literal">False</span>, **kwargs)<br></code></pre></div></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python">matplotlib.pyplot.figure(num=<span class="hljs-literal">None</span>, figsize=<span class="hljs-literal">None</span>, dpi=<span class="hljs-literal">None</span>, facecolor=<span class="hljs-literal">None</span>, <br>	edgecolor=None, frameon=True, FigureClass=&lt;class &#x27;matplotlib.figure.Figure&#x27;&gt;, <br>	clear=<span class="hljs-literal">False</span>, **kwargs)<br></code></pre></div></td></tr></table></figure>
 <p>它可以被理解为一个画布，那么 <code>fig = plt.figure()</code> 就相当于我们创建了一个画布。</p>
 <p>那么，在我们创建画布之后，所有的作画内容都会被画在这个画布上，直到 <code>plt.show()</code> 把这幅画展示出来。</p>
 <p>或者，官方也提供了这样一条提示：</p>

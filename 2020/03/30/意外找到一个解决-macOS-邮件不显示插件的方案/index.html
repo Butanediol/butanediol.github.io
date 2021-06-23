@@ -164,7 +164,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" target="_blank" rel="noopener" href="https://travellings.now.sh/">
+              <a class="nav-link" target="_blank" rel="noopener" href="https://travellings.link/">
                 <i class="fas fa-plane-departure"></i>
                 开往
               </a>
@@ -299,7 +299,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：10 个月前
+                  本文最后更新于：1 年前
                 
               </p>
             
@@ -314,7 +314,7 @@
 
 <h3 id="确保你的安装过程没有出错"><a href="#确保你的安装过程没有出错" class="headerlink" title="确保你的安装过程没有出错"></a>确保你的安装过程没有出错</h3><p>你可以通过在终端中启动 AltDeploy 并安装插件，查看日志并确保安装过程没有报错。</p>
 <p>方法如下：</p>
-<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">sudo AltDeploy.app/AltDeploy.app/Contents/MacOS/AltDeploy<br></code></pre></div></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">sudo AltDeploy.app/AltDeploy.app/Contents/MacOS/AltDeploy<br></code></pre></div></td></tr></table></figure>
 
 <h3 id="确保你已经自行尝试了许多解决方案"><a href="#确保你已经自行尝试了许多解决方案" class="headerlink" title="确保你已经自行尝试了许多解决方案"></a>确保你已经自行尝试了许多解决方案</h3><p>如果没有，点击<a target="_blank" rel="noopener" href="https://www.google.com/search?sxsrf=ALeKk00dhujs6vBf58OazJ8kyZCb9TXXsg:1585549594198&q=mac+mail+app+extensions+not+shown&spell=1">这里</a>。</p>
 <h2 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h2><p>在开始之前，根据咱的解决经验，如果你曾经操作过 macOS 的 SIP，可以考虑先查看下面的第二条。</p>
@@ -323,10 +323,10 @@
 <p>但是 mail.app 却从 <code>~/Library/Containers/com.apple.mail/Data/Library/Mail</code> 中读取数据，而不是用户文件夹。</p>
 <p>这个问题<strong>多半</strong>是由于手动或使用迁移助手更新系统，<code>~/Library/Containers/com.apple.mail/Data/Library/Mail</code> 文件夹被创建成了一个真实的文件夹，而不是一个符号链接。</p>
 <p>通过下面两个方法来检查这个问题：</p>
-<h4 id="检查问题"><a href="#检查问题" class="headerlink" title="检查问题"></a>检查问题</h4><h5 id="用终端命令检查"><a href="#用终端命令检查" class="headerlink" title="用终端命令检查"></a>用终端命令检查</h5><figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">ls -lad ~/Library/Containers/com.apple.mail/Data/Library/Mail<br></code></pre></div></td></tr></table></figure>
+<h4 id="检查问题"><a href="#检查问题" class="headerlink" title="检查问题"></a>检查问题</h4><h5 id="用终端命令检查"><a href="#用终端命令检查" class="headerlink" title="用终端命令检查"></a>用终端命令检查</h5><figure class="highlight sh"><table><tr><td class="gutter hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">ls -lad ~/Library/Containers/com.apple.mail/Data/Library/Mail<br></code></pre></div></td></tr></table></figure>
 
 <p>正常的话会返回</p>
-<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">/Users/Username/Library/Containers/com.apple.mail/Data/Library/Mail -&gt; ../../../../Mail<br></code></pre></div></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">/Users/Username/Library/Containers/com.apple.mail/Data/Library/Mail -&gt; ../../../../Mail<br></code></pre></div></td></tr></table></figure>
 
 <p>看不懂就用下面的方法</p>
 <h5 id="在图形界面中检查"><a href="#在图形界面中检查" class="headerlink" title="在图形界面中检查"></a>在图形界面中检查</h5><p>打开 finder.app，按下 <kbd style="border:1px solid gray;font-size:1.2em;box-shadow:1px 0 1px 0 #eee, 0 2px 0 2px #ccc, 0 2px 0 3px #444;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;margin:2px 3px;padding:1px 5px;">Command⌘</kbd> + <kbd style="border:1px solid gray;font-size:1.2em;box-shadow:1px 0 1px 0 #eee, 0 2px 0 2px #ccc, 0 2px 0 3px #444;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;margin:2px 3px;padding:1px 5px;">Shift⇧</kbd> + <kbd style="border:1px solid gray;font-size:1.2em;box-shadow:1px 0 1px 0 #eee, 0 2px 0 2px #ccc, 0 2px 0 3px #444;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;margin:2px 3px;padding:1px 5px;">G</kbd>， </p>
@@ -355,7 +355,7 @@
 <h4 id="操作方法"><a href="#操作方法" class="headerlink" title="操作方法"></a>操作方法</h4><h5 id="关闭-SIP"><a href="#关闭-SIP" class="headerlink" title="关闭 SIP"></a>关闭 SIP</h5><p>重新启动你的 Mac，并在开机的时候按下 <kbd style="border:1px solid gray;font-size:1.2em;box-shadow:1px 0 1px 0 #eee, 0 2px 0 2px #ccc, 0 2px 0 3px #444;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;margin:2px 3px;padding:1px 5px;">Command⌘</kbd> + <kbd style="border:1px solid gray;font-size:1.2em;box-shadow:1px 0 1px 0 #eee, 0 2px 0 2px #ccc, 0 2px 0 3px #444;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;margin:2px 3px;padding:1px 5px;">R</kbd> 进入恢复模式。</p>
 <p>等待恢复模式加载完毕后，点击实用工具，选择终端。</p>
 <p>在终端中输入：</p>
-<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">csrutil <span class="hljs-built_in">disable</span><br></code></pre></div></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">csrutil <span class="hljs-built_in">disable</span><br></code></pre></div></td></tr></table></figure>
 
 <p>然后重新启动电脑。</p>
 <h5 id="删除-DataVaults"><a href="#删除-DataVaults" class="headerlink" title="删除 DataVaults"></a>删除 DataVaults</h5><p>打开 finder.app，按下 <kbd style="border:1px solid gray;font-size:1.2em;box-shadow:1px 0 1px 0 #eee, 0 2px 0 2px #ccc, 0 2px 0 3px #444;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;margin:2px 3px;padding:1px 5px;">Command⌘</kbd> + <kbd style="border:1px solid gray;font-size:1.2em;box-shadow:1px 0 1px 0 #eee, 0 2px 0 2px #ccc, 0 2px 0 3px #444;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;margin:2px 3px;padding:1px 5px;">Shift⇧</kbd> + <kbd style="border:1px solid gray;font-size:1.2em;box-shadow:1px 0 1px 0 #eee, 0 2px 0 2px #ccc, 0 2px 0 3px #444;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;margin:2px 3px;padding:1px 5px;">G</kbd>， 输入</p>
@@ -365,7 +365,7 @@
 <h5 id="重新开启-SIP"><a href="#重新开启-SIP" class="headerlink" title="重新开启 SIP"></a>重新开启 SIP</h5><p>重新启动你的 Mac，并在开机的时候按下 <kbd style="border:1px solid gray;font-size:1.2em;box-shadow:1px 0 1px 0 #eee, 0 2px 0 2px #ccc, 0 2px 0 3px #444;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;margin:2px 3px;padding:1px 5px;">Command⌘</kbd> + <kbd style="border:1px solid gray;font-size:1.2em;box-shadow:1px 0 1px 0 #eee, 0 2px 0 2px #ccc, 0 2px 0 3px #444;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;margin:2px 3px;padding:1px 5px;">R</kbd> 进入恢复模式。</p>
 <p>等待恢复模式加载完毕后，点击实用工具，选择终端。</p>
 <p>在终端中输入：</p>
-<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">csrutil <span class="hljs-built_in">enable</span><br></code></pre></div></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">csrutil <span class="hljs-built_in">enable</span><br></code></pre></div></td></tr></table></figure>
 
 <p>然后重新启动电脑。</p>
 <hr>

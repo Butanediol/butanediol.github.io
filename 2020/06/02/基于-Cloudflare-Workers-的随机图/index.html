@@ -164,7 +164,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" target="_blank" rel="noopener" href="https://travellings.now.sh/">
+              <a class="nav-link" target="_blank" rel="noopener" href="https://travellings.link/">
                 <i class="fas fa-plane-departure"></i>
                 开往
               </a>
@@ -299,7 +299,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：10 个月前
+                  本文最后更新于：1 年前
                 
               </p>
             
@@ -318,7 +318,7 @@
 <p>或者，如果你对这些公共的服务不太放心的话，一个 GitHub Repo 也是不错的选择。</p>
 <p>总之，只需要一个直链，方法很多，自己灵活选择。</p>
 <h2 id="部署-Workers"><a href="#部署-Workers" class="headerlink" title="部署 Workers"></a>部署 Workers</h2><p>方法不多说，网上一大堆，下面直接贴代码。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs javascript">addEventListener(<span class="hljs-string">&#x27;fetch&#x27;</span>, <span class="hljs-function"><span class="hljs-params">event</span> =&gt;</span> &#123;<br>    event.respondWith(handleRequest(event.request))<br>&#125;)<br><br><span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handleRequest</span>(<span class="hljs-params">request</span>) </span>&#123;<br><br>	<span class="hljs-keyword">var</span> background_urls = [<br>	<span class="hljs-string">&#x27;https://w.wallhaven.cc/full/ey/wallhaven-eymzjk.jpg&#x27;</span>,<br>	<span class="hljs-string">&#x27;https://w.wallhaven.cc/full/j8/wallhaven-j8rk95.png&#x27;</span><br>	]<br>	<span class="hljs-keyword">var</span> index = <span class="hljs-built_in">Math</span>.floor((<span class="hljs-built_in">Math</span>.random()*background_urls.length));<br>	res = <span class="hljs-keyword">await</span> fetch(background_urls[index])<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Response(res.body, &#123;<br>        headers: &#123; <span class="hljs-string">&#x27;content-type&#x27;</span>: <span class="hljs-string">&#x27;image/jpeg&#x27;</span> &#125;,<br>    &#125;)<br>&#125;<br></code></pre></div></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs javascript">addEventListener(<span class="hljs-string">&#x27;fetch&#x27;</span>, <span class="hljs-function"><span class="hljs-params">event</span> =&gt;</span> &#123;<br>    event.respondWith(handleRequest(event.request))<br>&#125;)<br><br><span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handleRequest</span>(<span class="hljs-params">request</span>) </span>&#123;<br><br>	<span class="hljs-keyword">var</span> background_urls = [<br>	<span class="hljs-string">&#x27;https://w.wallhaven.cc/full/ey/wallhaven-eymzjk.jpg&#x27;</span>,<br>	<span class="hljs-string">&#x27;https://w.wallhaven.cc/full/j8/wallhaven-j8rk95.png&#x27;</span><br>	]<br>	<span class="hljs-keyword">var</span> index = <span class="hljs-built_in">Math</span>.floor((<span class="hljs-built_in">Math</span>.random()*background_urls.length));<br>	res = <span class="hljs-keyword">await</span> fetch(background_urls[index])<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Response(res.body, &#123;<br>        headers: &#123; <span class="hljs-string">&#x27;content-type&#x27;</span>: <span class="hljs-string">&#x27;image/jpeg&#x27;</span> &#125;,<br>    &#125;)<br>&#125;<br></code></pre></div></td></tr></table></figure>
 
 <p><code>background_urls</code> 是一个保存直链的数组，将所有你想随机的图片加入进去即可。</p>
 <div class="note note-info">
