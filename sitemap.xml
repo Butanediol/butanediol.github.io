@@ -184,13 +184,6 @@
   </url>
   
   <url>
-    <loc>https://blog.butanediol.me/fontawesome/metadata/icons.json</loc>
-    
-    <lastmod>2020-03-23</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://blog.butanediol.me/fontawesome/metadata/shims.json</loc>
     
     <lastmod>2020-03-23</lastmod>
@@ -206,6 +199,13 @@
   
   <url>
     <loc>https://blog.butanediol.me/fontawesome/metadata/sponsors.json</loc>
+    
+    <lastmod>2020-03-23</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://blog.butanediol.me/fontawesome/metadata/icons.json</loc>
     
     <lastmod>2020-03-23</lastmod>
     
@@ -375,27 +375,6 @@
   </url>
   
   <url>
-    <loc>https://blog.butanediol.me/tags/MongoDB/</loc>
-    <lastmod>2021-06-24</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.butanediol.me/tags/Log/</loc>
-    <lastmod>2021-06-24</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.butanediol.me/tags/VPS/</loc>
-    <lastmod>2021-06-24</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://blog.butanediol.me/tags/Quantumult/</loc>
     <lastmod>2021-06-24</lastmod>
     <changefreq>daily</changefreq>
@@ -417,7 +396,21 @@
   </url>
   
   <url>
-    <loc>https://blog.butanediol.me/tags/%E6%A2%97/</loc>
+    <loc>https://blog.butanediol.me/tags/MongoDB/</loc>
+    <lastmod>2021-06-24</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.butanediol.me/tags/Log/</loc>
+    <lastmod>2021-06-24</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.butanediol.me/tags/VPS/</loc>
     <lastmod>2021-06-24</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -425,6 +418,13 @@
   
   <url>
     <loc>https://blog.butanediol.me/tags/Google/</loc>
+    <lastmod>2021-06-24</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.butanediol.me/tags/%E6%A2%97/</loc>
     <lastmod>2021-06-24</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
