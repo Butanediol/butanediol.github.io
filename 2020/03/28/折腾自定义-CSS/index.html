@@ -314,7 +314,7 @@
 <p>全部复制下来，粘贴到自定义 CSS 中即可。</p>
 <h3 id="Dark-Mode"><a href="#Dark-Mode" class="headerlink" title="Dark Mode"></a>Dark Mode</h3><p>现在 iOS 13、Android Q、macOS 10.15 都原生支持了 Dark Mode，只要搭配一个同样支持此功能的浏览器就可以跟随系统状态变化。</p>
 <p>在自定义 CSS 中添加如下代码:</p>
-<figure class="highlight css"><table><tr><td class="gutter hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs CSS"><span class="hljs-keyword">@media</span> screen <span class="hljs-keyword">and</span> (<span class="hljs-attribute">prefers-color-scheme</span>: dark) &#123;<br>	&lt;!-- 此处填写自定义代码 --&gt;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs CSS"><span class="hljs-keyword">@media</span> screen <span class="hljs-keyword">and</span> (<span class="hljs-attribute">prefers-color-scheme</span>: dark) &#123;<br>	&lt;!-- 此处填写自定义代码 --&gt;<br>&#125;<br></code></pre></div></td></tr></table></figure>
 
 <p>把深色模式所需要变化的样式统统粘贴到大括号里，就可以实现网页深色模式跟随系统变化。</p>
 <h2 id="自定义-HTML"><a href="#自定义-HTML" class="headerlink" title="自定义 HTML"></a>自定义 HTML</h2><h3 id="Live2D-看板娘"><a href="#Live2D-看板娘" class="headerlink" title="Live2D 看板娘"></a>Live2D 看板娘</h3><p>如果你用的是 WordPress 或者 Hexo，可以通过直接安装插件的方法来获取。</p>
@@ -322,7 +322,7 @@
 <p>这里我们用 iframe 的方法通过链接其他网页来实现。</p>
 <h4 id="直接使用"><a href="#直接使用" class="headerlink" title="直接使用"></a>直接使用</h4><p>个人使用的是这个 <a target="_blank" rel="noopener" href="https://github.com/stevenjoezhang/live2d-widget">Live2D Widget</a></p>
 <p>如果不需要自定义的话，只需要加入这两行自定义 HTML 代码:</p>
-<figure class="highlight html"><table><tr><td class="gutter hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs HTML"><span class="hljs-symbol">&amp;lt;</span>link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css&quot;&gt;<br><span class="hljs-symbol">&amp;lt;</span>script src=&quot;https://cdn.jsdelivr.net/gh/stevenjoezhang/live2d-widget@latest/autoload.js&quot;&gt;<span class="hljs-symbol">&amp;lt;</span>/script&gt;<br></code></pre></div></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs HTML"><span class="hljs-symbol">&amp;lt;</span>link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css&quot;&gt;<br><span class="hljs-symbol">&amp;lt;</span>script src=&quot;https://cdn.jsdelivr.net/gh/stevenjoezhang/live2d-widget@latest/autoload.js&quot;&gt;<span class="hljs-symbol">&amp;lt;</span>/script&gt;<br></code></pre></div></td></tr></table></figure>
 
 <h4 id="自定义"><a href="#自定义" class="headerlink" title="自定义"></a>自定义</h4><p>如果需要对效果进行一些更改的话，需要有一个能够保存和获取 <code>autoreload.js</code> 的地址，例如 GitHub pages 或者其他 pages 服务。</p>
 <p>然后修改 <code>script</code> 的地址到你的文件即可。</p>

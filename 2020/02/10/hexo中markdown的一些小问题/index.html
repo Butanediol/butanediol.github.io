@@ -311,7 +311,7 @@
 <hr>
 <p>昨天写 <a target="_blank" rel="noopener" href="https://butanediol.github.io/2020/02/09/matplotlib-xue-xi-ri-ji-yi/">Matplotlib 学习日记（一）</a> 的时候，遇到了一点小问题。</p>
 <p>官方文档中的定义有一段用了类似 HTML 格式的标记：</p>
-<figure class="highlight html"><table><tr><td class="gutter hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">class</span> &#x27;<span class="hljs-attr">matplotlib.figure.Figure</span>&#x27;&gt;</span><br></code></pre></div></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">class</span> &#x27;<span class="hljs-attr">matplotlib.figure.Figure</span>&#x27;&gt;</span><br></code></pre></div></td></tr></table></figure>
 
 <p>Markdown 是兼容 HTML 的，这就导致浏览器将这段代码当成 HTML 来解析了。</p>
 <p>一般来说，写在代码块里的 HTML 是不会被解析的，在<a target="_blank" rel="noopener" href="https://blog.endureblaze.cn/">炎忍</a>大佬的博客中测试也确实是这样，但我的博客安装了<a target="_blank" rel="noopener" href="https://github.com/ele828/hexo-prism-plugin">Hexo Prism Plugin</a>代码高亮插件，我推测是这个插件导致的这个问题。</p>

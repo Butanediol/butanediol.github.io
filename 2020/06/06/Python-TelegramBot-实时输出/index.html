@@ -309,13 +309,13 @@
 
 <h2 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h2><p>我用的 Python Telegram Bot 库是 <a target="_blank" rel="noopener" href="https://github.com/python-telegram-bot/python-telegram-bot">python-telegram-bot</a>，个人感觉文档写的还是蛮好的。</p>
 <p>用这条命令就可以安装：</p>
-<figure class="highlight bash"><table><tr><td class="gutter hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash">pip install python-telegram-bot --upgrade<br></code></pre></div></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash">pip install python-telegram-bot --upgrade<br></code></pre></div></td></tr></table></figure>
 
 <p>由于我一直都是用 Sublime Text 写代码，然后在命令行里运行，所以只会简单的输出调试。<del><code>print(everything)</code></del></p>
 <p>但是出现了一个问题，在 macOS 上，运行 telegram bot 时没有输出，只有 <code>Ctrl+C</code> 停止运行之后，输出才会一次性全部显示出来。</p>
 <p>但在部署 bot 的 Ubuntu 服务器上，就可以实时输出。</p>
 <p>可以尝试运行下面这段代码</p>
-<figure class="highlight python"><table><tr><td class="gutter hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> sys<br><span class="hljs-keyword">import</span> time<br><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">5</span>):<br>	print(i+<span class="hljs-number">1</span>)<br>	time.sleep(<span class="hljs-number">1</span>)<br></code></pre></div></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> sys<br><span class="hljs-keyword">import</span> time<br><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">5</span>):<br>	print(i+<span class="hljs-number">1</span>)<br>	time.sleep(<span class="hljs-number">1</span>)<br></code></pre></div></td></tr></table></figure>
 
 <details>
     <summary>
@@ -340,10 +340,10 @@
 <h2 id="解决：手动刷新缓冲"><a href="#解决：手动刷新缓冲" class="headerlink" title="解决：手动刷新缓冲"></a>解决：手动刷新缓冲</h2><p>有好几个方法可以做到</p>
 <h3 id="使用-sys"><a href="#使用-sys" class="headerlink" title="使用 sys"></a>使用 sys</h3><p>首先 <code>import sys</code>。</p>
 <p>然后在你想要刷新缓冲区的地方写上一句：</p>
-<figure class="highlight python"><table><tr><td class="gutter hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python">sys.stdout.flush()<br></code></pre></div></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python">sys.stdout.flush()<br></code></pre></div></td></tr></table></figure>
 
 <h3 id="使用-print"><a href="#使用-print" class="headerlink" title="使用 print"></a>使用 print</h3><p>其实 <code>print</code> 自带了一个参数 <code>flush</code>，默认值为 <code>False</code>，将其指定为 <code>True</code> 即可。</p>
-<figure class="highlight python"><table><tr><td class="gutter hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python">print(i, flush=<span class="hljs-literal">True</span>)<br></code></pre></div></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python">print(i, flush=<span class="hljs-literal">True</span>)<br></code></pre></div></td></tr></table></figure>
 
 
             </div>
